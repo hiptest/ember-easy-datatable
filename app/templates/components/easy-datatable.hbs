@@ -1,8 +1,10 @@
 <table class="table table-stripped table-collapsed">
   <thead>
-    titre
+  	{{easy-row row=table.headers}}
   </thead>
   <tbody>
-    body
+  {{#each row in table.body}}
+  	{{easy-row row=row}}
+  {{/each}}
   </tbody>
 </table>

@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  tagName: 'div',
-  classNames: ['easy-datatable-container']
+  tagName: 'tr',
+  classNames: ['piou-row'],
+  row: null
 });
