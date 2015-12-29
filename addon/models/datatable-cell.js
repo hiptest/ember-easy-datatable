@@ -9,5 +9,9 @@ export default Ember.Object.extend({
   canInsertColumnAfter: true,
   canInsertRowAfter: true,
   value: null,
-  showActions: false
+  showActions: false,
+
+  tag: Ember.computed('isHeader', function () {
+		return this.get('isHeader') ? 'th' : 'td';
+	})
 });

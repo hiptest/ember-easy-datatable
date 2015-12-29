@@ -1,10 +1,10 @@
 <table class="table table-stripped table-collapsed">
   <thead>
-  	{{easy-row row=table.headers}}
+  	{{easy-row row=table.headers table=table}}
   </thead>
   <tbody>
   {{#each row in table.body}}
-  	{{easy-row row=row}}
+  	{{easy-row row=row table=table}}
   {{/each}}
   </tbody>
 </table>

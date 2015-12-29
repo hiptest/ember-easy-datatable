@@ -2,6 +2,13 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   tagName: 'tr',
-  classNames: ['piou-row'],
-  row: null
+  row: null,
+  table: null,
+
+	// because in addon prototype extensions are turned off
+	// https://dockyard.com/blog/2015/03/22/tips-for-writing-ember-addons
+	// https://guides.emberjs.com/v1.11.0/configuring-ember/disabling-prototype-extensions/
+  rowIndex: Ember.computed('row', 'table.body.[]', function () {
+    return this.get('table.body').indexOf(this.get('row'));
+  })
 });
