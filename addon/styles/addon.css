@@ -1,0 +1,29 @@
+.easy-datatable-container {
+  position: relative;
+}
+
+table {
+  table-layout: fixed;
+}
+
+td, th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+td.highlighted {
+  background-color: #d9f6fe;
+}
+
+th.highlighted {
+  background-color: #ffb93e;
+}
+
+td.protected, th.protected {
+  background-color: #eee;
+}
+
+th.alert-danger input, td.alert-danger input {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
