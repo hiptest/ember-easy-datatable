@@ -24,3 +24,10 @@ This README outlines the details of collaborating on this Ember addon.
 * `ember build`
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+
+## TIPS
+
+Because in addon prototype extensions are turned off:
+* https://guides.emberjs.com/v1.11.0/configuring-ember/disabling-prototype-extensions/
+* https://dockyard.com/blog/2015/03/22/tips-for-writing-ember-addons
+

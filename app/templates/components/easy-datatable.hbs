@@ -1,10 +1,12 @@
 <table class="table table-stripped table-collapsed">
   <thead>
-  	{{easy-row row=table.headers table=table}}
+  	{{easy-row row=table.headers table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigateLeft='navigateLeft' navigateUp='navigateUp' navigateRight='navigateRight' navigateDown='navigateDown' highlightedRow=highlightedRow
+  	highlightedColumn=highlightedColumn}}
   </thead>
   <tbody>
   {{#each row in table.body}}
-  	{{easy-row row=row table=table}}
+  	{{easy-row row=row table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigateLeft='navigateLeft' navigateUp='navigateUp' navigateRight='navigateRight' navigateDown='navigateDown' highlightedRow=highlightedRow
+  	highlightedColumn=highlightedColumn}}
   {{/each}}
   </tbody>
 </table>

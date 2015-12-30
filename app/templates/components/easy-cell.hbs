@@ -1,2 +1,12 @@
 {{#if cell.isIndex}}{{displayableIndex}}{{/if}}
 {{cell.value}}
+{{#if editorShown}}{{easy-editor 
+	oneWayValue=cell.value 
+	navigate="navigate"
+	save="save"
+	stopEdition="stopEdition"
+	navigateLeft="navigateLeft" 
+	navigateRight="navigateRight" 
+	navigateDown="navigateDown"
+	saveOnLeave="saveOnLeave"
+}}{{/if}}

@@ -1,6 +1,6 @@
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import makeListOf from "ember-easy-datatable/utils/utils";
-import assertDatatableContent from '../../helpers/helper';
+import helper from '../../helpers/helper';
 import hbs from 'htmlbars-inline-precompile';
 import { test, moduleForComponent } from 'ember-qunit';
 
@@ -34,7 +34,7 @@ test('When isIndex is set to true, the cell displays the row + 1', function(asse
 
   this.render(hbs`{{easy-datatable table=table}}`);
 
-  assertDatatableContent(assert, this.$(), [
+  helper.assertDatatableContent(assert, this.$(), [
     ['1', 'Row 1'],
     ['2', 'Row 2'],
     ['3', 'Row 3'],

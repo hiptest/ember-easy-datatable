@@ -10,5 +10,23 @@ export default Ember.Component.extend({
 	// https://guides.emberjs.com/v1.11.0/configuring-ember/disabling-prototype-extensions/
   rowIndex: Ember.computed('row', 'table.body.[]', function () {
     return this.get('table.body').indexOf(this.get('row'));
-  })
+  }),
+
+  actions : {
+  	navigateLeft: function () {
+  		this.sendAction('navigateLeft');
+  	},
+
+  	navigateUp: function () {
+  		this.sendAction('navigateUp');
+  	},
+  	
+  	navigateRight: function () {
+  		this.sendAction('navigateRight');
+  	},
+
+  	navigateDown: function () {
+  		this.sendAction('navigateDown');
+  	},
+  }
 });
