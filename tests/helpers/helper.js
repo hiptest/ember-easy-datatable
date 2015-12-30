@@ -17,6 +17,10 @@ export default Ember.Object.create({
     assert.deepEqual(this.getSelectedPosition(table), {row: row, column: column}, message || 'The correct cell is selected');
   },
 
+  assertHightlightedCellsText: function (assert, table, content, message) {
+    assert.deepEqual(this.getHighlightedCellsText(table), content, message || 'the correct cells are highlighted');
+  },
+
   clickOnDatatableCell: function(table, row, column) {
     var element = table.find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').eq(column);
     element.focus();
@@ -111,6 +115,12 @@ export default Ember.Object.create({
       datatable.push(row);
     });
     return datatable;
+  },
+
+  getHighlightedCellsText: function (table) {
+    return table.find('td.highlighted, th.highlighted').map(function () {
+      return $(this).text().trim();
+    }).get();
   },
 
   getInputField: function (table) {
