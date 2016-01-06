@@ -10,14 +10,7 @@ moduleForComponent('easy-datatable', 'Integration | Component | keyboard navigat
   integration: true,
   setup: function() {
     App = startApp();
-  },
-  teardown: function() {
-    Ember.run(App, 'destroy');
-  }
-});
-
-test('Keyboard navigation', function(assert) {
-  this.set('table', DatatableFactory.makeDatatable({
+    this.set('table', DatatableFactory.makeDatatable({
     headers: ['', 'Name', 'Value 1', 'Value 2', 'Value 3'],
     body: [
       [{isHeader: true, value: '#0'}, 'Row 0', 0, 10, 20],
@@ -26,7 +19,13 @@ test('Keyboard navigation', function(assert) {
       [{isHeader: true, value: '#3'}, 'Row 3', 3, 13, 23]
     ]   
   }));
+  },
+  teardown: function() {
+    Ember.run(App, 'destroy');
+  }
+});
 
+test('Keyboard navigation', function(assert) {
   this.render(hbs`{{easy-datatable table=table}}`);
 
   assertNoSelectedDatatableCell(assert, 'No cell is selected by default');
@@ -34,7 +33,7 @@ test('Keyboard navigation', function(assert) {
   assertSelectedDatatableCell(assert, 1, 1);
   pressRightKeyInDatatable();
   assertSelectedDatatableCell(assert, 1, 1,
-      'If the input is present, keyboard navigation does not have any effect');
+    'If the input is present, keyboard navigation does not have any effect');
   pressUpKeyInDatatable();
   pressDownKeyInDatatable();
   pressLeftKeyInDatatable();
@@ -42,7 +41,7 @@ test('Keyboard navigation', function(assert) {
   pressEscInDatatable();
   pressRightKeyInDatatable();
   assertSelectedDatatableCell(assert, 1, 2,
-   'Pressing ESC removes the input, so we can navigate with the keyboard');
+    'Pressing ESC removes the input, so we can navigate with the keyboard');
   pressDownKeyInDatatable();
   assertSelectedDatatableCell(assert, 2, 2);
   pressLeftKeyInDatatable();
@@ -51,7 +50,7 @@ test('Keyboard navigation', function(assert) {
   assertSelectedDatatableCell(assert, 1, 1);
   pressUpKeyInDatatable();
   assertSelectedDatatableCell(assert, 0, 1,
-      'It is also possible to navigate to the header');
+    'It is also possible to navigate to the header');
   pressRightKeyInDatatable();
   assertSelectedDatatableCell(assert, 0, 2);
   pressLeftKeyInDatatable();
@@ -59,21 +58,12 @@ test('Keyboard navigation', function(assert) {
   pressDownKeyInDatatable();
   pressDownKeyInDatatable();
   assertSelectedDatatableCell(assert, 2, 0,
-      'Navigation can also be done to the body <th> cells');
+    'Navigation can also be done to the body <th> cells');
 });
 
 test('Highliting on header selection', function (assert) {
-  this.set('table', DatatableFactory.makeDatatable({
-    headers: ['', 'Name', 'Value 1', 'Value 2', 'Value 3'],
-    body: [
-      [{isHeader: true, value: '#0'}, 'Row 0', 0, 10, 20],
-      [{isHeader: true, value: '#1'}, 'Row 1', 1, 11, 21],
-      [{isHeader: true, value: '#2'}, 'Row 2', 2, 12, 22],
-      [{isHeader: true, value: '#3'}, 'Row 3', 3, 13, 23]
-    ]   
-  }));
-
   this.render(hbs`{{easy-datatable table=table}}`);
+
   clickOnDatatableCell(1, 1);
   pressEscInDatatable();
   assertHightlightedCellsText(assert, [],
@@ -101,17 +91,8 @@ test('Highliting on header selection', function (assert) {
 });
 
 test('Switching to other rows/columns when needed', function (assert) {
-   this.set('table', DatatableFactory.makeDatatable({
-    headers: ['', 'Name', 'Value 1', 'Value 2', 'Value 3'],
-    body: [
-      [{isHeader: true, value: '#0'}, 'Row 0', 0, 10, 20],
-      [{isHeader: true, value: '#1'}, 'Row 1', 1, 11, 21],
-      [{isHeader: true, value: '#2'}, 'Row 2', 2, 12, 22],
-      [{isHeader: true, value: '#3'}, 'Row 3', 3, 13, 23]
-    ]   
-  }));
-
   this.render(hbs`{{easy-datatable table=table}}`);
+
   clickOnDatatableCell(2, 0);
   pressEscInDatatable();
   pressLeftKeyInDatatable();

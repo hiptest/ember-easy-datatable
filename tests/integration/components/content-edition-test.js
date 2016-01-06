@@ -10,16 +10,7 @@ moduleForComponent('easy-datatable', 'Integration | Component | content edition'
   integration: true,
   setup: function() {
     App = startApp();
-  },
-  teardown: function() {
-    Ember.run(App, 'destroy');
-  }
-});
-
-test('click and edit', function(assert) {
-  assert.expect(4);
-
-  this.set('table', DatatableFactory.makeDatatable({
+    this.set('table', DatatableFactory.makeDatatable({
     headers: ['', 'Name', 'Value 1', 'Value 2', 'Value 3'],
     body: [
       [{isHeader: true, value: '#0'}, 'Row 0', 0, 10, 20],
@@ -28,6 +19,14 @@ test('click and edit', function(assert) {
       [{isHeader: true, value: '#3'}, 'Row 3', 3, 13, 23]
     ]    
   }));
+  },
+  teardown: function() {
+    Ember.run(App, 'destroy');
+  }
+});
+
+test('click and edit', function(assert) {
+  assert.expect(4);
 
   this.render(hbs`{{easy-datatable table=table}}`);
 

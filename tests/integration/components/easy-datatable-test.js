@@ -10,6 +10,15 @@ moduleForComponent('easy-datatable', 'Integration | Component | easy datatable',
   integration: true,
   setup: function() {
     App = startApp();
+    this.set('table', DatatableFactory.makeDatatable({
+    headers: ['Col 1', 'Col 2'],
+    body: [
+      ['Row 11', 'Row 12'],
+      ['Row 21', 'Row 22'],
+      ['Row 31', 'Row 32'],
+      ['Row 41', 'Row 42']
+    ]
+  }));
   },
   teardown: function() {
     Ember.run(App, 'destroy');
@@ -18,15 +27,6 @@ moduleForComponent('easy-datatable', 'Integration | Component | easy datatable',
 
 test('Basic test', function(assert) {
   assert.expect(1);
-
-  this.set('table', DatatableFactory.makeDatatable({
-    headers: ['Col 1', 'Col 2'],
-    body: [
-      ['Row 11', 'Row 12'],
-      ['Row 21', 'Row 22'],
-      ['Row 31', 'Row 32'],
-      ['Row 41', 'Row 42']
-    ]}));
 
   this.render(hbs`{{easy-datatable table=table}}`);
 

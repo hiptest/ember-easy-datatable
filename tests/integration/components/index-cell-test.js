@@ -11,16 +11,7 @@ moduleForComponent('easy-datatable', 'Integration | Component | index cell', {
   integration: true,
   setup: function() {
     App = startApp();
-  },
-  teardown: function() {
-    Ember.run(App, 'destroy');
-  }
-});
-
-test('When isIndex is set to true, the cell displays the row + 1', function(assert) {
-  assert.expect(1);
-
-  this.set('table', DatatableFactory.makeDatatable({
+    this.set('table', DatatableFactory.makeDatatable({
     headers: ['', 'Index', 'Original name'],
     body: [
       [{isHeader: true, isEditable: false}, {isIndex: true}, 'Row 1'],
@@ -40,6 +31,14 @@ test('When isIndex is set to true, the cell displays the row + 1', function(asse
       return row;
     }    
   }));
+  },
+  teardown: function() {
+    Ember.run(App, 'destroy');
+  }
+});
+
+test('When isIndex is set to true, the cell displays the row + 1', function(assert) {
+  assert.expect(1);
 
   this.render(hbs`{{easy-datatable table=table}}`);
 
