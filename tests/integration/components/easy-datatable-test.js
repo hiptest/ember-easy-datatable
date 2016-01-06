@@ -1,10 +1,19 @@
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
-import helper from '../../helpers/helper';
 import hbs from 'htmlbars-inline-precompile';
-import { test, moduleForComponent } from 'ember-qunit';
+import { moduleForComponent, test } from 'ember-qunit';
+import startApp from '../../helpers/start-app';
+import Ember from 'ember';
+
+var App;
 
 moduleForComponent('easy-datatable', 'Integration | Component | easy datatable', {
-  integration: true
+  integration: true,
+  setup: function() {
+    App = startApp();
+  },
+  teardown: function() {
+    Ember.run(App, 'destroy');
+  }
 });
 
 test('Basic test', function(assert) {
@@ -21,7 +30,7 @@ test('Basic test', function(assert) {
 
   this.render(hbs`{{easy-datatable table=table}}`);
 
-  helper.assertDatatableContent(assert,this.$(), [
+  assertDatatableContent(assert, [
     ['Row 11', 'Row 12'],
     ['Row 21', 'Row 22'],
     ['Row 31', 'Row 32'],

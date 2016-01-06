@@ -1,11 +1,20 @@
+import Ember from 'ember';
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import makeListOf from "ember-easy-datatable/utils/utils";
-import helper from '../../helpers/helper';
 import hbs from 'htmlbars-inline-precompile';
-import { test, moduleForComponent } from 'ember-qunit';
+import startApp from '../../helpers/start-app';
+import { moduleForComponent, test } from 'ember-qunit';
+
+var App;
 
 moduleForComponent('easy-datatable', 'Integration | Component | index cell', {
-  integration: true
+  integration: true,
+  setup: function() {
+    App = startApp();
+  },
+  teardown: function() {
+    Ember.run(App, 'destroy');
+  }
 });
 
 test('When isIndex is set to true, the cell displays the row + 1', function(assert) {
@@ -34,7 +43,7 @@ test('When isIndex is set to true, the cell displays the row + 1', function(asse
 
   this.render(hbs`{{easy-datatable table=table}}`);
 
-  helper.assertDatatableContent(assert, this.$(), [
+  assertDatatableContent(assert, [
     ['1', 'Row 1'],
     ['2', 'Row 2'],
     ['3', 'Row 3'],

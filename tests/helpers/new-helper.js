@@ -1,0 +1,164 @@
+import Ember from 'ember';
+
+var customHelpers = function() {
+	Ember.Test.registerAsyncHelper('assertDatatableContent', function(app, assert, content, message) {
+		assert.deepEqual(getDatatableContent(), content, message || 'The datatable content is correct');
+  });
+
+	Ember.Test.registerAsyncHelper('assertEditorShown', function (app, assert, message) {
+		assert.ok(getInputField().length === 1, message || 'Editor is displayed');
+  });
+
+  Ember.Test.registerAsyncHelper('assertNoSelectedDatatableCell', function (app, assert, message) {
+    assert.equal(getSelectedCell().length, 0, message || 'No cell is currently selected');
+  });
+
+  Ember.Test.registerAsyncHelper('assertSelectedDatatableCell', function (app, assert, row, column, message) {
+    assert.deepEqual(getSelectedPosition(), {row: row, column: column}, message || 'The correct cell is selected');
+  });
+
+  Ember.Test.registerAsyncHelper('assertHightlightedCellsText', function (app, assert, content, message) {
+    assert.deepEqual(getHighlightedCellsText(), content, message || 'the correct cells are highlighted');
+  });
+
+  Ember.Test.registerAsyncHelper('clickOnDatatableCell', function(app, row, column) {
+    var element = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').eq(column);
+    element.focus();
+    click(element);
+  });
+
+  Ember.Test.registerAsyncHelper('pressEnterInDatatable', function () {
+   pressKey(13);
+  });
+
+  Ember.Test.registerAsyncHelper('pressEscInDatatable', function () {
+   pressKey(27);
+  });
+
+  Ember.Test.registerAsyncHelper('pressUpKeyInDatatable', function () {
+   pressKey(38);
+  });
+
+  Ember.Test.registerAsyncHelper('pressDownKeyInDatatable', function () {
+   pressKey(40);
+  });
+
+  Ember.Test.registerAsyncHelper('pressRightKeyInDatatable', function () {
+   pressKey(39);
+  });
+
+  Ember.Test.registerAsyncHelper('pressLeftKeyInDatatable', function () {
+   pressKey(37);
+  });
+
+  Ember.Test.registerAsyncHelper('pressCtrlUpKeyInDatatable', function () {
+   pressKey(38, true);
+  });
+
+  Ember.Test.registerAsyncHelper('pressCtrlDownKeyInDatatable', function () {
+   pressKey(40, true);
+  });
+
+  Ember.Test.registerAsyncHelper('pressCtrlRightKeyInDatatable', function () {
+   pressKey(39, true);
+  });
+
+  Ember.Test.registerAsyncHelper('pressCtrlLeftKeyInDatatable', function () {
+   pressKey(37, true);
+  });
+
+  Ember.Test.registerAsyncHelper('pressCtrlDelKeyInDatatable', function () {
+   pressKey(46, true);
+  });
+  
+  Ember.Test.registerAsyncHelper('pressCtrlInserKeyInDatatable', function () {
+   pressKey(45, true);
+  });
+  
+  Ember.Test.registerAsyncHelper('pressTabKeyInDatatable', function () {
+   pressKey(9);
+  });
+  
+  Ember.Test.registerAsyncHelper('pressShiftTabKeyInDatatable', function () {
+   pressKey(9, false, true);
+  });
+
+  Ember.Test.registerAsyncHelper('pressKey', function (app, keyCode, ctrlKey, shiftKey) {
+    // Does not ask for an element, send event to the currently focused element.
+    var $el = $(document.activeElement),
+      eventData = {
+        which: keyCode,
+        keyCode: keyCode,
+        key: String.fromCharCode(keyCode),
+        ctrlKey: ctrlKey || false,
+        shiftKey: shiftKey || false
+      },
+      keyDownEvent = Ember.$.Event("keydown", eventData),
+      keyUpEvent = Ember.$.Event("keyup", eventData);
+
+    Ember.run(function () {
+      var focused, character = String.fromCharCode(keyCode);
+      $el.trigger(keyDownEvent);
+      focused = $(document.activeElement);
+
+      // Update input value if needed
+      if (focused.is('input[type=text]') && character.match(/[a-zA-Z0-9 \.#\-_]/)) {
+        focused.val(Ember.String.fmt('%@%@%@',
+          focused.val().slice(0, focused.get(0).selectionStart),
+          String.fromCharCode(keyCode),
+          focused.val().slice(focused.get(0).selectionEnd)));
+      }
+
+      focused.trigger(keyUpEvent);
+    });
+  });
+
+  Ember.Test.registerAsyncHelper('typeInDatatable', function (app, value) {
+    if (value !== '') {
+      pressKey(value.charCodeAt(0));
+      typeInDatatable(value.slice(1));
+    }
+  });
+
+  function getSelectedPosition() {
+    var selected = find('th.selected, td.selected').eq(0),
+      rowElement = selected.parent(),
+      column = rowElement.find('td, th').index(selected),
+      row = rowElement.closest('table').find('tr').index(rowElement);
+
+    return {row: row, column: column};
+  }
+
+  Ember.Test.registerAsyncHelper('getSelectedCell', function () {
+    return find('th.selected, td.selected').eq(0);
+  });
+
+  
+  function getHighlightedCellsText () {
+    return find('td.highlighted, th.highlighted').map(function () {
+      return $(this).text().trim();
+    }).get();
+  }
+
+  function getInputField () {
+    return find('input');
+  }
+
+  function getDatatableContent() {
+		var datatableContent = [];
+		find('tbody tr').each(function () {
+      var row = [];
+      $(this).find('td').each(function () {
+        row.push($(this).text().trim());
+      });
+      datatableContent.push(row);
+    });
+    return datatableContent;
+  }
+
+  function getSelectedCell () {
+    return find('th.selected, td.selected').eq(0);
+  }
+}();
+
+export default customHelpers;

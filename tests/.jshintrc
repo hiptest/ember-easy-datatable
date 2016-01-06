@@ -22,7 +22,27 @@
     "currentURL",
     "currentPath",
     "currentRouteName",
-    "assertDatatableContent"
+
+    "assertDatatableContent",
+    "assertEditorShown",
+    "assertHightlightedCellsText",
+    "assertNoSelectedDatatableCell",
+    "assertSelectedDatatableCell",
+    "clickOnDatatableCell",
+    "pressEnterInDatatable",
+    "pressDownKeyInDatatable",
+    "pressEscInDatatable",
+    "pressKey",
+    "pressLeftKeyInDatatable",
+    "pressRightKeyInDatatable",
+    "pressUpKeyInDatatable",
+    "typeInDatatable"
+    
+    
+    
+    
+    
+
   ],
   "node": false,
   "browser": false,

@@ -1,10 +1,19 @@
+import Ember from 'ember';
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
-import helper from '../../helpers/helper';
 import hbs from 'htmlbars-inline-precompile';
+import startApp from '../../helpers/start-app';
 import { test, moduleForComponent } from 'ember-qunit';
 
+var App;
+
 moduleForComponent('easy-datatable', 'Integration | Component | content edition', {
-  integration: true
+  integration: true,
+  setup: function() {
+    App = startApp();
+  },
+  teardown: function() {
+    Ember.run(App, 'destroy');
+  }
 });
 
 test('click and edit', function(assert) {
@@ -22,19 +31,19 @@ test('click and edit', function(assert) {
 
   this.render(hbs`{{easy-datatable table=table}}`);
 
-  helper.assertDatatableContent(assert, this.$(), [
+  assertDatatableContent(assert, [
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23']
   ]);
-  helper.clickOnDatatableCell(this.$(), 1, 1);
-  helper.assertEditorShown(assert, this.$());
-  helper.typeInDatatable(this.$(), 'This is my row');
-  helper.pressEnterInDatatable();
-  helper.clickOnDatatableCell(this.$(), 0, 0);
-  helper.assertEditorShown(assert, this.$());
-  helper.assertDatatableContent(assert, this.$(), [
+  clickOnDatatableCell(1, 1);
+  assertEditorShown(assert);
+  typeInDatatable('This is my row');
+  pressEnterInDatatable();
+  clickOnDatatableCell(0, 0);
+  assertEditorShown(assert);
+  assertDatatableContent(assert, [
     ['This is my row', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
