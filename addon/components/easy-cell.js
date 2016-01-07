@@ -6,6 +6,8 @@ export default Ember.Component.extend({
   table: null,
 	rowIndex: null,
   editorShown: false,
+  inError: Ember.computed.notEmpty('errorMessage'),
+  errorMessage: '',
   showEditorForSelectedCell: null,
   highlightedRow: null,
   highlightedColumn: null,

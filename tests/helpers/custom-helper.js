@@ -1,6 +1,14 @@
 import Ember from 'ember';
 
 var customHelpers = function() {
+  Ember.Test.registerAsyncHelper('assertCurrentCellHasError', function (app, assert, message) {
+    assert.ok(getSelectedCell().hasClass('error'), message || 'Current cell is in error');
+  });
+
+  Ember.Test.registerAsyncHelper('assertCurrentCellHasNotError', function (app, assert, message) {
+    assert.ok(!getSelectedCell().hasClass('error'), message || 'Current cell is not in error');
+  });
+
 	Ember.Test.registerAsyncHelper('assertDatatableContent', function(app, assert, content, message) {
 		assert.deepEqual(getDatatableContent(), content, message || 'The datatable content is correct');
   });
@@ -23,6 +31,10 @@ var customHelpers = function() {
 
   Ember.Test.registerAsyncHelper('assertHightlightedCellsText', function (app, assert, content, message) {
     assert.deepEqual(getHighlightedCellsText(), content, message || 'the correct cells are highlighted');
+  });
+
+  Ember.Test.registerAsyncHelper('clearValueInDatatable', function () {
+    fillIn($(document.activeElement), "");
   });
 
   Ember.Test.registerAsyncHelper('clickOnDatatableCell', function(app, row, column) {
