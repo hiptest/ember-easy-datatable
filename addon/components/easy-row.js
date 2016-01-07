@@ -31,6 +31,10 @@ export default Ember.Component.extend({
 
     removeRow: function (index) {
       this.sendAction('removeRow', index);
+    },
+
+    removeColumn: function (index) {
+      this.sendAction('removeColumn', index);
     }
   }
 });

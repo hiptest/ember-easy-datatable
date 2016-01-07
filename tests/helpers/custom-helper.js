@@ -9,8 +9,12 @@ var customHelpers = function() {
     assert.ok(!getSelectedCell().hasClass('error'), message || 'Current cell is not in error');
   });
 
-	Ember.Test.registerAsyncHelper('assertDatatableContent', function(app, assert, content, message) {
+	Ember.Test.registerAsyncHelper('assertDatatableContent', function (app, assert, content, message) {
 		assert.deepEqual(getDatatableContent(), content, message || 'The datatable content is correct');
+  });
+
+  Ember.Test.registerAsyncHelper('assertDatatableHeader', function (app, assert, content, message) {
+    assert.deepEqual(getDatatableHeaders(), content, message || 'Headers are correct');
   });
 
   Ember.Test.registerAsyncHelper('assertEditorNotShown', function (app, assert, message) {
@@ -177,6 +181,12 @@ var customHelpers = function() {
       datatableContent.push(row);
     });
     return datatableContent;
+  }
+
+  function getDatatableHeaders () {
+    return find('thead th').map(function () {
+      return $(this).text().trim();
+    }).get();
   }
 
   function getSelectedCell () {

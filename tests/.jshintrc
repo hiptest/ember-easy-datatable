@@ -26,6 +26,7 @@
     "assertCurrentCellHasError",
     "assertCurrentCellHasNotError",
     "assertDatatableContent",
+    "assertDatatableHeader",
     "assertEditorNotShown",
     "assertEditorShown",
     "assertHightlightedCellsText",

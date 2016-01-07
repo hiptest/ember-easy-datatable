@@ -68,3 +68,89 @@ test('Removing a row', function(assert) {
   assertSelectedDatatableCell(assert, 0, 0,
     'If the body is empty after deletion, selection moves to the header');
 });
+
+// TODO test('Validate to true a cell asynchronously and remove the row before validation ends')
+// TODO test('Validate to false a cell asynchronously and remove the row before validation ends')
+
+test('Row can me marked as non-removable', function (assert) {
+  var self = this;
+  assert.expect(2);
+
+  this.render(hbs`{{easy-datatable table=table}}`);
+  andThen(function () {
+    self.set('table.body.firstObject.cells.firstObject.isRemovable', false);
+  });
+  assertDatatableContent(assert, [
+    ['Row 0', '0', '10', '20'],
+    ['Row 1', '1', '11', '21'],
+    ['Row 2', '2', '12', '22'],
+    ['Row 3', '3', '13', '23']
+  ]);
+  clickOnDatatableCell(1, 0);
+  pressEscInDatatable();
+  pressCtrlDelKeyInDatatable();
+  assertDatatableContent(assert, [
+    ['Row 0', '0', '10', '20'],
+    ['Row 1', '1', '11', '21'],
+    ['Row 2', '2', '12', '22'],
+    ['Row 3', '3', '13', '23']
+  ], 'Nothing happens as the row is marked as non-removable');
+});
+
+test('Removing a column', function (assert) {
+  assert.expect(4);
+
+  this.render(hbs`{{easy-datatable table=table}}`);
+  assertDatatableContent(assert, [
+    ['Row 0', '0', '10', '20'],
+    ['Row 1', '1', '11', '21'],
+    ['Row 2', '2', '12', '22'],
+    ['Row 3', '3', '13', '23']
+  ]);
+  clickOnDatatableCell(1, 1);
+  pressEscInDatatable();
+  pressCtrlDelKeyInDatatable();
+  assertDatatableContent(assert, [
+    ['Row 0', '0', '10', '20'],
+    ['Row 1', '1', '11', '21'],
+    ['Row 2', '2', '12', '22'],
+    ['Row 3', '3', '13', '23']
+  ], 'Nothing happens if it is not done in a column header');
+  pressUpKeyInDatatable();
+  pressCtrlDelKeyInDatatable();
+  assertDatatableContent(assert, [
+    ['0', '10', '20'],
+    ['1', '11', '21'],
+    ['2', '12', '22'],
+    ['3', '13', '23']
+  ], 'Otherwise, the current column is removed');
+  assertDatatableHeader(assert, [ "", 'Value 1', 'Value 2', 'Value 3'],
+    'The header is also removed');
+});
+
+test('Columns can be marked as non-removable', function (assert) {
+  var self = this;
+  assert.expect(3);
+
+  this.render(hbs`{{easy-datatable table=table}}`);
+  andThen(function () {
+    self.get('table').get('headers.cells')[1].set('isRemovable', false);
+  });
+  assertDatatableContent(assert, [
+    ['Row 0', '0', '10', '20'],
+    ['Row 1', '1', '11', '21'],
+    ['Row 2', '2', '12', '22'],
+    ['Row 3', '3', '13', '23']
+  ]);
+  clickOnDatatableCell(0, 1);
+  pressEscInDatatable();
+  pressCtrlDelKeyInDatatable();
+  assertDatatableContent(assert, [
+    ['Row 0', '0', '10', '20'],
+    ['Row 1', '1', '11', '21'],
+    ['Row 2', '2', '12', '22'],
+    ['Row 3', '3', '13', '23']
+  ], 'Nothing happens as the column is marker as non removable');
+  assertDatatableHeader(assert, ['', 'Name', 'Value 1', 'Value 2', 'Value 3'],
+    'The header is still there');
+});

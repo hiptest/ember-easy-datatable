@@ -37,8 +37,15 @@ export default Ember.Component.extend({
           this.notifyPropertyChange('selectedCellPosition');
         }
       }
+    },
 
-    }
+    removeColumn: function (index) {
+      if (this.get('table').columnCanBeRemoved(index)) {
+        this.get('table').removeColumn(index);
+        this.notifyPropertyChange('selectedCellPosition');
+      }
+    },
+
   },
 
   firstEditableCellIndexInColumn: function (columnIndex) {
