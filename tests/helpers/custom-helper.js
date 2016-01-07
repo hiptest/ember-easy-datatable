@@ -5,6 +5,10 @@ var customHelpers = function() {
 		assert.deepEqual(getDatatableContent(), content, message || 'The datatable content is correct');
   });
 
+  Ember.Test.registerAsyncHelper('assertEditorNotShown', function (app, assert, message) {
+		assert.ok(getInputField().length === 0, message || 'Editor is not displayed');
+  });
+
 	Ember.Test.registerAsyncHelper('assertEditorShown', function (app, assert, message) {
 		assert.ok(getInputField().length === 1, message || 'Editor is displayed');
   });
@@ -25,6 +29,10 @@ var customHelpers = function() {
     var element = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').eq(column);
     element.focus();
     click(element);
+  });
+
+  Ember.Test.registerAsyncHelper('debug', function () {
+  	debugger;
   });
 
   Ember.Test.registerAsyncHelper('pressEnterInDatatable', function () {
@@ -97,9 +105,12 @@ var customHelpers = function() {
       keyUpEvent = Ember.$.Event("keyup", eventData);
 
     Ember.run(function () {
-      var focused, character = String.fromCharCode(keyCode);
       $el.trigger(keyDownEvent);
-      focused = $(document.activeElement);
+    });
+
+    Ember.run(function () {
+      var character = String.fromCharCode(keyCode),
+        focused = $(document.activeElement);
 
       // Update input value if needed
       if (focused.is('input[type=text]') && character.match(/[a-zA-Z0-9 \.#\-_]/)) {

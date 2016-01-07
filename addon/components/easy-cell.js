@@ -39,7 +39,7 @@ export default Ember.Component.extend({
         this.manipulate(event);
       }
     } else if (!this.navigate(event)) {
-      this.send('startEdition');
+      this.startEdition();
     }
   },
 

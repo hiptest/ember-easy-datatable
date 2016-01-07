@@ -13,7 +13,7 @@ export default Ember.Component.extend({
   }),
 
   actions : {
-  	navigateLeft: function () {
+    navigateLeft: function () {
   		this.sendAction('navigateLeft');
   	},
 

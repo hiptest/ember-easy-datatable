@@ -24,17 +24,21 @@
     "currentRouteName",
 
     "assertDatatableContent",
+    "assertEditorNotShown",
     "assertEditorShown",
     "assertHightlightedCellsText",
     "assertNoSelectedDatatableCell",
     "assertSelectedDatatableCell",
     "clickOnDatatableCell",
+    "debug",
     "pressEnterInDatatable",
     "pressDownKeyInDatatable",
     "pressEscInDatatable",
     "pressKey",
     "pressLeftKeyInDatatable",
     "pressRightKeyInDatatable",
+    "pressShiftTabKeyInDatatable",
+    "pressTabKeyInDatatable",
     "pressUpKeyInDatatable",
     "typeInDatatable"
     
