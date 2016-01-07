@@ -39,6 +39,8 @@
     "pressEnterInDatatable",
     "pressDownKeyInDatatable",
     "pressEscInDatatable",
+    "pressCtrlDownKeyInDatatable",
+    "pressCtrlInserKeyInDatatable",
     "pressKey",
     "pressLeftKeyInDatatable",
     "pressRightKeyInDatatable",

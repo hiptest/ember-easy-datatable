@@ -46,6 +46,35 @@ export default Ember.Component.extend({
       }
     },
 
+    moveRowDown: function (index) {
+      if (this.get('table').rowCanMoveDown(index)) {
+        this.get('table').moveRow(index, index + 1);
+        this.send('navigateDown');
+      }
+    },
+
+    insertRowAfter: function (index) {
+      if (this.get('table').rowCanBeInserted(index)) {
+        this.insertRowAt(index, this.computeNavigateDownPosition);
+      }
+    }
+  },
+
+  insertRowAt: function (index, nextPosition) {
+    if (Ember.isNone(index)) {
+      return;
+    }
+
+    this.get('table').insertRow(index);
+    if (typeof(nextPosition) === 'function') {
+      nextPosition = nextPosition.apply(this);
+    }
+
+    this.set('selectedCellPosition', nextPosition);
+    if (this.get('editAfterInsertion')) {
+      this.navigateToFirstEditableCellInRow();
+      this.set('showEditorForSelectedCell', true);
+    }
   },
 
   firstEditableCellIndexInColumn: function (columnIndex) {
@@ -181,23 +210,6 @@ export default Ember.Component.extend({
   computeNavigateLeftPosition: function () {
     var current = this.get('selectedCellPosition');
     return this.fixPosition({row: current.row, column: current.column - 1});
-  },
-
-  insertRowAt: function (index, nextPosition) {
-    if (Ember.isNone(index)) {
-      return;
-    }
-
-    this.get('table').insertRow(index);
-    if (typeof(nextPosition) === 'function') {
-      nextPosition = nextPosition.apply(this);
-    }
-
-    this.set('selectedCellPosition', nextPosition);
-    if (this.get('editAfterInsertion')) {
-      this.navigateToFirstEditableCellInRow();
-      this.set('showEditorForSelectedCell', true);
-    }
   },
 
   insertColumnAt: function (index, nextPosition) {

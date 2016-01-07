@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
-import makeListOf from "ember-easy-datatable/utils/utils";
+import { makeListOf } from "ember-easy-datatable/utils/utils";
 import hbs from 'htmlbars-inline-precompile';
 import startApp from '../../helpers/start-app';
 import { moduleForComponent, test } from 'ember-qunit';
@@ -46,6 +46,41 @@ test('When isIndex is set to true, the cell displays the row + 1', function(asse
     ['1', 'Row 1'],
     ['2', 'Row 2'],
     ['3', 'Row 3'],
+    ['4', 'Row 4']
+  ]);
+});
+
+test('Is keeps showing the correct value after insertion, removing or reordering', function (assert) {
+  assert.expect(4);
+
+  this.render(hbs`{{easy-datatable table=table}}`);
+  assertDatatableContent(assert, [
+    ['1', 'Row 1'],
+    ['2', 'Row 2'],
+    ['3', 'Row 3'],
+    ['4', 'Row 4']
+  ]);
+  clickOnDatatableCell(1, 0);
+  pressCtrlInserKeyInDatatable();
+  assertDatatableContent(assert, [
+    ['1', 'Row 1'],
+    ['2', ''],
+    ['3', 'Row 2'],
+    ['4', 'Row 3'],
+    ['5', 'Row 4']
+  ]);
+  pressCtrlDelKeyInDatatable();
+  assertDatatableContent(assert, [
+    ['1', 'Row 1'],
+    ['2', 'Row 2'],
+    ['3', 'Row 3'],
+    ['4', 'Row 4']
+  ]);
+  pressCtrlDownKeyInDatatable();
+  assertDatatableContent(assert, [
+    ['1', 'Row 1'],
+    ['2', 'Row 3'],
+    ['3', 'Row 2'],
     ['4', 'Row 4']
   ]);
 });
