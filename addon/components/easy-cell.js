@@ -68,24 +68,26 @@ export default Ember.Component.extend({
   manipulate: function (event) {
     var mapping, action;
     if (this.get('position.row') === -1) {
+      var column_index = this.get('position.column');
       mapping = {
-        45: 'insertColumnAfter',
-        46: 'removeColumn',
-        37: 'moveColumnLeft',
-        39: 'moveColumnRight'
+        45: {label: 'insertColumnAfter', index: column_index + 1},
+        46: {label: 'removeColumn', index: column_index},
+        37: {label: 'moveColumnLeft', index: column_index},
+        39: {label: 'moveColumnRight', index: column_index}
       };
     } else {
+      var row_index = this.get('position.row');
       mapping = {
-        45: 'insertRowAfter',
-        46: 'removeRow',
-        38: 'moveRowUp',
-        40: 'moveRowDown'
+        45: {label: 'insertRowAfter', index: row_index + 1},
+        46: {label: 'removeRow', index: row_index},
+        38: {label: 'moveRowUp', index: row_index},
+        40: {label: 'moveRowDown', index: row_index}
       };
     }
 
     action = mapping[event.which];
     if (!Ember.isNone(action)) {
-      this.send(action);
+      this.sendAction(action.label, action.index);
     }
   },
 
@@ -204,7 +206,7 @@ export default Ember.Component.extend({
         }
         self.send('stopEdition');
       });
-    },
+    }
   },
 
   validateValue: function (value) {

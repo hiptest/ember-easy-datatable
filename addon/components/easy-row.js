@@ -28,5 +28,9 @@ export default Ember.Component.extend({
   	navigateDown: function () {
   		this.sendAction('navigateDown');
   	},
+
+    removeRow: function (index) {
+      this.sendAction('removeRow', index);
+    }
   }
 });

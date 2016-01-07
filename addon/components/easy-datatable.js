@@ -26,6 +26,19 @@ export default Ember.Component.extend({
     navigateDown: function () {
       this.set('selectedCellPosition', this.computeNavigateDownPosition());
     },
+
+    removeRow: function (index) {
+      if (this.get('table').rowCanBeRemoved(index)) {
+        this.get('table').removeRow(index);
+
+        if (this.get('selectedCellPosition.row') === this.get('table.body.length')) {
+          this.send('navigateUp');
+        } else {
+          this.notifyPropertyChange('selectedCellPosition');
+        }
+      }
+
+    }
   },
 
   firstEditableCellIndexInColumn: function (columnIndex) {
