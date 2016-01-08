@@ -11,6 +11,10 @@ export default Ember.Component.extend({
   showEditorForSelectedCell: false,
 
   actions: {
+    navigate: function (direction) {
+      this.send(direction);
+    },
+
     navigateLeft: function () {
       this.set('selectedCellPosition', this.computeNavigateLeftPosition());
     },
@@ -25,6 +29,16 @@ export default Ember.Component.extend({
 
     navigateDown: function () {
       this.set('selectedCellPosition', this.computeNavigateDownPosition());
+    },
+
+    insertRowAfter: function (index) {
+      if (this.get('table').rowCanBeInserted(index)) {
+        this.insertRowAt(index, this.computeNavigateDownPosition);
+      }
+    },
+
+    manipulate: function (label, index) {
+      this.send(label, index);
     },
 
     removeRow: function (index) {
@@ -52,6 +66,13 @@ export default Ember.Component.extend({
       }
     },
 
+    moveRowUp: function (index) {
+      if (this.get('table').rowCanMoveUp(index)) {
+        this.get('table').moveRow(index, index - 1);
+        this.send('navigateUp');
+      }
+    },
+
     moveRowDown: function (index) {
       if (this.get('table').rowCanMoveDown(index)) {
         this.get('table').moveRow(index, index + 1);
@@ -59,9 +80,17 @@ export default Ember.Component.extend({
       }
     },
 
-    insertRowAfter: function (index) {
-      if (this.get('table').rowCanBeInserted(index)) {
-        this.insertRowAt(index, this.computeNavigateDownPosition);
+    moveColumnLeft: function (index) {
+      if (this.get('table').columnCanMoveLeft(index)) {
+        this.get('table').moveColumn(index, index - 1);
+        this.send('navigateLeft');
+      }
+    },
+
+    moveColumnRight: function (index) {
+      if (this.get('table').columnCanMoveRight(index)) {
+        this.get('table').moveColumn(index, index + 1);
+        this.send('navigateRight');
       }
     }
   },

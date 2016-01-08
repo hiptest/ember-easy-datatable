@@ -13,40 +13,12 @@ export default Ember.Component.extend({
   }),
 
   actions : {
-    navigateLeft: function () {
-  		this.sendAction('navigateLeft');
+    navigate: function (direction) {
+  		this.sendAction('navigate', direction);
   	},
 
-  	navigateUp: function () {
-  		this.sendAction('navigateUp');
-  	},
-  	
-  	navigateRight: function () {
-  		this.sendAction('navigateRight');
-  	},
-
-  	navigateDown: function () {
-  		this.sendAction('navigateDown');
-  	},
-
-    removeRow: function (index) {
-      this.sendAction('removeRow', index);
-    },
-
-    removeColumn: function (index) {
-      this.sendAction('removeColumn', index);
-    },
-
-    insertRowAfter: function (index) {
-      this.sendAction('insertRowAfter', index);
-    },
-
-    moveRowDown: function (index) {
-      this.sendAction('moveRowDown', index);
-    },
-
-    insertColumnAfter: function (index) {
-      this.sendAction('insertColumnAfter', index);
+    manipulate: function (label, index) {
+      this.sendAction('manipulate', label, index);
     }
   }
 });

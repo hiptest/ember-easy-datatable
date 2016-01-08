@@ -234,3 +234,9 @@ test('It can also be prevented for specific columns', function (assert) {
     ['Row 3', '3', '13', '', '23']
   ], 'Columns can still be added in after other columns');
 });
+
+//TODO test('Add first column', function () {
+//TODO test('Add last column', function () {
+
+//TODO test('If option "editAfterInsertion" is set to true, the editor is shown after inserting a new row', function () {
+//TODO test('If option "editAfterInsertion" is set to true, the editor is shown after inserting a new column', function () {

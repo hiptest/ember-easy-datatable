@@ -41,7 +41,7 @@ export default Ember.TextField.extend({
         // all if not modified' because this behavior is at the jquery events
         // level and the test acts at the ember events level...
         this.sendAction('stopEdition');
-        this.sendAction(postSaveAction);
+        this.sendAction('navigate', postSaveAction);
       } else {
         this.sendAction('save', this.get('value'), postSaveAction);
         this.set('valueState', 'saved');

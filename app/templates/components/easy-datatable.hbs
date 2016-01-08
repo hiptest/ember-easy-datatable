@@ -1,12 +1,11 @@
 <table class="table table-stripped table-collapsed">
   <thead>
-  	{{easy-row row=table.headers table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigateLeft='navigateLeft' navigateUp='navigateUp' navigateRight='navigateRight' navigateDown='navigateDown' removeRow='removeRow' removeColumn='removeColumn' moveRowDown="moveRowDown" insertRowAfter="insertRowAfter" insertColumnAfter="insertColumnAfter" highlightedRow=highlightedRow
+  	{{easy-row row=table.headers table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigate='navigate' manipulate="manipulate" highlightedRow=highlightedRow 
   	highlightedColumn=highlightedColumn}}
   </thead>
   <tbody>
   {{#each row in table.body}}
-  	{{easy-row row=row table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigateLeft='navigateLeft' navigateUp='navigateUp' navigateRight='navigateRight' navigateDown='navigateDown' removeRow='removeRow'  removeColumn="removeColumn" moveRowDown="moveRowDown" insertRowAfter="insertRowAfter"  insertColumnAfter="insertColumnAfter" highlightedRow=highlightedRow
-  	highlightedColumn=highlightedColumn}}
+  	{{easy-row row=row table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigate='navigate' manipulate="manipulate" highlightedRow=highlightedRow highlightedColumn=highlightedColumn}}
   {{/each}}
   </tbody>
   <tfoot>

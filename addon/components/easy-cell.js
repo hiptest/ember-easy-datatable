@@ -38,14 +38,14 @@ export default Ember.Component.extend({
   keyDown: function (event) {
     if (event.ctrlKey) {
       if (this.get('cell.isHeader')) {
-        this.manipulate(event);
+        this.keyManipulation(event);
       }
-    } else if (!this.navigate(event)) {
+    } else if (!this.keyNavigation(event)) {
       this.startEdition();
     }
   },
 
-  navigate: function (event) {
+  keyNavigation: function (event) {
     var mapping = {
         37: 'navigateLeft',
         38: 'navigateUp',
@@ -60,12 +60,12 @@ export default Ember.Component.extend({
 
     if (!Ember.isNone(action)) {
       event.preventDefault();
-      this.sendAction(action);
+      this.sendAction('navigate', action);
       return true;
     }
   },
 
-  manipulate: function (event) {
+  keyManipulation: function (event) {
     var mapping, action;
     if (this.get('position.row') === -1) {
       var column_index = this.get('position.column');
@@ -87,7 +87,7 @@ export default Ember.Component.extend({
 
     action = mapping[event.which];
     if (!Ember.isNone(action)) {
-      this.sendAction(action.label, action.index);
+      this.sendAction('manipulate', action.label, action.index);
     }
   },
 
@@ -151,16 +151,8 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    navigateLeft: function () {
-      this.sendAction('navigateLeft');
-    },
-
-    navigateRight: function () {
-      this.sendAction('navigateRight');
-    },
-
-    navigateDown: function () {
-      this.sendAction('navigateDown');
+    navigate: function (direction) {
+      this.sendAction('navigate', direction);
     },
 
     stopEdition: function () {
@@ -180,7 +172,7 @@ export default Ember.Component.extend({
         self.send('stopEdition');
         self.get('table').notifyPropertyChange('contentUpdated');
         if (!Ember.isNone(postSaveAction)) {
-          self.sendAction(postSaveAction);
+          self.sendAction('navigate', postSaveAction);
         }
       }, function (error) {
         if (self.get('isDestroyed')) {
