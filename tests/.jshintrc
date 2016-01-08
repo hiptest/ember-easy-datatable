@@ -34,6 +34,7 @@
     "assertSelectedDatatableCell",
     "clearValueInDatatable",
     "clickOnDatatableCell",
+    "clickOnMoveDownRow",
     "clickOnMoveUpRow",
     "clickOnRemoveRow",
     "debug",

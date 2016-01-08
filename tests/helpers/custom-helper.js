@@ -47,6 +47,14 @@ var customHelpers = function() {
     click(element);
   });
 
+  
+  Ember.Test.registerAsyncHelper('clickOnMoveDownRow', function(app, row) {
+    var cell = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last(),
+      element = cell.find('.glyphicon-arrow-down');
+    cell.focus();
+    click(element);
+  });
+
   Ember.Test.registerAsyncHelper('clickOnMoveUpRow', function(app, row) {
     var cell = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last(),
       element = cell.find('.glyphicon-arrow-up');

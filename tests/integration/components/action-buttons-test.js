@@ -49,3 +49,16 @@ test('Click to move up a row', function(assert) {
     ['Row 3', '3', '13', '23']
   ], 'The row has moved up');
 });
+
+test('Click to move down a row', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`{{easy-datatable table=table}}`);
+  clickOnMoveDownRow(2);
+  assertDatatableContent(assert, [
+    ['Row 0', '0', '10', '20'],
+    ['Row 2', '2', '12', '22'],
+    ['Row 1', '1', '11', '21'],
+    ['Row 3', '3', '13', '23']
+  ], 'The row has moved down');
+});
