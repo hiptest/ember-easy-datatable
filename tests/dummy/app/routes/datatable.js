@@ -5,7 +5,7 @@ export default Ember.Route.extend({
 	model: function() {
     var result = DatatableFactory.makeDatatable({
     	headers: [
-    		{isProtected: true, value: ''}, 'col 1', 'col 2', 'col 3', 'col 4', 'col 5', ''
+    		{isProtected: true, value: '', showActions: true}, 'col 1', {value: 'col 2', showActions: true}, 'col 3', 'col 4', 'col 5', ''
     	],
     	body: [
     		[{isHeader: true, isIndex: true, isEditable: false}, 1, 2, 3, 4, 5, {isHeader: true, showActions: true, isEditable: false}],

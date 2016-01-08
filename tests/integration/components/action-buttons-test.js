@@ -11,7 +11,7 @@ moduleForComponent('easy-datatable', 'Integration | Component | Action buttons',
   setup: function() {
     App = startApp();
     this.set('table', DatatableFactory.makeDatatable({
-      headers: ['', 'Name', 'Value 1', 'Value 2', 'Value 3', ''],
+      headers: ['', 'Name', {value: 'Value 1', showActions: true}, {value: 'Value 2', showActions: true}, {value: 'Value 3', showActions: true}, ''],
       body: [
         [{isHeader: true, value: '#0'}, 'Row 0', 0, 10, 20, {isHeader: true, showActions: true, isEditable: false}],
         [{isHeader: true, value: '#1'}, 'Row 1', 1, 11, 21, {isHeader: true, showActions: true, isEditable: false}],
@@ -61,4 +61,51 @@ test('Click to move down a row', function(assert) {
     ['Row 1', '1', '11', '21'],
     ['Row 3', '3', '13', '23']
   ], 'The row has moved down');
+});
+
+test('Click to remove a column', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`{{easy-datatable table=table}}`);
+  clickOnRemoveColumn(2);
+  assertDatatableContent(assert, [
+    ['Row 0', '10', '20'],
+    ['Row 1', '11', '21'],
+    ['Row 2', '12', '22'],
+    ['Row 3', '13', '23']
+  ], 'The column is deleted');
+});
+
+test('Click to edit a cell', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`{{easy-datatable table=table}}`);
+  clickOnPencil(0,2);
+  assertEditorShown(assert);
+});
+
+test('Click to move right a column', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`{{easy-datatable table=table}}`);
+  clickOnMoveRightColumn(2);
+  assertDatatableContent(assert, [
+    ['Row 0', '10', '0', '20'],
+    ['Row 1', '11', '1', '21'],
+    ['Row 2', '12', '2', '22'],
+    ['Row 3', '13', '3', '23']
+  ], 'The column is deleted');
+});
+
+test('Click to move left a column', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`{{easy-datatable table=table}}`);
+  clickOnMoveLeftColumn(4);
+  assertDatatableContent(assert, [
+    ['Row 0', '0', '20', '10'],
+    ['Row 1', '1', '21', '11'],
+    ['Row 2', '2', '22', '12'],    
+    ['Row 3', '3', '23', '13']
+  ], 'The column is deleted');
 });

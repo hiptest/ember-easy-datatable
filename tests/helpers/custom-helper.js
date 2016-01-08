@@ -55,9 +55,37 @@ var customHelpers = function() {
     click(element);
   });
 
+  Ember.Test.registerAsyncHelper('clickOnMoveLeftColumn', function(app, columnIndex) {
+    var cell = find(Ember.String.fmt('tr:nth(0)')).find('td, th').eq(columnIndex),
+      element = cell.find('.glyphicon-arrow-left');
+    cell.focus();
+    click(element);
+  });
+
+
+  Ember.Test.registerAsyncHelper('clickOnMoveRightColumn', function(app, columnIndex) {
+    var cell = find(Ember.String.fmt('tr:nth(0)')).find('td, th').eq(columnIndex),
+      element = cell.find('.glyphicon-arrow-right');
+    cell.focus();
+    click(element);
+  });
+
   Ember.Test.registerAsyncHelper('clickOnMoveUpRow', function(app, row) {
     var cell = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last(),
       element = cell.find('.glyphicon-arrow-up');
+    cell.focus();
+    click(element);
+  });
+
+  Ember.Test.registerAsyncHelper('clickOnPencil', function(app, row, column) {
+    var element = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').eq(column);
+    element.focus();
+    click(element.find('.glyphicon-pencil'));
+  });
+
+  Ember.Test.registerAsyncHelper('clickOnRemoveColumn', function(app, columnIndex) {
+    var cell = find(Ember.String.fmt('tr:first-child')).find('td, th').eq(columnIndex),
+      element = cell.find('.glyphicon-remove');
     cell.focus();
     click(element);
   });
