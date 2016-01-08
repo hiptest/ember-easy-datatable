@@ -36,3 +36,16 @@ test('Click on remove to remove a row', function(assert) {
     ['Row 3', '3', '13', '23']
   ], 'The row is removed');
 });
+
+test('Click to move up a row', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`{{easy-datatable table=table}}`);
+  clickOnMoveUpRow(2);
+  assertDatatableContent(assert, [
+    ['Row 1', '1', '11', '21'],
+    ['Row 0', '0', '10', '20'],
+    ['Row 2', '2', '12', '22'],
+    ['Row 3', '3', '13', '23']
+  ], 'The row has moved up');
+});
