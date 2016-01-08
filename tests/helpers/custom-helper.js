@@ -47,6 +47,11 @@ var customHelpers = function() {
     click(element);
   });
 
+  Ember.Test.registerAsyncHelper('clickOnRemoveRow', function(app, row) {
+    var element = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last().find('.glyphicon-remove');
+    click(element);
+  });
+
   Ember.Test.registerAsyncHelper('debug', function () {
   	debugger;
   });

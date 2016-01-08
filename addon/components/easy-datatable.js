@@ -31,6 +31,12 @@ export default Ember.Component.extend({
       this.set('selectedCellPosition', this.computeNavigateDownPosition());
     },
 
+    addFirstRow: function () {
+      var index = this.get('table').getIndexForFirstInsertableRow();
+
+      this.insertRowAt(index, {row: index, column: 0});
+    },
+
     insertRowAfter: function (index) {
       if (this.get('table').rowCanBeInserted(index)) {
         this.insertRowAt(index, this.computeNavigateDownPosition);

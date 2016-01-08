@@ -155,6 +155,10 @@ export default Ember.Component.extend({
       this.sendAction('navigate', direction);
     },
 
+    manipulate: function (label, index) {
+      this.sendAction('manipulate', label, index);
+    },
+
     stopEdition: function () {
       this.set('errorMessage', '');
       this.set('editorShown', false);

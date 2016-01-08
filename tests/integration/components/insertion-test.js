@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
+//import EasyDatatableCompoe from "ember-easy-datatable/components/easy-datatable";
 import { makeListOf } from "ember-easy-datatable/utils/utils";
 import hbs from 'htmlbars-inline-precompile';
 import startApp from '../../helpers/start-app';
@@ -12,23 +13,23 @@ moduleForComponent('easy-datatable', 'Integration | Component | Insertion', {
   setup: function() {
     App = startApp();
     this.set('table', DatatableFactory.makeDatatable({
-    headers: ['', 'Name', 'Value 1', 'Value 2', 'Value 3'],
-    body: [
-      [{isHeader: true, value: '#0'}, 'Row 0', 0, 10, 20],
-      [{isHeader: true, value: '#1'}, 'Row 1', 1, 11, 21],
-      [{isHeader: true, value: '#2'}, 'Row 2', 2, 12, 22],
-      [{isHeader: true, value: '#3'}, 'Row 3', 3, 13, 23]
-    ],
+      headers: ['', 'Name', 'Value 1', 'Value 2', 'Value 3'],
+      body: [
+        [{isHeader: true, value: '#0'}, 'Row 0', 0, 10, 20],
+        [{isHeader: true, value: '#1'}, 'Row 1', 1, 11, 21],
+        [{isHeader: true, value: '#2'}, 'Row 2', 2, 12, 22],
+        [{isHeader: true, value: '#3'}, 'Row 3', 3, 13, 23]
+      ],
 
-    makeDefaultRow: function () {
-      var row = makeListOf(this.get('headers.cells.length'));
-      row[0] = {
-        isHeader: true,
-        isEditable: false
-      };
-      return row;
-    }    
-  }));
+      makeDefaultRow: function () {
+        var row = makeListOf(this.get('headers.cells.length'));
+        row[0] = {
+          isHeader: true,
+          isEditable: false
+        };
+        return row;
+      }    
+    }));
   },
   teardown: function() {
     Ember.run(App, 'destroy');
@@ -132,7 +133,6 @@ test('It is also possible to avoid new rows at given indices', function (assert)
   });
 
 //TODO Add first row
-
 //TODO Add last row
 
 test('Inserting a new column', function (assert) {
