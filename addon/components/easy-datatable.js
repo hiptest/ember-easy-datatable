@@ -39,6 +39,12 @@ export default Ember.Component.extend({
       }
     },
 
+    insertColumnAfter: function (index) {
+      if (this.get('table').columnCanBeInserted(index)) {
+        this.insertColumnAt(index, this.computeNavigateRightPosition);
+      }
+    },
+
     removeColumn: function (index) {
       if (this.get('table').columnCanBeRemoved(index)) {
         this.get('table').removeColumn(index);

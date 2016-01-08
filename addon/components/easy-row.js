@@ -43,6 +43,10 @@ export default Ember.Component.extend({
 
     moveRowDown: function (index) {
       this.sendAction('moveRowDown', index);
+    },
+
+    insertColumnAfter: function (index) {
+      this.sendAction('insertColumnAfter', index);
     }
   }
 });
