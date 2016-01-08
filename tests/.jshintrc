@@ -43,6 +43,7 @@
     "pressCtrlLeftKeyInDatatable",
     "pressCtrlInserKeyInDatatable",
     "pressCtrlRightKeyInDatatable",
+    "pressCtrlUpKeyInDatatable",
     "pressKey",
     "pressLeftKeyInDatatable",
     "pressRightKeyInDatatable",
