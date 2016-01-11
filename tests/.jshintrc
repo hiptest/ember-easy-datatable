@@ -39,6 +39,7 @@
     "clickOnMoveRightColumn",
     "clickOnMoveUpRow",
     "clickOnPencil",
+    "clickOnPlus",
     "clickOnRemoveColumn",
     "clickOnRemoveRow",
     "debug",

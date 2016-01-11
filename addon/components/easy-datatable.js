@@ -59,6 +59,11 @@ export default Ember.Component.extend({
       }
     },
 
+    addLastColumn: function () {
+      var index = this.get('table').getIndexForLastInsertableColumn();
+      this.insertColumnAt(index, {row: -1, column: index});
+    },
+
     insertColumnAfter: function (index) {
       if (this.get('table').columnCanBeInserted(index)) {
         this.insertColumnAt(index, this.computeNavigateRightPosition);

@@ -9,3 +9,5 @@
 }}{{/if}}
 {{#if inError}}<div class="error">{{errorMessage}}</div>{{/if}}
 {{#if cell.showActions}}{{easy-cell-actions cell=cell position=position table=table manipulate='manipulate'}}{{/if}}
+{{#if cell.showAddLastColumn}}{{easy-cell-actions cell=cell position=position table=table manipulate='manipulate'}}
+{{/if}}

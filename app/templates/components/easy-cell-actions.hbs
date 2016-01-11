@@ -8,6 +8,12 @@
 <i class="glyphicon glyphicon-pencil">e</i>
 {{/if}}
 
+{{#if showAddLastColumn}}
+<a {{action 'manipulate' 'addLastColumn'}}>
+  <i class="glyphicon glyphicon-plus">+</i>
+</a>
+{{/if}}
+
 {{#if showRemoveColumnButton}}
 <a {{action 'manipulate' 'removeColumn' column}}>
   <i class="glyphicon glyphicon-remove">x</i>

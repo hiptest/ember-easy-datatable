@@ -11,7 +11,13 @@ moduleForComponent('easy-datatable', 'Integration | Component | Action buttons',
   setup: function() {
     App = startApp();
     this.set('table', DatatableFactory.makeDatatable({
-      headers: ['', 'Name', {value: 'Value 1', showActions: true}, {value: 'Value 2', showActions: true}, {value: 'Value 3', showActions: true}, ''],
+      headers: [
+        '', 
+        'Name', 
+        {value: 'Value 1', showActions: true}, 
+        {value: 'Value 2', showActions: true}, 
+        {value: 'Value 3', showActions: true}, 
+        {isEditable: false, value: '', showAddLastColumn: true, canInsertColumnAfter: false}],
       body: [
         [{isHeader: true, value: '#0'}, 'Row 0', 0, 10, 20, {isHeader: true, showActions: true, isEditable: false}],
         [{isHeader: true, value: '#1'}, 'Row 1', 1, 11, 21, {isHeader: true, showActions: true, isEditable: false}],
@@ -108,4 +114,17 @@ test('Click to move left a column', function(assert) {
     ['Row 2', '2', '22', '12'],    
     ['Row 3', '3', '23', '13']
   ], 'The column is deleted');
+});
+
+test('Click to add a new last column', function(assert) {
+  assert.expect(1);
+
+  this.render(hbs`{{easy-datatable table=table}}`);
+  clickOnPlus(0,5);
+  assertDatatableContent(assert, [
+    ['Row 0', '0', '10', '20', ''],
+    ['Row 1', '1', '11', '21', ''],
+    ['Row 2', '2', '12', '22', ''],    
+    ['Row 3', '3', '13', '23', '']
+  ], 'The column is added');
 });

@@ -28,6 +28,10 @@ export default Ember.Component.extend({
     return this.get('table').columnCanMoveRight(this.get('column')) && this.get('showColumnButtons');
   }),
 
+  showAddLastColumn: Ember.computed('cell.showAddLastColumn', 'row', 'column', function() {
+    return this.get('row') === -1 && this.get('column') === this.get('table.headers.cells.length') - 1 && this.get('cell.showAddLastColumn');
+  }),
+
   showRowButtons: Ember.computed('row', 'cell.showActions', function () {
     return this.get('row') !== -1 && this.get('cell.showActions');
   }),
