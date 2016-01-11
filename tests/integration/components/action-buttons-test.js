@@ -117,7 +117,8 @@ test('Click to move left a column', function(assert) {
 });
 
 test('Click to add a new last column', function(assert) {
-  assert.expect(1);
+  var table = this.get('table');
+  assert.expect(3);
 
   this.render(hbs`{{easy-datatable table=table}}`);
   clickOnPlus(0,5);
@@ -126,5 +127,19 @@ test('Click to add a new last column', function(assert) {
     ['Row 1', '1', '11', '21', ''],
     ['Row 2', '2', '12', '22', ''],    
     ['Row 3', '3', '13', '23', '']
-  ], 'The column is added');
+  ], 'A new column is added at the end of the datatable');
+  assertSelectedDatatableCell(assert, 0, 5,
+      'The header cell of the newly added row is selected');
+  andThen(function () {
+    table.get('headers.cells').forEach(function (cell, index) {
+      cell.set('canInsertColumnAfter', index < 3);
+    });
+  });
+  clickOnPlus(0,6);
+  assertDatatableContent(assert, [
+    ['Row 0', '0', '', '10', '20', ''],
+    ['Row 1', '1', '', '11', '21', ''],
+    ['Row 2', '2', '', '12', '22', ''],
+    ['Row 3', '3', '', '13', '23', ''],
+  ], 'It will search for the last place where a column is insertable if needed');
 });
