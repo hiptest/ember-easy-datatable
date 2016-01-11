@@ -8,7 +8,15 @@
   	{{easy-row row=row table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigate='navigate' manipulate="manipulate" highlightedRow=highlightedRow highlightedColumn=highlightedColumn}}
   {{/each}}
   </tbody>
-  <tfoot>
-    {{yield}}
-  </tfoot>
+  {{#if showAddLastRow}}
+    <tfoot>
+      <tr>
+        <th {{bind-attr colspan="table.headers.cells.length"}}>
+          <a {{action 'addLastRow'}}>
+            <i class="icon-plus"></i> {{addNewRowLabel}}
+          </a>
+        </th>
+      </tr>
+    </tfoot>
+  {{/if}}
 </table>

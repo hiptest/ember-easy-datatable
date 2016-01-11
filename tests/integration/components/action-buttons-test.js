@@ -1,6 +1,7 @@
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
+import { makeListOf } from "ember-easy-datatable/utils/utils";
 import startApp from '../../helpers/start-app';
 import Ember from 'ember';
 
@@ -23,7 +24,20 @@ moduleForComponent('easy-datatable', 'Integration | Component | Action buttons',
         [{isHeader: true, value: '#1'}, 'Row 1', 1, 11, 21, {isHeader: true, showActions: true, isEditable: false}],
         [{isHeader: true, value: '#2'}, 'Row 2', 2, 12, 22, {isHeader: true, showActions: true, isEditable: false}],
         [{isHeader: true, value: '#3'}, 'Row 3', 3, 13, 23, {isHeader: true, showActions: true, isEditable: false}]
-      ]
+      ],
+
+      makeDefaultRow: function () {
+        var row = makeListOf(this.get('headers.cells.length'));
+        row[0] = {
+          isHeader: true,
+          isEditable: false
+        };
+        row[5] = {
+          isHeader: true,
+          isEditable: false
+        };
+        return row;
+      }
     }));
   },
   teardown: function() {
@@ -164,7 +178,7 @@ test('Validate to true a cell asynchronously and remove the row before validatio
 
   this.get('table').reopen({
     validateCell: function(cell, position, value) {
-      return new Ember.RSVP.Promise(function (resolve, reject) {
+      return new Ember.RSVP.Promise(function (resolve) {
         Ember.run.later(function () {
           resolve(value);
         }, 0);
@@ -194,7 +208,7 @@ test('Validate to false a cell asynchronously and remove the row before validati
   assert.expect(2);
 
   this.get('table').reopen({
-    validateCell: function(cell, position, value) {
+    validateCell: function() {
       return new Ember.RSVP.Promise(function (resolve, reject) {
         Ember.run.later(function () {
           reject("this value is invalid");
@@ -218,4 +232,35 @@ test('Validate to false a cell asynchronously and remove the row before validati
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23']
   ], 'The row has been deleted and the validation has not produced any "calling set on destroyed object" error');
+});
+
+test('Add last row', function (assert) {
+  var table = this.get('table');
+  assert.expect(3);
+
+  this.render(hbs`{{easy-datatable table=table showAddLastRow=true addNewRowLabel='Add new row'}}`);
+  click('a:contains("Add new row")');
+  assertDatatableContent(assert, [
+    ['Row 0', '0', '10', '20'],
+    ['Row 1', '1', '11', '21'],
+    ['Row 2', '2', '12', '22'],
+    ['Row 3', '3', '13', '23'],
+    ['', '', '', '']
+  ], 'A new row is added at the end of the datatable');
+  assertSelectedDatatableCell(assert, 5, 0,
+    'The first cell of the newly added row is selected');
+  andThen(function () {
+    table.get('body').forEach(function (row, index) {
+      row.set('cells.firstObject.canInsertRowAfter', index <= 1);
+    });
+  });
+  click('a:contains("Add new row")');
+  assertDatatableContent(assert, [
+    ['Row 0', '0', '10', '20'],
+    ['Row 1', '1', '11', '21'],
+    ['', '', '', ''],
+    ['Row 2', '2', '12', '22'],
+    ['Row 3', '3', '13', '23'],
+    ['', '', '', '']
+  ], 'It will search for the last place where a row is insertable if needed');
 });

@@ -69,9 +69,6 @@ test('Removing a row', function(assert) {
     'If the body is empty after deletion, selection moves to the header');
 });
 
-// TODO test('Validate to true a cell asynchronously and remove the row before validation ends')
-// TODO test('Validate to false a cell asynchronously and remove the row before validation ends')
-
 test('Row can me marked as non-removable', function (assert) {
   var self = this;
   assert.expect(2);

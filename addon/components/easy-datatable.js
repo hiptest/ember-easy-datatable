@@ -9,6 +9,7 @@ export default Ember.Component.extend({
 
   editAfterInsertion: false,
   showEditorForSelectedCell: false,
+  addNewRowLabel: 'Add new row',
 
   actions: {
     navigate: function (direction) {
@@ -33,7 +34,11 @@ export default Ember.Component.extend({
 
     addFirstRow: function () {
       var index = this.get('table').getIndexForFirstInsertableRow();
+      this.insertRowAt(index, {row: index, column: 0});
+    },
 
+    addLastRow: function () {
+      var index = this.get('table').getIndexForLastInsertableRow();
       this.insertRowAt(index, {row: index, column: 0});
     },
 
