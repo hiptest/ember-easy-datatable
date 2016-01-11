@@ -158,3 +158,64 @@ test('Click to add first column', function (assert) {
   assertSelectedDatatableCell(assert, 0, 0,
     'The header cell of the newly added column is selected');
 });
+
+test('Validate to true a cell asynchronously and remove the row before validation ends', function (assert) {
+  assert.expect(2);
+
+  this.get('table').reopen({
+    validateCell: function(cell, position, value) {
+      return new Ember.RSVP.Promise(function (resolve, reject) {
+        Ember.run.later(function () {
+          resolve(value);
+        }, 0);
+      });
+    }
+  });
+
+  this.render(hbs`{{easy-datatable table=table}}`);
+  assertDatatableContent(assert, [
+    ['Row 0', '0', '10', '20'],
+    ['Row 1', '1', '11', '21'],
+    ['Row 2', '2', '12', '22'],
+    ['Row 3', '3', '13', '23']
+  ]);
+  clickOnDatatableCell(1, 3);
+  typeInDatatable('12345');
+
+  clickOnRemoveRow(1); // will focusOut, trigger the validation, but cell deleted
+  assertDatatableContent(assert, [
+    ['Row 1', '1', '11', '21'],
+    ['Row 2', '2', '12', '22'],
+    ['Row 3', '3', '13', '23']
+  ], 'The row has been deleted and the validation has not produced any "calling set on destroyed object" error');
+});
+
+test('Validate to false a cell asynchronously and remove the row before validation ends', function (assert) {
+  assert.expect(2);
+
+  this.get('table').reopen({
+    validateCell: function(cell, position, value) {
+      return new Ember.RSVP.Promise(function (resolve, reject) {
+        Ember.run.later(function () {
+          reject("this value is invalid");
+        }, 0);
+      });
+    }
+  });
+
+  this.render(hbs`{{easy-datatable table=table}}`);
+  assertDatatableContent(assert, [
+    ['Row 0', '0', '10', '20'],
+    ['Row 1', '1', '11', '21'],
+    ['Row 2', '2', '12', '22'],
+    ['Row 3', '3', '13', '23']
+  ]);
+  clickOnDatatableCell(1, 3);
+  typeInDatatable('12345');
+  clickOnRemoveRow(1); // will focusOut, trigger the validation, but cell deleted
+  assertDatatableContent(assert, [
+    ['Row 1', '1', '11', '21'],
+    ['Row 2', '2', '12', '22'],
+    ['Row 3', '3', '13', '23']
+  ], 'The row has been deleted and the validation has not produced any "calling set on destroyed object" error');
+});
