@@ -236,7 +236,6 @@ test('It can also be prevented for specific columns', function (assert) {
 });
 
 //TODO test('Add first column', function () {
-//TODO test('Add last column', function () {
 
 //TODO test('If option "editAfterInsertion" is set to true, the editor is shown after inserting a new row', function () {
 //TODO test('If option "editAfterInsertion" is set to true, the editor is shown after inserting a new column', function () {

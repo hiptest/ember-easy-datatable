@@ -32,6 +32,10 @@ export default Ember.Component.extend({
     return this.get('row') === -1 && this.get('column') === this.get('table.headers.cells.length') - 1 && this.get('cell.showAddLastColumn');
   }),
 
+  showAddFirstColumn: Ember.computed('cell.showAddFirstColumn', 'row', 'column', function() {
+    return this.get('row') === -1 && this.get('column') === 0 && this.get('cell.showAddFirstColumn');
+  }),
+
   showRowButtons: Ember.computed('row', 'cell.showActions', function () {
     return this.get('row') !== -1 && this.get('cell.showActions');
   }),

@@ -12,7 +12,7 @@ moduleForComponent('easy-datatable', 'Integration | Component | Action buttons',
     App = startApp();
     this.set('table', DatatableFactory.makeDatatable({
       headers: [
-        '', 
+        {isEditable: false, value: '', showAddFirstColumn: true}, 
         'Name', 
         {value: 'Value 1', showActions: true}, 
         {value: 'Value 2', showActions: true}, 
@@ -142,4 +142,19 @@ test('Click to add a new last column', function(assert) {
     ['Row 2', '2', '', '12', '22', ''],
     ['Row 3', '3', '', '13', '23', ''],
   ], 'It will search for the last place where a column is insertable if needed');
+});
+
+test('Click to add first column', function (assert) {
+  assert.expect(2);
+
+  this.render(hbs`{{easy-datatable table=table}}`);
+  clickOnPlus(0,0);
+  assertDatatableContent(assert, [
+    ['', 'Row 0', '0', '10', '20'],
+    ['', 'Row 1', '1', '11', '21'],
+    ['', 'Row 2', '2', '12', '22'],
+    ['', 'Row 3', '3', '13', '23']
+  ], 'A new column is added at the beginning of the datatable');
+  assertSelectedDatatableCell(assert, 0, 0,
+    'The header cell of the newly added column is selected');
 });

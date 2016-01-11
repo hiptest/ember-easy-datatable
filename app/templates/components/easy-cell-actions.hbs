@@ -14,6 +14,12 @@
 </a>
 {{/if}}
 
+{{#if showAddFirstColumn}}
+<a {{action 'manipulate' 'addFirstColumn'}}>
+  <i class="glyphicon glyphicon-plus">+</i>
+</a>
+{{/if}}
+
 {{#if showRemoveColumnButton}}
 <a {{action 'manipulate' 'removeColumn' column}}>
   <i class="glyphicon glyphicon-remove">x</i>

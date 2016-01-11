@@ -59,6 +59,11 @@ export default Ember.Component.extend({
       }
     },
 
+    addFirstColumn: function () {
+      var index = this.get('table').getIndexForFirstInsertableColumn();
+      this.insertColumnAt(index, {row: -1, column: index});
+    },
+
     addLastColumn: function () {
       var index = this.get('table').getIndexForLastInsertableColumn();
       this.insertColumnAt(index, {row: -1, column: index});
