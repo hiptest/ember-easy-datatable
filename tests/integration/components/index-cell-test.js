@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
-import { makeListOf } from "ember-easy-datatable/utils/utils";
 import hbs from 'htmlbars-inline-precompile';
 import startApp from '../../helpers/start-app';
 import { moduleForComponent, test } from 'ember-qunit';
@@ -20,7 +19,7 @@ moduleForComponent('easy-datatable', 'Integration | Component | index cell', {
       [{isHeader: true, isEditable: false}, {isIndex: true}, 'Row 4']
     ],
     makeDefaultRow: function () {
-      var row = makeListOf(this.get('headers.cells.length'));
+      var row = DatatableFactory.makeListOf(this.get('headers.cells.length'));
       row[0] = {
         isHeader: true,
         isEditable: false

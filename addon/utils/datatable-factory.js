@@ -17,7 +17,7 @@ export default Ember.Object.create({
     var self = this, datatable = data;
     if (data instanceof Array) {
       datatable = {
-        headers: [],
+        headers: Ember.A(),
         body: Ember.A(data)
       };
     }
@@ -52,5 +52,21 @@ export default Ember.Object.create({
       value = {value: value};
     }
     return DatatableCell.create(value);
+  },
+
+  makeListOf: function (size) {
+    var list = Ember.A(), i;
+    for (i = 0; i < size; i++) {
+      list.push(null);
+    }
+    return list;
+  },
+
+  moveObject: function (list, from, to) {
+    var moved = list[from];
+
+    list.removeAt(from);
+    list.insertAt(to, moved);
   }
+
 });

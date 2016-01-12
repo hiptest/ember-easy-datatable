@@ -228,9 +228,9 @@ var customHelpers = function() {
   }
 
   function getDatatableContent() {
-		var datatableContent = [];
+		var datatableContent = Ember.A();
 		find('tbody tr').each(function () {
-      var row = [];
+      var row = Ember.A();
       $(this).find('td').each(function () {
         row.push($(this).text().trim());
       });

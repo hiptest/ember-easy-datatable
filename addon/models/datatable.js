@@ -1,5 +1,4 @@
 import Ember from "ember";
-import { makeListOf, moveObject } from "../utils/utils";
 import DatatableFactory from "../utils/datatable-factory";
 
 export default Ember.Object.extend({
@@ -64,11 +63,11 @@ export default Ember.Object.extend({
   },
 
   makeDefaultRow: function () {
-    return makeListOf(this.get('headers.cells.length'));
+    return DatatableFactory.makeListOf(this.get('headers.cells.length'));
   },
 
   makeDefaultColumn: function () {
-    var column = makeListOf(this.get('body.length') + 1);
+    var column = DatatableFactory.makeListOf(this.get('body.length') + 1);
     column[0] = {isHeader: true};
     return column;
   },
@@ -85,7 +84,7 @@ export default Ember.Object.extend({
 
   getInsertableRowsIndices: function () {
     var self = this,
-      insertableIndices = [];
+      insertableIndices = Ember.A();
 
     if (this.get('canInsertRows')) {
       insertableIndices.push(0);
@@ -123,7 +122,7 @@ export default Ember.Object.extend({
   },
 
   getInsertableColumnsIndices: function () {
-    var insertableIndices = [];
+    var insertableIndices = Ember.A();
 
     if (this.get('canInsertColumns')) {
       insertableIndices.push(0);
@@ -170,7 +169,7 @@ export default Ember.Object.extend({
   },
 
   moveRow: function (from, to) {
-    moveObject(this.get('body'), from, to);
+    DatatableFactory.moveObject(this.get('body'), from, to);
     this.notifyPropertyChange('contentUpdated');
   },
 

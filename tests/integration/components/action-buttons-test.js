@@ -1,7 +1,6 @@
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
-import { makeListOf } from "ember-easy-datatable/utils/utils";
 import startApp from '../../helpers/start-app';
 import Ember from 'ember';
 
@@ -27,7 +26,7 @@ moduleForComponent('easy-datatable', 'Integration | Component | Action buttons',
       ],
 
       makeDefaultRow: function () {
-        var row = makeListOf(this.get('headers.cells.length'));
+        var row = DatatableFactory.makeListOf(this.get('headers.cells.length'));
         row[0] = {
           isHeader: true,
           isEditable: false
