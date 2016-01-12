@@ -8,14 +8,14 @@
 <i class="glyphicon glyphicon-pencil">e</i>
 {{/if}}
 
-{{#if showAddLastColumn}}
-<a {{action 'manipulate' 'addLastColumn'}}>
+{{#if showAddFirstColumn}}
+<a class="add-first-column" {{action 'manipulate' 'addFirstColumn'}}>
   <i class="glyphicon glyphicon-plus">+</i>
 </a>
 {{/if}}
 
-{{#if showAddFirstColumn}}
-<a {{action 'manipulate' 'addFirstColumn'}}>
+{{#if showAddLastColumn}}
+<a class="add-last-column" {{action 'manipulate' 'addLastColumn'}}>
   <i class="glyphicon glyphicon-plus">+</i>
 </a>
 {{/if}}

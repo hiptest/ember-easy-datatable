@@ -264,3 +264,20 @@ test('Add last row', function (assert) {
     ['', '', '', '']
   ], 'It will search for the last place where a row is insertable if needed');
 });
+
+test('Add first row', function (assert) {
+  assert.expect(2);
+
+  this.render(hbs`{{easy-datatable table=table showAddFirstRow=true addNewRowLabel='Add new row'}}`);
+  
+  click('a:contains("Add new row")');
+  assertDatatableContent(assert, [
+    ['', '', '', ''],
+    ['Row 0', '0', '10', '20'],
+    ['Row 1', '1', '11', '21'],
+    ['Row 2', '2', '12', '22'],
+    ['Row 3', '3', '13', '23']
+  ], 'A new row is added at the beginning of the datatable');
+  assertSelectedDatatableCell(assert, 2, 0,
+    'The first cell of the newly added row is selected');
+});

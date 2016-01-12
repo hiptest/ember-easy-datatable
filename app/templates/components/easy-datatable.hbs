@@ -2,6 +2,15 @@
   <thead>
   	{{easy-row row=table.headers table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigate='navigate' manipulate="manipulate" highlightedRow=highlightedRow 
   	highlightedColumn=highlightedColumn}}
+    {{#if showAddFirstRow}}
+      <tr>
+        <th {{bind-attr colspan="table.headers.cells.length"}}>
+          <a class="add-first-row" {{action 'addFirstRow'}}>
+            <i class="icon-plus"></i> {{addNewRowLabel}}
+          </a>
+        </th>
+      </tr>
+    {{/if}}
   </thead>
   <tbody>
   {{#each row in table.body}}
@@ -12,7 +21,7 @@
     <tfoot>
       <tr>
         <th {{bind-attr colspan="table.headers.cells.length"}}>
-          <a {{action 'addLastRow'}}>
+          <a class="add-last-row" {{action 'addLastRow'}}>
             <i class="icon-plus"></i> {{addNewRowLabel}}
           </a>
         </th>

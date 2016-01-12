@@ -130,9 +130,8 @@ test('It is also possible to avoid new rows at given indices', function (assert)
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23']
   ], 'But rows can still be inserted at other places');
-  });
+});
 
-//TODO Add first row
 
 test('Inserting a new column', function (assert) {
   assert.expect(6);

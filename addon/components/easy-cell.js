@@ -106,16 +106,16 @@ export default Ember.Component.extend({
     this.startEdition();
   },
 
-  startEditionWhenAsked: Ember.observer('showEditorForSelectedCell', function () {
+  startEditionWhenAsked: Ember.on('init', Ember.observer('showEditorForSelectedCell', function () {
     Ember.run.schedule('afterRender', this, function () {
       if (this.get('cell.isSelected') && !this.get('editorShown') && this.get('showEditorForSelectedCell')) {
-        this.get('controller').send('startEdition');
+        this.startEdition();
         this.set('showEditorForSelectedCell', false);
       }
     });
-  }),
+  })),
 
-  focusWhenSelected: Ember.observer('cell.isSelected', function () {
+  focusWhenSelected: Ember.on('init', Ember.observer('cell.isSelected', function () {
     Ember.run.schedule('afterRender', this, function () {
       if (Ember.isNone(this.$())) {
         return;
@@ -127,9 +127,9 @@ export default Ember.Component.extend({
         this.$().blur();
       }
     });
-  }),
+  })),
   
-  focusAfterRender: Ember.on('didInsertElement', function () {
+  focusAfterRender: Ember.on('init', Ember.on('didInsertElement', function () {
     Ember.run.schedule('afterRender', this, function () {
       var position = this.get('position'),
         selected = this.get('selectedCellPosition');
@@ -142,7 +142,7 @@ export default Ember.Component.extend({
         this.$().focus();
       }
     });
-  }),
+  })),
 
   startEdition: function () {
     if (this.get('cell.isEditable')) {

@@ -10,6 +10,8 @@ export default Ember.Component.extend({
   editAfterInsertion: false,
   showEditorForSelectedCell: false,
   addNewRowLabel: 'Add new row',
+  showAddFirstRow: false,
+  showAddLastRow: false,
 
   actions: {
     navigate: function (direction) {
@@ -121,7 +123,8 @@ export default Ember.Component.extend({
       return;
     }
 
-    this.get('table').insertRow(index);
+    this.get('table').insertRow(index);  
+    
     if (typeof(nextPosition) === 'function') {
       nextPosition = nextPosition.apply(this);
     }
@@ -289,16 +292,14 @@ export default Ember.Component.extend({
     var position = this.get('selectedCellPosition');
     if (Ember.isNone(position) || Ember.isNone(position.row) || Ember.isNone(position.column)) {
       return;
-    }
-
+    }    
     if (position.row === -1) {
       return this.get('table.headers.cells')[position.column];
     }
     return this.get('table.body')[position.row].get('cells')[position.column];
   }),
 
-	updateSelection: Ember.observer('selectedCellPosition', function () {
-    
+	updateSelection: Ember.observer('selectedCell', function () {
     var previous = this.get('previouslySelectedCell'),
       cell = this.get('selectedCell');
 
