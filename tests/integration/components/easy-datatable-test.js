@@ -37,3 +37,16 @@ test('Basic test', function(assert) {
     ['Row 41', 'Row 42']
   ]);
 });
+
+test('Can add class to table tag', function(assert) {
+  assert.expect(5);
+  this.render(hbs`{{easy-datatable tableClasses='datatable table-bordered' table=table}}`);
+
+  assert.ok(find('.table').length !== 0, 'by default the table classes...');
+  assert.ok(find('.table-stripped').length !== 0, '...  are table table-stripped ...');
+  assert.ok(find('.table-collapsed').length !== 0, '... and table-collapsed');
+  
+  // by the user can add new ones
+  assert.ok(find('.datatable').length !== 0, 'the user can ...');
+  assert.ok(find('.table-bordered').length !== 0, '... add new classes for the table tage');
+});

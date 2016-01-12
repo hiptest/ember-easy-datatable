@@ -22,6 +22,9 @@ export default Ember.Object.extend({
   },
 
   columnCanMove: function (index) {
+    if (this.get('headers.cells')[index] === undefined) {
+      return false;
+    }
     return this.get('headers.cells')[index].get('isMovable');
   },
 
@@ -34,6 +37,9 @@ export default Ember.Object.extend({
   },
 
   rowCanMove: function (index) {
+    if (this.get('body')[index] === undefined) {
+      return false;
+    }
     return this.get('body')[index].get('cells').every(function (cell) {
       return cell.get('isMovable');
     });

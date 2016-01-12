@@ -12,6 +12,11 @@ export default Ember.Component.extend({
   addNewRowLabel: 'Add new row',
   showAddFirstRow: false,
   showAddLastRow: false,
+  tableClasses: '',
+
+  allTableClasses: Ember.computed('tableClasses', function () {
+    return 'table table-stripped table-collapsed ' + this.tableClasses;
+  }),
 
   actions: {
     navigate: function (direction) {
