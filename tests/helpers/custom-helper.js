@@ -80,7 +80,7 @@ var customHelpers = function() {
   Ember.Test.registerAsyncHelper('clickOnPlus', function(app, row, column) {
     var element = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').eq(column);
     element.focus();
-    click(element.find('.glyphicon-plus'));
+    click(element.find('.icon-plus'));
   });
 
   Ember.Test.registerAsyncHelper('clickOnPencil', function(app, row, column) {
