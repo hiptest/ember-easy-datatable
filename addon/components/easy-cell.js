@@ -168,6 +168,7 @@ export default Ember.Component.extend({
     save: function (newValue, postSaveAction) {
       var self = this;
 
+      self.get('targetObject'); // to force self.sendAction to know targetObject - bug ember ?
       this.validateValue(newValue).then(function (validatedNewValue) {
         if (self.get('isDestroyed')) {
           return;
