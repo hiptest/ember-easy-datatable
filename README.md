@@ -15,6 +15,8 @@ This README outlines the details of collaborating on this Ember addon.
 
 ## Running Tests
 
+In the browser: http://localhost:4200/tests
+
 * `npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
 * `ember test`
 * `ember test --server`

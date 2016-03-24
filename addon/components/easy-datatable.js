@@ -258,12 +258,20 @@ export default Ember.Component.extend({
 
   computeNavigateUpPosition: function () {
     var current = this.get('selectedCellPosition');
-    return this.fixPosition({row: current.row - 1, column: current.column});
+    return this.fixPosition(this.giveValidRowPosition(current, current.row - 1));
   },
 
   computeNavigateDownPosition: function () {
-    var current = this.get('selectedCellPosition');
-    return this.fixPosition({row: current.row + 1, column: current.column});
+    var current = this.get('selectedCellPosition');      
+    return this.fixPosition(this.giveValidRowPosition(current, current.row + 1));
+  },
+
+  giveValidRowPosition: function (current, new_row) {
+    var new_position = {row: new_row, column: current.column};
+    if (!this.isRowValid(new_position)) {
+      new_position = {row: current.row, column: current.column};
+    }
+    return new_position;
   },
 
   computeNavigateRightPosition: function () {

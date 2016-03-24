@@ -248,7 +248,7 @@ test('Cells with "isEditable" set to false can not be edited', function (assert)
 });
 
 test('Navigation based on enter', function (assert) {
-  assert.expect(7);
+  assert.expect(9);
 
   this.render(hbs`{{easy-datatable table=table}}`);
   assertDatatableContent(assert, [
@@ -288,4 +288,11 @@ test('Navigation based on enter', function (assert) {
   ]);
   assertSelectedDatatableCell(assert, 3, 2,
     'If the cell value is validated using shift+tab, then cell on the left is selected');
+  pressDownKeyInDatatable();
+  assertSelectedDatatableCell(assert, 4, 2,
+    'If the down key is used, then the down cell is selected');
+  typeInDatatable('a');
+  pressEnterInDatatable();
+  assertSelectedDatatableCell(assert, 4, 2,
+    'If the cell value is validated using enter but there is no new line, selection do not change');
 });

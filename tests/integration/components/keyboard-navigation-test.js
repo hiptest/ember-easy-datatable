@@ -104,11 +104,16 @@ test('Switching to other rows/columns when needed', function (assert) {
   pressDownKeyInDatatable();
   pressDownKeyInDatatable();
   pressDownKeyInDatatable();
-  assertSelectedDatatableCell(assert, 0, 1,
-    'Navigating down at the bottom of the table brings to the start of the next column');
-  pressUpKeyInDatatable();
   assertSelectedDatatableCell(assert, 4, 0,
-    'Navigating up at the beginning of a column bring at the bottom of the previous one');
+    'Navigating down at the bottom of the table do not move the selection');
+  pressRightKeyInDatatable();
+  pressUpKeyInDatatable();
+  pressUpKeyInDatatable();
+  pressUpKeyInDatatable();
+  pressUpKeyInDatatable();
+  pressUpKeyInDatatable();
+  assertSelectedDatatableCell(assert, 0, 1,
+    'Navigating up at the beginning of a column do not move the selection');
   clickOnDatatableCell(4, 4);
   pressEscInDatatable();
   pressRightKeyInDatatable();
