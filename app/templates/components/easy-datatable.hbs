@@ -1,10 +1,10 @@
-<table {{bind-attr class=allTableClasses}}>
+<table class={{allTableClasses}}>
   <thead>
-  	{{easy-row row=table.headers table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigate='navigate' manipulate="manipulate" highlightedRow=highlightedRow 
+  	{{easy-row row=table.headers table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigate='navigate' manipulate="manipulate" highlightedRow=highlightedRow
   	highlightedColumn=highlightedColumn}}
     {{#if showAddFirstRow}}
       <tr>
-        <th {{bind-attr colspan="table.headers.cells.length"}}>
+        <th colspan={{table.headers.cells.length}}>
           <a class="add-first-row" {{action 'addFirstRow'}}>
             <i class="icon-plus"></i> {{addNewRowLabel}}
           </a>
@@ -13,14 +13,14 @@
     {{/if}}
   </thead>
   <tbody>
-  {{#each row in table.body}}
+  {{#each table.body as |row|}}
   	{{easy-row row=row table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigate='navigate' manipulate="manipulate" highlightedRow=highlightedRow highlightedColumn=highlightedColumn}}
   {{/each}}
   </tbody>
   {{#if showAddLastRow}}
     <tfoot>
       <tr>
-        <th {{bind-attr colspan="table.headers.cells.length"}}>
+        <th colspan={{table.headers.cells.length}}>
           <a class="add-last-row" {{action 'addLastRow'}}>
             <i class="icon-plus"></i> {{addNewRowLabel}}
           </a>
