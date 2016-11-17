@@ -26,7 +26,7 @@ moduleForComponent('easy-datatable', 'Integration | Component | content edition'
 });
 
 test('Click and edit', function(assert) {
-  assert.expect(4);
+  assert.expect(5);
 
   this.render(hbs`{{easy-datatable table=table}}`);
 
@@ -38,6 +38,7 @@ test('Click and edit', function(assert) {
   ]);
   clickOnDatatableCell(1, 1);
   assertEditorShown(assert);
+  assertEditorContent(assert, "Row 0");
   typeInDatatable('This is my row');
   pressEnterInDatatable();
   clickOnDatatableCell(0, 0);

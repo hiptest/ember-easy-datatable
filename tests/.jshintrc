@@ -29,6 +29,7 @@
     "assertDatatableHeader",
     "assertEditorNotShown",
     "assertEditorShown",
+    "assertEditorContent",
     "assertHightlightedCellsText",
     "assertNoSelectedDatatableCell",
     "assertSelectedDatatableCell",
@@ -59,12 +60,6 @@
     "pressTabKeyInDatatable",
     "pressUpKeyInDatatable",
     "typeInDatatable"
-    
-    
-    
-    
-    
-
   ],
   "node": false,
   "browser": false,

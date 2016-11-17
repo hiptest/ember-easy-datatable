@@ -25,6 +25,10 @@ var customHelpers = function() {
 		assert.ok(getInputField().length === 1, message || 'Editor is displayed');
   });
 
+  Ember.Test.registerAsyncHelper('assertEditorContent', function (app, assert, content, message) {
+    assert.equal(getInputField().get(0).value, content, message || 'Editor has the correct content');
+  });
+
   Ember.Test.registerAsyncHelper('assertNoSelectedDatatableCell', function (app, assert, message) {
     assert.equal(getSelectedCell().length, 0, message || 'No cell is currently selected');
   });
