@@ -3,8 +3,8 @@ import Ember from 'ember';
 export default Ember.TextField.extend({
 	valueState: 'unmodified',  // valid values are 'unmodified', 'modified', 'saved'
 	oneWayValue: null,
-	valueBinding: Ember.computed.oneWay('oneWayValue'),  // so updating input value
-                                                      // does not update the originating value
+	value: Ember.computed.oneWay('oneWayValue'), // so updating input value
+                                               // does not update the originating value
   originalValue: Ember.computed('oneWayValue', function() {
     if (Ember.isNone(this.get('oneWayValue'))) {
       return this.get('oneWayValue');
