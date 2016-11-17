@@ -1,4 +1,5 @@
 # Ember-easy-datatable
+[![Build Status](https://travis-ci.org/hiptest/ember-easy-datatable.svg?branch=master)](https://travis-ci.org/hiptest/ember-easy-datatable)
 
 This README outlines the details of collaborating on this Ember addon.
 
