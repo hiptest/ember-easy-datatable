@@ -1,14 +1,14 @@
 {{#if cell.isIndex}}{{displayableIndex}}{{/if}}
 {{cell.value}}
-{{#if editorShown}}{{easy-editor 
-	oneWayValue=cell.value 
+{{#if editorShown}}{{easy-editor
+	oneWayValue=cell.value
 	navigate="navigate"
 	save="save"
 	stopEdition="stopEdition"
 	saveOnLeave="saveOnLeave"
 }}{{/if}}
 {{#if inError}}<div class="error">{{errorMessage}}</div>{{/if}}
-{{#if cell.showActions}}{{easy-cell-actions cell=cell position=position table=table manipulate='manipulate'}}{{/if}}
+{{#if cell.showActions}}{{easy-cell-actions cell=cell position=position table=table manipulate='manipulate' showDuplicateRow=showDuplicateRow}}{{/if}}
 {{#if cell.showAddLastColumn}}{{easy-cell-actions cell=cell position=position table=table manipulate='manipulate'}}
 {{/if}}
 {{#if cell.showAddFirstColumn}}{{easy-cell-actions cell=cell position=position table=table manipulate='manipulate'}}

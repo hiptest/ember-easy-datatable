@@ -7,8 +7,16 @@ table {
 }
 
 td, th {
+  position: relative;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+td input, th input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 td.highlighted {
@@ -19,11 +27,34 @@ th.highlighted {
   background-color: #ffb93e;
 }
 
-td.protected, th.protected {
+td.protected {
   background-color: #eee;
 }
 
-th.alert-danger input, td.alert-danger input {
+th.protected {
+  background-color: #eee;
+}
+th.alert-danger input {
   background-color: #f2dede;
   border-color: #ebccd1;
+}
+
+td.alert-danger input {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
+.full-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #ffffff;
+  overflow: scroll;
+}
+
+.easy-datatable-container.full-screen table {
+  table-layout: auto;
+  min-width: 100%;
 }

@@ -1,3 +1,6 @@
+{{#if showToolBar}}
+{{easy-toolbar isFullScreen=isFullScreen}}
+{{/if}}
 <table class={{allTableClasses}}>
   <thead>
   	{{easy-row row=table.headers table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigate='navigate' manipulate="manipulate" highlightedRow=highlightedRow
@@ -14,7 +17,7 @@
   </thead>
   <tbody>
   {{#each table.body as |row|}}
-  	{{easy-row row=row table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigate='navigate' manipulate="manipulate" highlightedRow=highlightedRow highlightedColumn=highlightedColumn}}
+  	{{easy-row row=row table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigate='navigate' manipulate="manipulate" highlightedRow=highlightedRow highlightedColumn=highlightedColumn showDuplicateRow=showDuplicateRow}}
   {{/each}}
   </tbody>
   {{#if showAddLastRow}}

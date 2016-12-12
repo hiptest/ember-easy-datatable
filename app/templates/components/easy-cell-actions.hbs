@@ -44,6 +44,12 @@
 </a>
 {{/if}}
 
+{{#if showDuplicateRowButton}}
+<a {{action 'manipulate' 'duplicateRow' row}}>
+  <i class="glyphicon glyphicon-circle-arrow-down" title="Duplicate row"></i>
+</a>
+{{/if}}
+
 {{#if showMoveColumnRightButton}}
 <a {{action 'manipulate' 'moveColumnRight' column}}>
   <i class="glyphicon glyphicon-arrow-right"></i>

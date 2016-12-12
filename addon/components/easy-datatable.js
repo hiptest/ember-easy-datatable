@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   tagName: 'div',
   classNames: ['easy-datatable-container'],
+  classNameBindings: ['isFullScreen:full-screen'],
 
   selectedCellPosition: null,
   previouslySelectedCell : null,
@@ -12,7 +13,10 @@ export default Ember.Component.extend({
   addNewRowLabel: 'Add new row',
   showAddFirstRow: false,
   showAddLastRow: false,
+  isFullScreen: false,
   tableClasses: '',
+  showToolBar: false,
+  showDuplicateRow: false,
 
   allTableClasses: Ember.computed('tableClasses', function () {
     return 'table table-stripped table-collapsed ' + this.tableClasses;
@@ -108,6 +112,13 @@ export default Ember.Component.extend({
       }
     },
 
+    duplicateRow : function (index) {
+      if (this.get('table').rowCanBeInserted(index+1)) {
+        this.insertRowAt(index+1, {row: index+1, column: 0});
+        this.get('table').populateClonedRowCells(index);
+      }
+    },
+
     moveColumnLeft: function (index) {
       if (this.get('table').columnCanMoveLeft(index)) {
         this.get('table').moveColumn(index, index - 1);
@@ -128,8 +139,8 @@ export default Ember.Component.extend({
       return;
     }
 
-    this.get('table').insertRow(index);  
-    
+    this.get('table').insertRow(index);
+
     if (typeof(nextPosition) === 'function') {
       nextPosition = nextPosition.apply(this);
     }
@@ -262,7 +273,7 @@ export default Ember.Component.extend({
   },
 
   computeNavigateDownPosition: function () {
-    var current = this.get('selectedCellPosition');      
+    var current = this.get('selectedCellPosition');
     return this.fixPosition(this.giveValidRowPosition(current, current.row + 1));
   },
 
@@ -305,7 +316,7 @@ export default Ember.Component.extend({
     var position = this.get('selectedCellPosition');
     if (Ember.isNone(position) || Ember.isNone(position.row) || Ember.isNone(position.column)) {
       return;
-    }    
+    }
     if (position.row === -1) {
       return this.get('table.headers.cells')[position.column];
     }

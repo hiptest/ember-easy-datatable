@@ -11,7 +11,7 @@ export default Ember.Component.extend({
 
   row: Ember.computed.alias('position.row'),
   column: Ember.computed.alias('position.column'),
-  
+
   showEditButton: Ember.computed.and('cell.isEditable', 'cell.showActions'),
 
   showColumnButtons: Ember.computed('row', 'cell.showActions', function () {
@@ -39,6 +39,8 @@ export default Ember.Component.extend({
   showRowButtons: Ember.computed('row', 'cell.showActions', function () {
     return this.get('row') !== -1 && this.get('cell.showActions');
   }),
+
+	showDuplicateRowButton: Ember.computed.and('showRowButtons', 'showDuplicateRow'),
 
   showRemoveRowButton: Ember.computed.and('showRowButtons', 'cell.isRemovable'),
 

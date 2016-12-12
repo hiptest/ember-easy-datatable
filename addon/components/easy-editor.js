@@ -58,20 +58,12 @@ export default Ember.TextField.extend({
   },
 
   placeAndFocusOnShow: Ember.on('didInsertElement', function () {
-    var selectedCell = this.$().closest('th, td'),
-      domElement = this.$().get(0),
+    var domElement = this.$().get(0),
       value = this.get('value') || '';
 
     // We need absolute positionning before checking the width/height of the cell
     // Otherwise, the input counts in the cell size
-    this.$()
-      .css({position: 'absolute'})
-      .css({
-        width: selectedCell.outerWidth(),
-        height: selectedCell.outerHeight(),
-        top: selectedCell.position().top,
-        left: selectedCell.position().left
-      }).focus();
+    this.$().focus();
 
     domElement.selectionStart = 0;
     domElement.selectionEnd = value.toString().length;

@@ -128,7 +128,7 @@ export default Ember.Component.extend({
       }
     });
   })),
-  
+
   focusAfterRender: Ember.on('init', Ember.on('didInsertElement', function () {
     Ember.run.schedule('afterRender', this, function () {
       var position = this.get('position'),

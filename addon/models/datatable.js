@@ -107,6 +107,18 @@ export default Ember.Object.extend({
     this.notifyPropertyChange('contentUpdated');
   },
 
+  populateClonedRowCells: function (index) {
+    let originalRowCells = this.get('body').objectAt(index).get('cells');
+    let originalRowValues = originalRowCells.filter(cell => !cell.isHeader).map(cell => cell.get('value'));
+    if(originalRowValues[0]){
+      originalRowValues[0] = `${originalRowValues[0]}_copy`;
+    } else {
+      originalRowValues[0] = `${index+1}_copy`;
+    }
+    this.get('body').objectAt(index+1).cells.filter(cell => !cell.isHeader).map((cell, index) => cell.set('value', originalRowValues.objectAt(index)));
+    this.notifyPropertyChange('contentUpdated');
+  },
+
   columnCanBeInserted: function (index) {
     if (this.get('canInsertColumns')) {
       if (index === 0) { return true; }
