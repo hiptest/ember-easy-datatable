@@ -1,5 +1,5 @@
 {{#if cell.isIndex}}{{displayableIndex}}{{/if}}
-{{cell.value}}
+<span class="datatable-cell-content">{{cell.value}}</span>
 {{#if editorShown}}{{easy-editor
 	oneWayValue=cell.value
 	navigate="navigate"
