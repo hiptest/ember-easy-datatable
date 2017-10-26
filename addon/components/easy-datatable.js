@@ -327,7 +327,7 @@ export default Ember.Component.extend({
     var previous = this.get('previouslySelectedCell'),
       cell = this.get('selectedCell');
 
-    if (!Ember.isNone(previous)) {
+    if (!Ember.isNone(previous)  && !previous.get('isDestroying')) {
       previous.set('isSelected', false);
     }
 
