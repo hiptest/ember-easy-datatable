@@ -11,8 +11,8 @@ export default Ember.Component.extend({
 
   actions : {
     navigate: function (direction) {
-  		this.sendAction('navigate', direction);
-  	},
+      this.sendAction('navigate', direction);
+    },
 
     manipulate: function (label, index) {
       this.sendAction('manipulate', label, index);
