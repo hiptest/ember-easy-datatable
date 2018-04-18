@@ -18,10 +18,6 @@ export default Ember.Component.extend({
   showToolBar: false,
   showDuplicateRow: false,
 
-  allTableClasses: Ember.computed('tableClasses', function () {
-    return 'table table-stripped table-collapsed ' + this.tableClasses;
-  }),
-
   actions: {
     navigate: function (direction) {
       this.send(direction);
