@@ -62,6 +62,27 @@ export default Ember.Component.extend({
     return this.get('table').rowCanMoveDown(row);
   }),
 
+  adjustArgumentsMenuPositionIfNecessary: Ember.on('didInsertElement', function () {
+    let self = this;
+
+    this.$().on('click', '.ht-dropdown__toggle', function (event) {
+      var menu = self.$('.ht-dropdown__menu'),
+        menuHeight = menu.height(),
+        menuVisY = $(window).height() - (menuHeight + event.pageY);
+      if (menuVisY < 0) {
+        menu.css({
+          top: 'initial',
+          bottom: '100%'
+        });
+      } else {
+        menu.css({
+          top: '',
+          bottom: ''
+        });
+      }
+    });
+  }),
+
   actions: {
     manipulate: function (label, index) {
       this.sendAction('manipulate', label, index);

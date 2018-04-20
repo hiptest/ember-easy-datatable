@@ -11,9 +11,9 @@ moduleForComponent('easy-datatable', 'Integration | Component | Edit after inser
   setup: function() {
     App = startApp();
     this.set('table', DatatableFactory.makeDatatable({
-      headers: [{value:'H1', showAddFirstColumn: true, isEditable: false}, 
-      'H2', 
-      'H3', 
+      headers: [{value:'H1', showAddFirstColumn: true, isEditable: false},
+      'H2',
+      'H3',
       {value:'H4', showAddLastColumn: true, isEditable: false}],
       body: [
         [
@@ -83,12 +83,13 @@ test('If option "editAfterInsertion" is set to true, the editor is shown after i
   assertSelectedDatatableCell(assert, 3, 3,
     'The first editable cell is selected (not the header) ...');
   assertEditorShown(assert, '... and the editor is shown');
-  click('a.add-last-row');
+  click('.t-add-new-row');
   assertSelectedDatatableCell(assert, 7, 3,
     'It also works when inserting last row ...');
   assertEditorShown(assert);
-  click('a.add-first-row');
-  assertSelectedDatatableCell(assert, 2, 3,
+  click('.t-add-new-row');
+
+  assertSelectedDatatableCell(assert, 8, 3,
     '... or the first row');
   assertEditorShown(assert);
 });

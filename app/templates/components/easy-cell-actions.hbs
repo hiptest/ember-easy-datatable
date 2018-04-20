@@ -1,57 +1,92 @@
-{{#if showMoveColumnLeftButton}}
-<a {{action 'manipulate' 'moveColumnLeft' column}}>
-  <i class="glyphicon glyphicon-arrow-left"></i>
-</a>
-{{/if}}
 
-{{#if showEditButton}}
-<i class="glyphicon glyphicon-pencil"></i>
-{{/if}}
+{{#if (gte position.row 0)}}
+  <div class="dropdown ht-dropdown--secondary-action ht-dropdown--move-left dropdown ht-dropdown t-row-actions-button">
+    <button class="dropdown-toggle ht-dropdown__toggle ht-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <i class="icon-options"></i>
+    </button>
 
-{{#if showAddFirstColumn}}
-<a class="add-first-column" {{action 'manipulate' 'addFirstColumn'}}>
-  <i class="icon-plus"></i>
-</a>
-{{/if}}
+    <div class="dropdown-menu ht-dropdown__menu dropdown-menu-right">
+      {{#if showRemoveRowButton}}
+        <a {{action 'manipulate' 'removeRow' row}} class="t-row-action-remove">
+          Remove
+        </a>
+      {{/if}}
 
-{{#if showAddLastColumn}}
-<a class="add-last-column" {{action 'manipulate' 'addLastColumn'}}>
-  <i class="icon-plus"></i>
-</a>
-{{/if}}
+      {{#if showMoveRowUpButton}}
+        <a {{action 'manipulate' 'moveRowUp' row}} class="t-row-action-move-up">
+          Move up
+        </a>
+      {{/if}}
 
-{{#if showRemoveColumnButton}}
-<a {{action 'manipulate' 'removeColumn' column}}>
-  <i class="glyphicon glyphicon-remove"></i>
-</a>
-{{/if}}
+      {{#if showMoveRowDownButton}}
+        <a {{action 'manipulate' 'moveRowDown' row}} class="t-row-action-move-down">
+          Move down
+        </a>
+      {{/if}}
 
-{{#if showRemoveRowButton}}
-<a {{action 'manipulate' 'removeRow' row}}>
-  <i class="glyphicon glyphicon-remove"></i>
-</a>
-{{/if}}
+      {{#if showDuplicateRowButton}}
+        <a {{action 'manipulate' 'duplicateRow' row}} class="t-row-action-duplicate">
+          Duplicate
+        </a>
+      {{/if}}
+    </div>
+  </div>
+{{else}}
+  {{#if showMoveColumnLeftButton}}
+  <a {{action 'manipulate' 'moveColumnLeft' column}}>
+    <i class="glyphicon glyphicon-arrow-left"></i>
+  </a>
+  {{/if}}
 
-{{#if showMoveRowUpButton}}
-<a {{action 'manipulate' 'moveRowUp' row}}>
-  <i class="glyphicon glyphicon-arrow-up"></i>
-</a>
-{{/if}}
+  {{#if showEditButton}}
+    <i class="glyphicon glyphicon-pencil"></i>
+  {{/if}}
 
-{{#if showMoveRowDownButton}}
-<a {{action 'manipulate' 'moveRowDown' row}}>
-  <i class="glyphicon glyphicon-arrow-down"></i>
-</a>
-{{/if}}
+  {{#if showAddFirstColumn}}
+  <a class="add-first-column" {{action 'manipulate' 'addFirstColumn'}}>
+    <i class="icon-plus"></i>
+  </a>
+  {{/if}}
 
-{{#if showDuplicateRowButton}}
-<a {{action 'manipulate' 'duplicateRow' row}}>
-  <i class="glyphicon glyphicon-circle-arrow-down" title="Duplicate row"></i>
-</a>
-{{/if}}
+  {{#if showAddLastColumn}}
+  <a class="add-last-column" {{action 'manipulate' 'addLastColumn'}}>
+    <i class="icon-plus"></i>
+  </a>
+  {{/if}}
 
-{{#if showMoveColumnRightButton}}
-<a {{action 'manipulate' 'moveColumnRight' column}}>
-  <i class="glyphicon glyphicon-arrow-right"></i>
-</a>
+  {{#if showRemoveColumnButton}}
+  <a {{action 'manipulate' 'removeColumn' column}}>
+    <i class="glyphicon glyphicon-remove"></i>
+  </a>
+  {{/if}}
+
+  {{#if showRemoveRowButton}}
+  <a {{action 'manipulate' 'removeRow' row}}>
+    <i class="glyphicon glyphicon-remove"></i>
+  </a>
+  {{/if}}
+
+  {{#if showMoveRowUpButton}}
+  <a {{action 'manipulate' 'moveRowUp' row}}>
+    <i class="glyphicon glyphicon-arrow-up"></i>
+  </a>
+  {{/if}}
+
+  {{#if showMoveRowDownButton}}
+  <a {{action 'manipulate' 'moveRowDown' row}}>
+    <i class="glyphicon glyphicon-arrow-down"></i>
+  </a>
+  {{/if}}
+
+  {{#if showDuplicateRowButton}}
+  <a {{action 'manipulate' 'duplicateRow' row}}>
+    <i class="glyphicon glyphicon-circle-arrow-down" title="Duplicate row"></i>
+  </a>
+  {{/if}}
+
+  {{#if showMoveColumnRightButton}}
+  <a {{action 'manipulate' 'moveColumnRight' column}}>
+    <i class="glyphicon glyphicon-arrow-right"></i>
+  </a>
+  {{/if}}
 {{/if}}

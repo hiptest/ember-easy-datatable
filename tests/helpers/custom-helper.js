@@ -46,15 +46,16 @@ var customHelpers = function() {
   });
 
   Ember.Test.registerAsyncHelper('clickOnDatatableCell', function(app, row, column) {
+
     var element = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').eq(column);
     element.focus();
     click(element);
   });
 
-  
+
   Ember.Test.registerAsyncHelper('clickOnMoveDownRow', function(app, row) {
-    var cell = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last(),
-      element = cell.find('.glyphicon-arrow-down');
+    var cell = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last();
+    let element = cell.find('.t-row-action-move-down');
     cell.focus();
     click(element);
   });
@@ -75,12 +76,13 @@ var customHelpers = function() {
   });
 
   Ember.Test.registerAsyncHelper('clickOnMoveUpRow', function(app, row) {
-    var cell = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last(),
-      element = cell.find('.glyphicon-arrow-up');
+
+    let cell = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last();
+    let element = cell.find('.t-row-action-move-up');
     cell.focus();
     click(element);
   });
-  
+
   Ember.Test.registerAsyncHelper('clickOnPlus', function(app, row, column) {
     var element = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').eq(column);
     element.focus();
@@ -101,8 +103,8 @@ var customHelpers = function() {
   });
 
   Ember.Test.registerAsyncHelper('clickOnRemoveRow', function(app, row) {
-    var cell = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last(),
-      element = cell.find('.glyphicon-remove');
+    let cell = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last();
+    let element = cell.find('.t-row-action-remove');
     cell.focus();
     click(element);
   });
@@ -154,15 +156,15 @@ var customHelpers = function() {
   Ember.Test.registerAsyncHelper('pressCtrlDelKeyInDatatable', function () {
    pressKey(46, true);
   });
-  
+
   Ember.Test.registerAsyncHelper('pressCtrlInserKeyInDatatable', function () {
    pressKey(45, true);
   });
-  
+
   Ember.Test.registerAsyncHelper('pressTabKeyInDatatable', function () {
    pressKey(9);
   });
-  
+
   Ember.Test.registerAsyncHelper('pressShiftTabKeyInDatatable', function () {
    pressKey(9, false, true);
   });
@@ -220,7 +222,7 @@ var customHelpers = function() {
     return find('th.selected, td.selected').eq(0);
   });
 
-  
+
   function getHighlightedCellsText () {
     return find('td.highlighted, th.highlighted').map(function () {
       return $(this).text().trim();

@@ -7,9 +7,18 @@
 	stopEdition="stopEdition"
 	saveOnLeave="saveOnLeave"
 }}{{/if}}
-{{#if inError}}<div class="error">{{errorMessage}}</div>{{/if}}
-{{#if cell.showActions}}{{easy-cell-actions cell=cell position=position table=table manipulate='manipulate' showDuplicateRow=showDuplicateRow}}{{/if}}
-{{#if cell.showAddLastColumn}}{{easy-cell-actions cell=cell position=position table=table manipulate='manipulate'}}
+{{#if inError}}
+    <div class="error">{{errorMessage}}</div>
 {{/if}}
-{{#if cell.showAddFirstColumn}}{{easy-cell-actions cell=cell position=position table=table manipulate='manipulate'}}
+
+{{#if cell.showActions}}
+  {{easy-cell-actions cell=cell position=position table=table manipulate='manipulate' showDuplicateRow=showDuplicateRow}}
+{{/if}}
+
+{{#if cell.showAddLastColumn}}
+  {{easy-cell-actions cell=cell position=position table=table manipulate='manipulate'}}
+{{/if}}
+
+{{#if cell.showAddFirstColumn}}
+  {{easy-cell-actions cell=cell position=position table=table manipulate='manipulate'}}
 {{/if}}

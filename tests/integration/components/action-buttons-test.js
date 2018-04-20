@@ -12,11 +12,11 @@ moduleForComponent('easy-datatable', 'Integration | Component | Action buttons',
     App = startApp();
     this.set('table', DatatableFactory.makeDatatable({
       headers: [
-        {isEditable: false, value: '', showAddFirstColumn: true}, 
-        'Name', 
-        {value: 'Value 1', showActions: true}, 
-        {value: 'Value 2', showActions: true}, 
-        {value: 'Value 3', showActions: true}, 
+        {isEditable: false, value: '', showAddFirstColumn: true},
+        'Name',
+        {value: 'Value 1', showActions: true},
+        {value: 'Value 2', showActions: true},
+        {value: 'Value 3', showActions: true},
         {isEditable: false, value: '', showAddLastColumn: true, canInsertColumnAfter: false}],
       body: [
         [{isHeader: true, value: '#0'}, 'Row 0', 0, 10, 20, {isHeader: true, showActions: true, isEditable: false}],
@@ -61,6 +61,7 @@ test('Click to move up a row', function(assert) {
 
   this.render(hbs`{{easy-datatable table=table}}`);
   clickOnMoveUpRow(2);
+
   assertDatatableContent(assert, [
     ['Row 1', '1', '11', '21'],
     ['Row 0', '0', '10', '20'],
@@ -124,7 +125,7 @@ test('Click to move left a column', function(assert) {
   assertDatatableContent(assert, [
     ['Row 0', '0', '20', '10'],
     ['Row 1', '1', '21', '11'],
-    ['Row 2', '2', '22', '12'],    
+    ['Row 2', '2', '22', '12'],
     ['Row 3', '3', '23', '13']
   ], 'The column is deleted');
 });
@@ -138,7 +139,7 @@ test('Click to add a new last column', function(assert) {
   assertDatatableContent(assert, [
     ['Row 0', '0', '10', '20', ''],
     ['Row 1', '1', '11', '21', ''],
-    ['Row 2', '2', '12', '22', ''],    
+    ['Row 2', '2', '12', '22', ''],
     ['Row 3', '3', '13', '23', '']
   ], 'A new column is added at the end of the datatable');
   assertSelectedDatatableCell(assert, 0, 5,
@@ -238,7 +239,7 @@ test('Add last row', function (assert) {
   assert.expect(3);
 
   this.render(hbs`{{easy-datatable table=table showAddLastRow=true addNewRowLabel='Add new row'}}`);
-  click('a:contains("Add new row")');
+  click('.t-add-new-row');
   assertDatatableContent(assert, [
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
@@ -253,7 +254,7 @@ test('Add last row', function (assert) {
       row.set('cells.firstObject.canInsertRowAfter', index <= 1);
     });
   });
-  click('a:contains("Add new row")');
+  click('.t-add-new-row');
   assertDatatableContent(assert, [
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
@@ -268,7 +269,7 @@ test('Add first row', function (assert) {
   assert.expect(2);
 
   this.render(hbs`{{easy-datatable table=table showAddFirstRow=true addNewRowLabel='Add new row'}}`);
-  
+
   click('a:contains("Add new row")');
   assertDatatableContent(assert, [
     ['', '', '', ''],
