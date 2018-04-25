@@ -1,34 +1,33 @@
 {{#if showToolBar}}
 {{easy-toolbar isFullScreen=isFullScreen}}
 {{/if}}
-<table class={{tableClasses}}>
-  <thead>
-  	{{easy-row row=table.headers table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigate='navigate' manipulate="manipulate" highlightedRow=highlightedRow
-  	highlightedColumn=highlightedColumn}}
-    {{#if showAddFirstRow}}
-      <tr>
-        <th colspan={{table.headers.cells.length}}>
-          <a class="add-first-row" {{action 'addFirstRow'}}>
-            <i class="icon-plus"></i> {{addNewRowLabel}}
-          </a>
-        </th>
-      </tr>
-    {{/if}}
-  </thead>
-  <tbody>
-  {{#each table.body as |row|}}
-  	{{easy-row row=row table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigate='navigate' manipulate="manipulate" highlightedRow=highlightedRow highlightedColumn=highlightedColumn showDuplicateRow=showDuplicateRow}}
-  {{/each}}
-  </tbody>
-  {{#if showAddLastRow}}
-    <tfoot>
-      <tr>
-        <th colspan={{table.headers.cells.length}}>
-          <button class="ht-btn ht-btn--secondary add-last-row t-add-new-row" {{action 'addLastRow'}}>
-            {{addNewRowLabel}}
-          </button>
-        </th>
-      </tr>
-    </tfoot>
-  {{/if}}
-</table>
+<div class="easy-datatable-subcontainer">
+  <table class={{tableClasses}}>
+    <thead>
+      {{easy-row row=table.headers table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigate='navigate' manipulate="manipulate" highlightedRow=highlightedRow
+      highlightedColumn=highlightedColumn}}
+      {{#if showAddFirstRow}}
+        <tr>
+          <th colspan={{table.headers.cells.length}}>
+            <a class="add-first-row" {{action 'addFirstRow'}}>
+              <i class="icon-plus"></i> {{addNewRowLabel}}
+            </a>
+          </th>
+        </tr>
+      {{/if}}
+    </thead>
+    <tbody>
+    {{#each table.body as |row|}}
+      {{easy-row row=row table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigate='navigate' manipulate="manipulate" highlightedRow=highlightedRow highlightedColumn=highlightedColumn showDuplicateRow=showDuplicateRow}}
+    {{/each}}
+    </tbody>
+
+  </table>
+</div>
+{{#if showAddLastRow}}
+  <div class="add-row">
+    <button class="ht-btn ht-btn--secondary add-last-row t-add-new-row" {{action 'addLastRow'}}>
+      {{addNewRowLabel}}
+    </button>
+  </div>
+{{/if}}
