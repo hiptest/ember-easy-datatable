@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   classNames: ['easy-datatable-container'],
   classNameBindings: ['isFullScreen:full-screen'],
 
-  selectedCellPosition: null,
+  selectedCellPosition: {},
   previouslySelectedCell : null,
 
   editAfterInsertion: false,
