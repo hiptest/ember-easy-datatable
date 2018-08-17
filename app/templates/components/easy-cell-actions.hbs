@@ -1,36 +1,40 @@
 
 {{#if (gte position.row 0)}}
-  <div class="dropdown ht-dropdown--secondary-action ht-dropdown--move-left dropdown ht-dropdown t-row-actions-button">
-    <button class="dropdown-toggle ht-dropdown__toggle ht-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <i class="icon-options"></i>
-    </button>
+  {{#basic-dropdown  as |dropdown|}}
+    {{#dropdown.trigger class="ht-dropdown--secondary-action"}}
+      <button class="ht-dropdown__toggle ht-btn t-dropdown-toggle" type="button">
+        <i class="icon-options"></i>
+      </button>
+    {{/dropdown.trigger}}
 
-    <div class="dropdown-menu ht-dropdown__menu dropdown-menu-right">
-      {{#if showRemoveRowButton}}
-        <a {{action 'manipulate' 'removeRow' row}} class="t-row-action-remove">
-          Remove
-        </a>
-      {{/if}}
+    {{#dropdown.content}}
+      <div  class="ht-dropdown--content-bootstrap-feel ht-dropdown__menu" {{action dropdown.actions.close}}>
+        {{#if showRemoveRowButton}}
+          <a {{action 'manipulate' 'removeRow' row}} class="t-row-action-remove">
+            Remove
+          </a>
+        {{/if}}
 
-      {{#if showMoveRowUpButton}}
-        <a {{action 'manipulate' 'moveRowUp' row}} class="t-row-action-move-up">
-          Move up
-        </a>
-      {{/if}}
+        {{#if showMoveRowUpButton}}
+          <a {{action 'manipulate' 'moveRowUp' row}} class="t-row-action-move-up">
+            Move up
+          </a>
+        {{/if}}
 
-      {{#if showMoveRowDownButton}}
-        <a {{action 'manipulate' 'moveRowDown' row}} class="t-row-action-move-down">
-          Move down
-        </a>
-      {{/if}}
+        {{#if showMoveRowDownButton}}
+          <a {{action 'manipulate' 'moveRowDown' row}} class="t-row-action-move-down">
+            Move down
+          </a>
+        {{/if}}
 
-      {{#if showDuplicateRowButton}}
-        <a {{action 'manipulate' 'duplicateRow' row}} class="t-row-action-duplicate">
-          Duplicate
-        </a>
-      {{/if}}
-    </div>
-  </div>
+        {{#if showDuplicateRowButton}}
+          <a {{action 'manipulate' 'duplicateRow' row}} class="t-row-action-duplicate">
+            Duplicate
+          </a>
+        {{/if}}
+      </div>
+    {{/dropdown.content}}
+  {{/basic-dropdown}}
 {{else}}
   {{#if showMoveColumnLeftButton}}
   <a {{action 'manipulate' 'moveColumnLeft' column}}>

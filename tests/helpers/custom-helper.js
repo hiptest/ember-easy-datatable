@@ -54,10 +54,12 @@ var customHelpers = function() {
 
 
   Ember.Test.registerAsyncHelper('clickOnMoveDownRow', function(app, row) {
-    var cell = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last();
-    let element = cell.find('.t-row-action-move-down');
-    cell.focus();
-    click(element);
+    let cell = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last();
+    let element = cell.find('.t-dropdown-toggle');
+
+    return click(element).then(() => {
+      return click('.t-row-action-move-down');
+    });
   });
 
   Ember.Test.registerAsyncHelper('clickOnMoveLeftColumn', function(app, columnIndex) {
@@ -78,9 +80,11 @@ var customHelpers = function() {
   Ember.Test.registerAsyncHelper('clickOnMoveUpRow', function(app, row) {
 
     let cell = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last();
-    let element = cell.find('.t-row-action-move-up');
-    cell.focus();
-    click(element);
+    let element = cell.find('.t-dropdown-toggle');
+
+    return click(element).then(() => {
+      return click('.t-row-action-move-up');
+    });
   });
 
   Ember.Test.registerAsyncHelper('clickOnPlus', function(app, row, column) {
