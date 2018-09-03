@@ -108,9 +108,12 @@ var customHelpers = function() {
 
   Ember.Test.registerAsyncHelper('clickOnRemoveRow', function(app, row) {
     let cell = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last();
-    let element = cell.find('.t-row-action-remove');
-    cell.focus();
-    click(element);
+    let dropdown = cell.find('.t-dropdown-toggle');
+    return click(dropdown).then(() => {
+      let removeAction = find('.t-row-action-remove');
+
+      return click(removeAction);
+    });
   });
 
   Ember.Test.registerAsyncHelper('debug', function () {
