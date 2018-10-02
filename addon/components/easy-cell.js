@@ -1,10 +1,10 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-	cell: null,
-	row: null,
+  cell: null,
+  row: null,
   table: null,
-	rowIndex: null,
+  rowIndex: null,
   editorShown: false,
   inError: Ember.computed.notEmpty('errorMessage'),
   errorMessage: '',
@@ -24,7 +24,7 @@ export default Ember.Component.extend({
   attributeBindings: ['tabindex'],
   tabindex: 1,
 
-	displayableIndex: Ember.computed('position', function () {
+  displayableIndex: Ember.computed('position', function () {
     return this.get('position.row') + 1;
   }),
 
@@ -203,6 +203,26 @@ export default Ember.Component.extend({
         }
         self.send('stopEdition');
       });
+    },
+
+    open(dropdown, e) {
+      if (this.closeTimer) {
+        Ember.run.cancel(this.closeTimer);
+        this.closeTimer = null;
+      } else {
+        dropdown.actions.open(e);
+      }
+    },
+
+    closeLater(dropdown, e) {
+      this.closeTimer = Ember.run.later(() => {
+        this.closeTimer = null;
+          dropdown.actions.close(e);
+      }, 100);
+    },
+
+    closeAfterAction(dropdown) {
+      dropdown.actions.close();
     }
   },
 
@@ -215,7 +235,7 @@ export default Ember.Component.extend({
     // is it a promise? (async validation)
     if (isValid instanceof Ember.RSVP.Promise) {
       return isValid;
-    // no, so it is a boolean (sync validation)
+      // no, so it is a boolean (sync validation)
     } else if (isValid) {
       return Ember.RSVP.Promise.resolve(value);
     } else {
@@ -230,4 +250,15 @@ export default Ember.Component.extend({
   inHighlightedColumn: Ember.computed('position', 'highlightedColumn', function () {
     return this.get('position.column') === this.get('highlightedColumn');
   }),
+
+  calculatePosition(trigger, content) {
+    let {top, left, height} = trigger.getBoundingClientRect();
+    let {height: contentHeight, width: contentWidth} = content.getBoundingClientRect();
+    let style = {
+      left: left - contentWidth,
+      top: top + window.pageYOffset + (height / 2) - (contentHeight / 2)
+    };
+
+    return {style};
+  },
 });

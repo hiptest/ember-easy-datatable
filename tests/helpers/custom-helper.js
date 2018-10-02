@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { hoverTrigger } from "./ember-basic-dropdown-helpers";
 
 var customHelpers = function() {
   Ember.Test.registerAsyncHelper('assertCurrentCellHasError', function (app, assert, message) {
@@ -54,37 +55,42 @@ var customHelpers = function() {
 
 
   Ember.Test.registerAsyncHelper('clickOnMoveDownRow', function(app, row) {
-    let cell = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last();
-    let element = cell.find('.t-dropdown-toggle');
+    let context = Ember.String.fmt('tr:nth-child(%@)', row) + ' td:last-child,' + Ember.String.fmt('tr:nth-child(%@)', row) + ' th:last-child';
+    hoverTrigger(context, {i: 0});
 
-    return click(element).then(() => {
-      return click('.t-row-action-move-down');
-    });
+    let action = find('.t-row-action-move-down');
+
+    return click(action);
   });
 
   Ember.Test.registerAsyncHelper('clickOnMoveLeftColumn', function(app, columnIndex) {
-    var cell = find(Ember.String.fmt('tr:nth(0)')).find('td, th').eq(columnIndex),
-      element = cell.find('.glyphicon-arrow-left');
-    cell.focus();
-    click(element);
+    let context = Ember.String.fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + Ember.String.fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1);
+
+    hoverTrigger(context, {span: 0});
+
+    let action = find('.t-column-action-move-left');
+
+    return click(action);
   });
 
 
   Ember.Test.registerAsyncHelper('clickOnMoveRightColumn', function(app, columnIndex) {
-    var cell = find(Ember.String.fmt('tr:nth(0)')).find('td, th').eq(columnIndex),
-      element = cell.find('.glyphicon-arrow-right');
-    cell.focus();
-    click(element);
+    let context = Ember.String.fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + Ember.String.fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1);
+
+    hoverTrigger(context, {span: 0});
+
+    let action = find('.t-column-action-move-right');
+
+    return click(action);
   });
 
   Ember.Test.registerAsyncHelper('clickOnMoveUpRow', function(app, row) {
+    let context = Ember.String.fmt('tr:nth-child(%@)', row) + ' td:last-child,' + Ember.String.fmt('tr:nth-child(%@)', row) + ' th:last-child';
+    hoverTrigger(context, {i: 0});
 
-    let cell = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last();
-    let element = cell.find('.t-dropdown-toggle');
+    let action = find('.t-row-action-move-up');
 
-    return click(element).then(() => {
-      return click('.t-row-action-move-up');
-    });
+    return click(action);
   });
 
   Ember.Test.registerAsyncHelper('clickOnPlus', function(app, row, column) {
@@ -94,26 +100,31 @@ var customHelpers = function() {
   });
 
   Ember.Test.registerAsyncHelper('clickOnPencil', function(app, row, column) {
-    var element = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').eq(column);
-    element.focus();
-    click(element.find('.glyphicon-pencil'));
+    let context = Ember.String.fmt('thead tr:nth-child(%@) td:nth-child(%@)', row, column + 1) + ', ' + Ember.String.fmt('thead tr:nth-child(%@) th:nth-child(%@)', row, column + 1);
+
+    hoverTrigger(context, {span: 0});
+debugger
+    let action = find('.t-cell-action-edit');
+    return click(action);
   });
 
   Ember.Test.registerAsyncHelper('clickOnRemoveColumn', function(app, columnIndex) {
-    var cell = find(Ember.String.fmt('tr:first-child')).find('td, th').eq(columnIndex),
-      element = cell.find('.glyphicon-remove');
-    cell.focus();
-    click(element);
+    let context = Ember.String.fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + Ember.String.fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1);
+
+    hoverTrigger(context, {span: 0});
+
+    let action = find('.t-column-action-remove');
+
+    return click(action);
   });
 
   Ember.Test.registerAsyncHelper('clickOnRemoveRow', function(app, row) {
-    let cell = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').last();
-    let dropdown = cell.find('.t-dropdown-toggle');
-    return click(dropdown).then(() => {
-      let removeAction = find('.t-row-action-remove');
+    let context = Ember.String.fmt('tr:nth-child(%@)', row) + ' td:last-child,' + Ember.String.fmt('tr:nth-child(%@)', row) + ' th:last-child';
+    hoverTrigger(context, {i: 0});
 
-      return click(removeAction);
-    });
+    let removeAction = find('.t-row-action-remove');
+
+    return click(removeAction);
   });
 
   Ember.Test.registerAsyncHelper('debug', function () {

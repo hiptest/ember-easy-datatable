@@ -4,10 +4,6 @@ export default Ember.Component.extend({
 	position: null,
 	cell: null,
 	table: null,
-	classNameBindings: [
-    'showColumnButtons:datatable-column-actions',
-    'showRowButtons:datatable-row-actions'
-  ],
 
   row: Ember.computed.alias('position.row'),
   column: Ember.computed.alias('position.column'),
@@ -86,6 +82,6 @@ export default Ember.Component.extend({
   actions: {
     manipulate: function (label, index) {
       this.sendAction('manipulate', label, index);
-    }
+    },
   }
 });
