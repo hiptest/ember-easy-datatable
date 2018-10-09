@@ -212,12 +212,14 @@ export default Ember.Component.extend({
       } else {
         dropdown.actions.open(e);
       }
+
+      this.focusIn();
     },
 
     closeLater(dropdown, e) {
       this.closeTimer = Ember.run.later(() => {
         this.closeTimer = null;
-          dropdown.actions.close(e);
+        dropdown.actions.close(e);
       }, 100);
     },
 
