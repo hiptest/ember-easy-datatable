@@ -1,9 +1,8 @@
-import Ember from 'ember';
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import hbs from 'htmlbars-inline-precompile';
 import startApp from '../../helpers/start-app';
 import { test, moduleForComponent } from 'ember-qunit';
-
+import { run } from '@ember/runloop'
 var App;
 
 moduleForComponent('easy-datatable', 'Integration | Component | content edition', {
@@ -17,11 +16,11 @@ moduleForComponent('easy-datatable', 'Integration | Component | content edition'
         [{isHeader: true, value: '#1'}, 'Row 1', 1, 11, 21],
         [{isHeader: true, value: '#2'}, 'Row 2', 2, 12, 22],
         [{isHeader: true, value: '#3'}, 'Row 3', 3, 13, 23]
-      ]    
+      ]
     }));
   },
   teardown: function() {
-    Ember.run(App, 'destroy');
+    run(App, 'destroy');
   }
 });
 
@@ -54,7 +53,7 @@ test('Click and edit', function(assert) {
 test('Cell validation is called only once when pressing Enter key', function (assert) {
   var count = 0;
   assert.expect(3);
-  
+
   this.get('table').reopen({
     validateCell: function () {
       count += 1;

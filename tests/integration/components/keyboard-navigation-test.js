@@ -1,8 +1,8 @@
-import Ember from 'ember';
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import hbs from 'htmlbars-inline-precompile';
 import startApp from '../../helpers/start-app';
 import { test, moduleForComponent } from 'ember-qunit';
+import { run } from '@ember/runloop'
 
 var App;
 
@@ -17,11 +17,11 @@ moduleForComponent('easy-datatable', 'Integration | Component | keyboard navigat
       [{isHeader: true, value: '#1'}, 'Row 1', 1, 11, 21],
       [{isHeader: true, value: '#2'}, 'Row 2', 2, 12, 22],
       [{isHeader: true, value: '#3'}, 'Row 3', 3, 13, 23]
-    ]   
+    ]
   }));
   },
   teardown: function() {
-    Ember.run(App, 'destroy');
+    run(App, 'destroy');
   }
 });
 

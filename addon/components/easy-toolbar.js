@@ -1,9 +1,10 @@
-import Ember from 'ember';
+import Component from '@ember/component'
+import { computed } from '@ember/object'
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'ul',
   classNames: ['toolbar'],
-  screenSwitchProps: Ember.computed('isFullScreen', function () {
+  screenSwitchProps: computed('isFullScreen', function () {
     return this.get('isFullScreen') ? {
       label: "Back to normal mode",
       icon: "icon-size-actual"

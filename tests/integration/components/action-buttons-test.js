@@ -2,7 +2,8 @@ import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
 import startApp from '../../helpers/start-app';
-import Ember from 'ember';
+import { run } from '@ember/runloop'
+import { Promise } from 'rsvp'
 
 var App;
 
@@ -40,7 +41,7 @@ moduleForComponent('easy-datatable', 'Integration | Component | Action buttons',
     }));
   },
   teardown: function() {
-    Ember.run(App, 'destroy');
+    run(App, 'destroy');
   }
 });
 
@@ -181,8 +182,8 @@ test('Validate to true a cell asynchronously and remove the row before validatio
 
   this.get('table').reopen({
     validateCell: function(cell, position, value) {
-      return new Ember.RSVP.Promise(function (resolve) {
-        Ember.run.later(function () {
+      return new Promise(function (resolve) {
+        run.later(function () {
           resolve(value);
         }, 0);
       });
@@ -212,8 +213,8 @@ test('Validate to false a cell asynchronously and remove the row before validati
 
   this.get('table').reopen({
     validateCell: function() {
-      return new Ember.RSVP.Promise(function (resolve, reject) {
-        Ember.run.later(function () {
+      return new Promise(function (resolve, reject) {
+        run.later(function () {
           reject("this value is invalid");
         }, 0);
       });

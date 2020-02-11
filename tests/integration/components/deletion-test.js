@@ -1,9 +1,8 @@
-import Ember from 'ember';
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import hbs from 'htmlbars-inline-precompile';
 import startApp from '../../helpers/start-app';
 import { test, moduleForComponent } from 'ember-qunit';
-
+import { run } from '@ember/runloop'
 var App;
 
 moduleForComponent('easy-datatable', 'Integration | Component | deletion', {
@@ -21,15 +20,15 @@ moduleForComponent('easy-datatable', 'Integration | Component | deletion', {
     }));
   },
   teardown: function() {
-    Ember.run(App, 'destroy');
+    run(App, 'destroy');
   }
 });
 
 test('Removing a row', function(assert) {
   assert.expect(7);
-  
+
   this.render(hbs`{{easy-datatable table=table}}`);
-  
+
   assertDatatableContent(assert, [
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],

@@ -1,18 +1,21 @@
-import Ember from 'ember';
-
-export default Ember.Component.extend({
+import { computed, observer } from '@ember/object'
+import Component from '@ember/component'
+import { isNone } from '@ember/utils'
+import { schedule, cancel, later } from '@ember/runloop'
+import { Promise } from 'rsvp'
+export default Component.extend({
   cell: null,
   row: null,
   table: null,
   rowIndex: null,
   editorShown: false,
-  inError: Ember.computed.notEmpty('errorMessage'),
+  inError: computed.notEmpty('errorMessage'),
   errorMessage: '',
   showEditorForSelectedCell: null,
   highlightedRow: null,
   highlightedColumn: null,
   selectedCellPosition: null,
-  isHighlighted: Ember.computed.or('inHighlightedRow', 'inHighlightedColumn'),
+  isHighlighted: computed.or('inHighlightedRow', 'inHighlightedColumn'),
   classNameBindings: [
     'cell.isEditable::protected',
     'cell.isSelected:selected',
@@ -24,18 +27,18 @@ export default Ember.Component.extend({
   attributeBindings: ['tabindex'],
   tabindex: 1,
 
-  displayableIndex: Ember.computed('position', function () {
+  displayableIndex: computed('position', function () {
     return this.get('position.row') + 1;
   }),
 
-  focusIn: function () {
+  focusIn() {
     if (this.get('cell.isSelected')) {
       return;
     }
     this.set('selectedCellPosition', this.get('position'));
   },
 
-  keyDown: function (event) {
+  keyDown(event) {
     if (event.ctrlKey) {
       if (this.get('cell.isHeader')) {
         this.keyManipulation(event);
@@ -45,7 +48,7 @@ export default Ember.Component.extend({
     }
   },
 
-  keyNavigation: function (event) {
+  keyNavigation(event) {
     var mapping = {
         37: 'navigateLeft',
         38: 'navigateUp',
@@ -58,14 +61,14 @@ export default Ember.Component.extend({
       action = event.shiftKey ? 'navigateLeft' : 'navigateRight';
     }
 
-    if (!Ember.isNone(action)) {
+    if (!isNone(action)) {
       event.preventDefault();
-      this.sendAction('navigate', action);
+      this.get('navigate')(action);
       return true;
     }
   },
 
-  keyManipulation: function (event) {
+  keyManipulation(event) {
     var mapping, action;
     if (this.get('position.row') === -1) {
       var column_index = this.get('position.column');
@@ -86,86 +89,67 @@ export default Ember.Component.extend({
     }
 
     action = mapping[event.which];
-    if (!Ember.isNone(action)) {
-      this.sendAction('manipulate', action.label, action.index);
+    if (!isNone(action)) {
+      this.get('manipulate')(action.label, action.index)
     }
   },
 
-  columnIndex: Ember.computed('cell', 'row.cells.[]', function () {
+  columnIndex: computed('cell', 'row.cells.[]', function () {
     return this.get('row.cells').indexOf(this.get('cell'));
   }),
 
-  position: Ember.computed('rowIndex', 'columnIndex', function () {
+  position: computed('rowIndex', 'columnIndex', function () {
     return {
       row: this.get('rowIndex'),
       column: this.get('columnIndex')
     };
   }),
 
-  click: function () {
-    this.startEdition();
-  },
-
-  startEditionWhenAsked: Ember.on('init', Ember.observer('showEditorForSelectedCell', function () {
-    Ember.run.schedule('afterRender', this, function () {
+  startEditionWhenAsked: observer('showEditorForSelectedCell', function () {
+    schedule('afterRender', this, function () {
       if (this.get('cell.isSelected') && !this.get('editorShown') && this.get('showEditorForSelectedCell')) {
         this.startEdition();
         this.set('showEditorForSelectedCell', false);
       }
     });
-  })),
+  }),
 
-  focusWhenSelected: Ember.on('init', Ember.observer('cell.isSelected', function () {
-    Ember.run.schedule('afterRender', this, function () {
-      if (Ember.isNone(this.$())) {
-        return;
-      }
+  changeFocusOnSelectionChanged: observer('cell.isSelected', function () {
+    this._handleFocusState()
+  }),
 
-      if (this.get('cell.isSelected') && !this.get('editorShown')) {
-        this.$().focus();
-      } else {
-        this.$().blur();
-      }
-    });
-  })),
+  didRender() {
+    this._super(...arguments)
+    this._focusOnCell()
+  },
 
-  focusAfterRender: Ember.on('init', Ember.on('didInsertElement', function () {
-    Ember.run.schedule('afterRender', this, function () {
-      var position = this.get('position'),
-        selected = this.get('selectedCellPosition');
+  click() {
+    this.startEdition();
+  },
 
-      if (this.get('editorShown') || Ember.isNone(selected)) {
-        return;
-      }
 
-      if (position.row === selected.row && position.column === selected.column) {
-        this.$().focus();
-      }
-    });
-  })),
-
-  startEdition: function () {
+  startEdition() {
     if (this.get('cell.isEditable')) {
       this.set('editorShown', true);
     }
   },
 
   actions: {
-    navigate: function (direction) {
-      this.sendAction('navigate', direction);
+    navigate(direction) {
+      this.get('navigate')(direction);
     },
 
-    manipulate: function (label, index) {
-      this.sendAction('manipulate', label, index);
+    manipulate(label, index) {
+      this.get('manipulate')(label, index);
     },
 
-    stopEdition: function () {
+    stopEdition() {
       this.set('errorMessage', '');
       this.set('editorShown', false);
       this.notifyPropertyChange('cell.isSelected');
     },
 
-    save: function (newValue, postSaveAction) {
+    save(newValue, postSaveAction) {
       var self = this;
 
       self.get('targetObject'); // to force self.sendAction to know targetObject - bug ember ?
@@ -176,7 +160,7 @@ export default Ember.Component.extend({
         self.set('cell.value', validatedNewValue);
         self.send('stopEdition');
         self.get('table').notifyPropertyChange('contentUpdated');
-        if (!Ember.isNone(postSaveAction)) {
+        if (!isNone(postSaveAction)) {
           self.sendAction('navigate', postSaveAction);
         }
       }, function (error) {
@@ -187,7 +171,7 @@ export default Ember.Component.extend({
       });
     },
 
-    saveOnLeave: function (newValue) {
+    saveOnLeave(newValue) {
       var self = this;
 
       this.validateValue(newValue).then(function (validatedNewValue) {
@@ -207,7 +191,7 @@ export default Ember.Component.extend({
 
     open(dropdown, e) {
       if (this.closeTimer) {
-        Ember.run.cancel(this.closeTimer);
+        cancel(this.closeTimer);
         this.closeTimer = null;
       } else {
         dropdown.actions.open(e);
@@ -217,7 +201,7 @@ export default Ember.Component.extend({
     },
 
     closeLater(dropdown, e) {
-      this.closeTimer = Ember.run.later(() => {
+      this.closeTimer = later(() => {
         this.closeTimer = null;
         dropdown.actions.close(e);
       }, 100);
@@ -228,28 +212,28 @@ export default Ember.Component.extend({
     }
   },
 
-  validateValue: function (value) {
+  validateValue(value) {
     var datatable = this.get('table'),
       cell = this.get('cell'),
       position = this.get('position'),
       isValid;
     isValid = datatable.validateCell(cell, position, value);
     // is it a promise? (async validation)
-    if (isValid instanceof Ember.RSVP.Promise) {
+    if (isValid instanceof Promise) {
       return isValid;
       // no, so it is a boolean (sync validation)
     } else if (isValid) {
-      return Ember.RSVP.Promise.resolve(value);
+      return Promise.resolve(value);
     } else {
-      return Ember.RSVP.Promise.reject("Invalid value");
+      return Promise.reject("Invalid value");
     }
   },
 
-  inHighlightedRow: Ember.computed('position', 'highlightedRow', function () {
+  inHighlightedRow: computed('position', 'highlightedRow', function () {
     return this.get('position.row') === this.get('highlightedRow');
   }),
 
-  inHighlightedColumn: Ember.computed('position', 'highlightedColumn', function () {
+  inHighlightedColumn: computed('position', 'highlightedColumn', function () {
     return this.get('position.column') === this.get('highlightedColumn');
   }),
 
@@ -263,4 +247,30 @@ export default Ember.Component.extend({
 
     return {style};
   },
+
+  _focusOnCell() {
+    const position = this.get('position'),
+      selected = this.get('selectedCellPosition');
+
+    if (this.get('editorShown') || isNone(selected)) {
+      return;
+    }
+
+    if (position.row === selected.row && position.column === selected.column) {
+      this.$().focus();
+    }
+  },
+
+  _handleFocusState() {
+    if (isNone(this.$())) {
+      return;
+    }
+
+    if (this.get('cell.isSelected') && !this.get('editorShown')) {
+      this.$().focus();
+    } else {
+      this.$().blur();
+    }
+  },
+
 });

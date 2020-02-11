@@ -1,61 +1,65 @@
-import Ember from 'ember';
 import { hoverTrigger } from "./ember-basic-dropdown-helpers";
+import { registerAsyncHelper } from '@ember/test'
+import $ from 'jquery'
+import { fmt } from '@ember/string'
+import { A } from '@ember/array'
+import { run } from '@ember/runloop'
 
-var customHelpers = function() {
-  Ember.Test.registerAsyncHelper('assertCurrentCellHasError', function (app, assert, message) {
+const customHelpers = function() {
+  registerAsyncHelper('assertCurrentCellHasError', function (app, assert, message) {
     assert.ok(getSelectedCell().hasClass('error'), message || 'Current cell is in error');
   });
 
-  Ember.Test.registerAsyncHelper('assertCurrentCellHasNotError', function (app, assert, message) {
+  registerAsyncHelper('assertCurrentCellHasNotError', function (app, assert, message) {
     assert.ok(!getSelectedCell().hasClass('error'), message || 'Current cell is not in error');
   });
 
-	Ember.Test.registerAsyncHelper('assertDatatableContent', function (app, assert, content, message) {
+	registerAsyncHelper('assertDatatableContent', function (app, assert, content, message) {
 		assert.deepEqual(getDatatableContent(), content, message || 'The datatable content is correct');
   });
 
-  Ember.Test.registerAsyncHelper('assertDatatableHeader', function (app, assert, content, message) {
+  registerAsyncHelper('assertDatatableHeader', function (app, assert, content, message) {
     assert.deepEqual(getDatatableHeaders(), content, message || 'Headers are correct');
   });
 
-  Ember.Test.registerAsyncHelper('assertEditorNotShown', function (app, assert, message) {
+  registerAsyncHelper('assertEditorNotShown', function (app, assert, message) {
 		assert.ok(getInputField().length === 0, message || 'Editor is not displayed');
   });
 
-	Ember.Test.registerAsyncHelper('assertEditorShown', function (app, assert, message) {
+	registerAsyncHelper('assertEditorShown', function (app, assert, message) {
 		assert.ok(getInputField().length === 1, message || 'Editor is displayed');
   });
 
-  Ember.Test.registerAsyncHelper('assertEditorContent', function (app, assert, content, message) {
+  registerAsyncHelper('assertEditorContent', function (app, assert, content, message) {
     assert.equal(getInputField().get(0).value, content, message || 'Editor has the correct content');
   });
 
-  Ember.Test.registerAsyncHelper('assertNoSelectedDatatableCell', function (app, assert, message) {
+  registerAsyncHelper('assertNoSelectedDatatableCell', function (app, assert, message) {
     assert.equal(getSelectedCell().length, 0, message || 'No cell is currently selected');
   });
 
-  Ember.Test.registerAsyncHelper('assertSelectedDatatableCell', function (app, assert, row, column, message) {
+  registerAsyncHelper('assertSelectedDatatableCell', function (app, assert, row, column, message) {
     assert.deepEqual(getSelectedPosition(), {row: row, column: column}, message || 'The correct cell is selected');
   });
 
-  Ember.Test.registerAsyncHelper('assertHightlightedCellsText', function (app, assert, content, message) {
+  registerAsyncHelper('assertHightlightedCellsText', function (app, assert, content, message) {
     assert.deepEqual(getHighlightedCellsText(), content, message || 'the correct cells are highlighted');
   });
 
-  Ember.Test.registerAsyncHelper('clearValueInDatatable', function () {
+  registerAsyncHelper('clearValueInDatatable', function () {
     fillIn($(document.activeElement), "");
   });
 
-  Ember.Test.registerAsyncHelper('clickOnDatatableCell', function(app, row, column) {
+  registerAsyncHelper('clickOnDatatableCell', function(app, row, column) {
 
-    var element = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').eq(column);
+    var element = find(fmt('tr:nth(%@)', row)).find('td, th').eq(column);
     element.focus();
     click(element);
   });
 
 
-  Ember.Test.registerAsyncHelper('clickOnMoveDownRow', function(app, row) {
-    let context = Ember.String.fmt('tr:nth-child(%@)', row) + ' td:last-child,' + Ember.String.fmt('tr:nth-child(%@)', row) + ' th:last-child';
+  registerAsyncHelper('clickOnMoveDownRow', function(app, row) {
+    let context = fmt('tr:nth-child(%@)', row) + ' td:last-child,' + fmt('tr:nth-child(%@)', row) + ' th:last-child';
     hoverTrigger(context, {i: 0});
 
     let action = find('.t-row-action-move-down');
@@ -63,8 +67,8 @@ var customHelpers = function() {
     return click(action);
   });
 
-  Ember.Test.registerAsyncHelper('clickOnMoveLeftColumn', function(app, columnIndex) {
-    let context = Ember.String.fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + Ember.String.fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1);
+  registerAsyncHelper('clickOnMoveLeftColumn', function(app, columnIndex) {
+    let context = fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1);
 
     hoverTrigger(context, {span: 0});
 
@@ -74,8 +78,8 @@ var customHelpers = function() {
   });
 
 
-  Ember.Test.registerAsyncHelper('clickOnMoveRightColumn', function(app, columnIndex) {
-    let context = Ember.String.fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + Ember.String.fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1);
+  registerAsyncHelper('clickOnMoveRightColumn', function(app, columnIndex) {
+    let context = fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1);
 
     hoverTrigger(context, {span: 0});
 
@@ -84,8 +88,8 @@ var customHelpers = function() {
     return click(action);
   });
 
-  Ember.Test.registerAsyncHelper('clickOnMoveUpRow', function(app, row) {
-    let context = Ember.String.fmt('tr:nth-child(%@)', row) + ' td:last-child,' + Ember.String.fmt('tr:nth-child(%@)', row) + ' th:last-child';
+  registerAsyncHelper('clickOnMoveUpRow', function(app, row) {
+    let context = fmt('tr:nth-child(%@)', row) + ' td:last-child,' + fmt('tr:nth-child(%@)', row) + ' th:last-child';
     hoverTrigger(context, {i: 0});
 
     let action = find('.t-row-action-move-up');
@@ -93,23 +97,23 @@ var customHelpers = function() {
     return click(action);
   });
 
-  Ember.Test.registerAsyncHelper('clickOnPlus', function(app, row, column) {
-    var element = find(Ember.String.fmt('tr:nth(%@)', row)).find('td, th').eq(column);
+  registerAsyncHelper('clickOnPlus', function(app, row, column) {
+    var element = find(fmt('tr:nth(%@)', row)).find('td, th').eq(column);
     element.focus();
     click(element.find('.icon-plus'));
   });
 
-  Ember.Test.registerAsyncHelper('clickOnPencil', function(app, row, column) {
-    let context = Ember.String.fmt('thead tr:nth-child(%@) td:nth-child(%@)', row, column + 1) + ', ' + Ember.String.fmt('thead tr:nth-child(%@) th:nth-child(%@)', row, column + 1);
+  registerAsyncHelper('clickOnPencil', function(app, row, column) {
+    let context = fmt('thead tr:nth-child(%@) td:nth-child(%@)', row, column + 1) + ', ' + fmt('thead tr:nth-child(%@) th:nth-child(%@)', row, column + 1);
 
     hoverTrigger(context, {span: 0});
-debugger
+
     let action = find('.t-cell-action-edit');
     return click(action);
   });
 
-  Ember.Test.registerAsyncHelper('clickOnRemoveColumn', function(app, columnIndex) {
-    let context = Ember.String.fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + Ember.String.fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1);
+  registerAsyncHelper('clickOnRemoveColumn', function(app, columnIndex) {
+    let context = fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1);
 
     hoverTrigger(context, {span: 0});
 
@@ -118,8 +122,8 @@ debugger
     return click(action);
   });
 
-  Ember.Test.registerAsyncHelper('clickOnRemoveRow', function(app, row) {
-    let context = Ember.String.fmt('tr:nth-child(%@)', row) + ' td:last-child,' + Ember.String.fmt('tr:nth-child(%@)', row) + ' th:last-child';
+  registerAsyncHelper('clickOnRemoveRow', function(app, row) {
+    let context = fmt('tr:nth-child(%@)', row) + ' td:last-child,' + fmt('tr:nth-child(%@)', row) + ' th:last-child';
     hoverTrigger(context, {i: 0});
 
     let removeAction = find('.t-row-action-remove');
@@ -127,67 +131,67 @@ debugger
     return click(removeAction);
   });
 
-  Ember.Test.registerAsyncHelper('debug', function () {
-  	debugger;
+  registerAsyncHelper('debug', function () {
+
   });
 
-  Ember.Test.registerAsyncHelper('pressEnterInDatatable', function () {
+  registerAsyncHelper('pressEnterInDatatable', function () {
    pressKey(13);
   });
 
-  Ember.Test.registerAsyncHelper('pressEscInDatatable', function () {
+  registerAsyncHelper('pressEscInDatatable', function () {
    pressKey(27);
   });
 
-  Ember.Test.registerAsyncHelper('pressUpKeyInDatatable', function () {
+  registerAsyncHelper('pressUpKeyInDatatable', function () {
    pressKey(38);
   });
 
-  Ember.Test.registerAsyncHelper('pressDownKeyInDatatable', function () {
+  registerAsyncHelper('pressDownKeyInDatatable', function () {
    pressKey(40);
   });
 
-  Ember.Test.registerAsyncHelper('pressRightKeyInDatatable', function () {
+  registerAsyncHelper('pressRightKeyInDatatable', function () {
    pressKey(39);
   });
 
-  Ember.Test.registerAsyncHelper('pressLeftKeyInDatatable', function () {
+  registerAsyncHelper('pressLeftKeyInDatatable', function () {
    pressKey(37);
   });
 
-  Ember.Test.registerAsyncHelper('pressCtrlUpKeyInDatatable', function () {
+  registerAsyncHelper('pressCtrlUpKeyInDatatable', function () {
    pressKey(38, true);
   });
 
-  Ember.Test.registerAsyncHelper('pressCtrlDownKeyInDatatable', function () {
+  registerAsyncHelper('pressCtrlDownKeyInDatatable', function () {
    pressKey(40, true);
   });
 
-  Ember.Test.registerAsyncHelper('pressCtrlRightKeyInDatatable', function () {
+  registerAsyncHelper('pressCtrlRightKeyInDatatable', function () {
    pressKey(39, true);
   });
 
-  Ember.Test.registerAsyncHelper('pressCtrlLeftKeyInDatatable', function () {
+  registerAsyncHelper('pressCtrlLeftKeyInDatatable', function () {
    pressKey(37, true);
   });
 
-  Ember.Test.registerAsyncHelper('pressCtrlDelKeyInDatatable', function () {
+  registerAsyncHelper('pressCtrlDelKeyInDatatable', function () {
    pressKey(46, true);
   });
 
-  Ember.Test.registerAsyncHelper('pressCtrlInserKeyInDatatable', function () {
+  registerAsyncHelper('pressCtrlInserKeyInDatatable', function () {
    pressKey(45, true);
   });
 
-  Ember.Test.registerAsyncHelper('pressTabKeyInDatatable', function () {
+  registerAsyncHelper('pressTabKeyInDatatable', function () {
    pressKey(9);
   });
 
-  Ember.Test.registerAsyncHelper('pressShiftTabKeyInDatatable', function () {
+  registerAsyncHelper('pressShiftTabKeyInDatatable', function () {
    pressKey(9, false, true);
   });
 
-  Ember.Test.registerAsyncHelper('pressKey', function (app, keyCode, ctrlKey, shiftKey) {
+  registerAsyncHelper('pressKey', function (app, keyCode, ctrlKey, shiftKey) {
     // Does not ask for an element, send event to the currently focused element.
     var $el = $(document.activeElement),
       eventData = {
@@ -197,20 +201,20 @@ debugger
         ctrlKey: ctrlKey || false,
         shiftKey: shiftKey || false
       },
-      keyDownEvent = Ember.$.Event("keydown", eventData),
-      keyUpEvent = Ember.$.Event("keyup", eventData);
+      keyDownEvent = $.Event("keydown", eventData),
+      keyUpEvent = $.Event("keyup", eventData);
 
-    Ember.run(function () {
+    run(function () {
       $el.trigger(keyDownEvent);
     });
 
-    Ember.run(function () {
+    run(function () {
       var character = String.fromCharCode(keyCode),
         focused = $(document.activeElement);
 
       // Update input value if needed
-      if (focused.is('input[type=text]') && character.match(/[a-zA-Z0-9 \.#\-_]/)) {
-        focused.val(Ember.String.fmt('%@%@%@',
+      if (focused.is('input[type=text]') && character.match(/[a-zA-Z0-9 .#\-_]/)) {
+        focused.val(fmt('%@%@%@',
           focused.val().slice(0, focused.get(0).selectionStart),
           String.fromCharCode(keyCode),
           focused.val().slice(focused.get(0).selectionEnd)));
@@ -220,7 +224,7 @@ debugger
     });
   });
 
-  Ember.Test.registerAsyncHelper('typeInDatatable', function (app, value) {
+  registerAsyncHelper('typeInDatatable', function (app, value) {
     if (value !== '') {
       pressKey(value.charCodeAt(0));
       typeInDatatable(value.slice(1));
@@ -236,7 +240,7 @@ debugger
     return {row: row, column: column};
   }
 
-  Ember.Test.registerAsyncHelper('getSelectedCell', function () {
+  registerAsyncHelper('getSelectedCell', function () {
     return find('th.selected, td.selected').eq(0);
   });
 
@@ -252,9 +256,9 @@ debugger
   }
 
   function getDatatableContent() {
-		var datatableContent = Ember.A();
+		var datatableContent = A();
 		find('tbody tr').each(function () {
-      var row = Ember.A();
+      var row = A();
       $(this).find('td').each(function () {
         row.push($(this).text().trim());
       });

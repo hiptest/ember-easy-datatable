@@ -1,11 +1,14 @@
-import Ember from 'ember';
+import Component from '@ember/component'
+import { computed } from '@ember/object'
+import { isNone } from '@ember/utils'
+import { observer } from '@ember/object'
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'div',
   classNames: ['easy-datatable-container'],
   classNameBindings: ['isFullScreen:full-screen'],
 
-  selectedCellPosition: {},
+  selectedCellPosition: null,
   previouslySelectedCell : null,
 
   editAfterInsertion: false,
@@ -18,6 +21,10 @@ export default Ember.Component.extend({
   showToolBar: false,
   showDuplicateRow: false,
 
+  init() {
+    this._super(...arguments)
+    this.set('selectedCellPosition', {})
+  },
   actions: {
     navigate: function (direction) {
       this.send(direction);
@@ -131,7 +138,7 @@ export default Ember.Component.extend({
   },
 
   insertRowAt: function (index, nextPosition) {
-    if (Ember.isNone(index)) {
+    if (isNone(index)) {
       return;
     }
 
@@ -165,7 +172,7 @@ export default Ember.Component.extend({
     var columnIndex = this.get('selectedCellPosition.column'),
        rowIndex = this.firstEditableCellIndexInColumn(columnIndex);
 
-    if (!Ember.isNone(rowIndex)) {
+    if (!isNone(rowIndex)) {
       this.set('selectedCellPosition', {row: rowIndex, column: columnIndex});
     }
   },
@@ -184,24 +191,24 @@ export default Ember.Component.extend({
     var rowIndex = this.get('selectedCellPosition.row'),
       columnIndex = this.firstEditableCellIndexInRow(rowIndex);
 
-    if (!Ember.isNone(columnIndex)) {
+    if (!isNone(columnIndex)) {
       this.set('selectedCellPosition', {row: rowIndex, column: columnIndex});
     }
   },
 
-  highlightedColumn: Ember.computed('selectedCellPosition', function () {
+  highlightedColumn: computed('selectedCellPosition', function () {
     var position = this.get('selectedCellPosition');
-    if (Ember.isNone(position) || position.row !== -1) {
+    if (isNone(position) || position.row !== -1) {
       return;
     }
     return position.column;
   }),
 
-  highlightedRow: Ember.computed('selectedCellPosition', function () {
+  highlightedRow: computed('selectedCellPosition', function () {
     var position = this.get('selectedCellPosition'),
       cell = this.get('selectedCell');
 
-    if (Ember.isNone(cell) || !cell.get('isHeader') || position.row < 0) {
+    if (isNone(cell) || !cell.get('isHeader') || position.row < 0) {
       return;
     }
     return position.row;
@@ -292,7 +299,7 @@ export default Ember.Component.extend({
   },
 
   insertColumnAt: function (index, nextPosition) {
-    if (Ember.isNone(index)) {
+    if (isNone(index)) {
       return;
     }
 
@@ -308,9 +315,9 @@ export default Ember.Component.extend({
     }
   },
 
-  selectedCell: Ember.computed('selectedCellPosition', function () {
+  selectedCell: computed('selectedCellPosition', function () {
     var position = this.get('selectedCellPosition');
-    if (Ember.isNone(position) || Ember.isNone(position.row) || Ember.isNone(position.column)) {
+    if (isNone(position) || isNone(position.row) || isNone(position.column)) {
       return;
     }
     if (position.row === -1) {
@@ -319,15 +326,15 @@ export default Ember.Component.extend({
     return this.get('table.body')[position.row].get('cells')[position.column];
   }),
 
-	updateSelection: Ember.observer('selectedCell', function () {
+	updateSelection: observer('selectedCell', function () {
     var previous = this.get('previouslySelectedCell'),
       cell = this.get('selectedCell');
 
-    if (!Ember.isNone(previous)  && !previous.get('isDestroying')) {
+    if (!isNone(previous)  && !previous.get('isDestroying')) {
       previous.set('isSelected', false);
     }
 
-    if (Ember.isNone(cell)) {
+    if (isNone(cell)) {
       this.set('previouslySelectedCell', null);
     } else {
       cell.set('isSelected', true);
