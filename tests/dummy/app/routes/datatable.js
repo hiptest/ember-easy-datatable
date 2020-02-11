@@ -1,16 +1,16 @@
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
-import Ember from 'ember';
+import Route from '@ember/routing/route'
 
-export default Ember.Route.extend({
+export default Route.extend({
   model: function() {
     var result = DatatableFactory.makeDatatable({
       headers: [
-        {isEditable: false, isProtected: true, value: '', showAddFirstColumn: true}, 
-        {value: 'col 1', showActions: true}, 
-        {value: 'col 2', showActions: true}, 
-        {value: 'col 3', showActions: true}, 
-        {value: 'col 4', showActions: true}, 
-        {value: 'col 5', showActions: true}, 
+        {isEditable: false, isProtected: true, value: '', showAddFirstColumn: true},
+        {value: 'col 1', showActions: true},
+        {value: 'col 2', showActions: true},
+        {value: 'col 3', showActions: true},
+        {value: 'col 4', showActions: true},
+        {value: 'col 5', showActions: true},
         {isEditable: false, value: '', showAddLastColumn: true, canInsertColumnAfter: false}
       ],
       body: [

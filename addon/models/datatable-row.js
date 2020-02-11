@@ -1,7 +1,7 @@
-import Ember from "ember";
+import EmberObject from "@ember/object";
 import DatatableFactory from "../utils/datatable-factory";
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   cells: null,
 
   moveCell: function (from, to) {

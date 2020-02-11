@@ -1,6 +1,7 @@
-import Ember from "ember";
+import EmberObject from "@ember/object";
+import { computed } from '@ember/object'
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   isSelected: false,
   isHeader: false,
   isEditable: true,
@@ -12,7 +13,7 @@ export default Ember.Object.extend({
   showActions: false,
   showAddLastColumn: false,
 
-  tag: Ember.computed('isHeader', function () {
+  tag: computed('isHeader', function () {
 		return this.get('isHeader') ? 'th' : 'td';
 	})
 });

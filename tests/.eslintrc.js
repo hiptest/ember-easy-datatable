@@ -11,7 +11,7 @@ module.exports = {
     location: true,
     setTimeout: true,
     $: true,
-    -Promise: true,
+    Promise: true,
     define: true,
     console: true,
     visit: true,
@@ -65,6 +65,6 @@ module.exports = {
     pressShiftTabKeyInDatatable: true,
     pressTabKeyInDatatable: true,
     pressUpKeyInDatatable: true,
-    typeInDatatabl: truee
+    typeInDatatable: true
   },
 }

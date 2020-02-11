@@ -1,7 +1,9 @@
-import Ember from "ember";
+import EmberObject from "@ember/object";
 import DatatableFactory from "../utils/datatable-factory";
+import { Promise } from 'rsvp'
+import { A } from '@ember/array'
 
-export default Ember.Object.extend({
+export default EmberObject.extend({
   canInsertColumns: true,
   canInsertRows: true,
   contentUpdated: false,
@@ -12,12 +14,12 @@ export default Ember.Object.extend({
     For synchronous validation, it must return true if the value is valid, false
     otherwise.
 
-    For asynchronous validation, it must return a Ember.RSVP.Promise which
+    For asynchronous validation, it must return a Promise which
     resolves to the validated value, or rejects with the validation error
     message.
   */
   validateCell: function (cell, position, value) {
-    return Ember.RSVP.Promise.resolve(value);
+    return Promise.resolve(value);
   },
 
   columnCanMove: function (index) {
@@ -78,7 +80,7 @@ export default Ember.Object.extend({
 
   getInsertableRowsIndices: function () {
     var self = this,
-      insertableIndices = Ember.A();
+      insertableIndices = A();
 
     if (this.get('canInsertRows')) {
       insertableIndices.push(0);
@@ -128,7 +130,7 @@ export default Ember.Object.extend({
   },
 
   getInsertableColumnsIndices: function () {
-    var insertableIndices = Ember.A();
+    var insertableIndices = A();
 
     if (this.get('canInsertColumns')) {
       insertableIndices.push(0);

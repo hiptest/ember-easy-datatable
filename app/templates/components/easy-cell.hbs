@@ -9,7 +9,7 @@
       {{#dropdown.content class="slide-fade--horizontal" onMouseEnter=(action "open")
                           onMouseLeave=(action "closeLater")}}
         <div class="ht-datatable__actions ht-datatable__actions__row" {{action "closeAfterAction" dropdown}}>
-          {{easy-cell-actions cell=cell position=position table=table manipulate='manipulate'
+          {{easy-cell-actions cell=cell position=position table=table manipulate=(action 'manipulate')
                               showDuplicateRow=showDuplicateRow}}
         </div>
       {{/dropdown.content}}
@@ -21,7 +21,7 @@
       {{/dropdown.trigger}}
       {{#dropdown.content class="ht-datatable__actions__trigger" onMouseEnter=(action "open") onMouseLeave=(action "closeLater")}}
         <div class="ht-datatable__actions ht-datatable__actions__column" {{action "closeAfterAction" dropdown}}>
-          {{easy-cell-actions cell=cell position=position table=table manipulate='manipulate'}}
+          {{easy-cell-actions cell=cell position=position table=table manipulate=(action 'manipulate')}}
         </div>
       {{/dropdown.content}}
     {{/basic-dropdown}}
@@ -32,10 +32,10 @@
 
 {{#if editorShown}}{{easy-editor
   oneWayValue=cell.value
-  navigate="navigate"
-  save="save"
-  stopEdition="stopEdition"
-  saveOnLeave="saveOnLeave"
+  navigate=(action "navigate")
+  save=(action "save")
+  stopEdition=(action "stopEdition")
+  saveOnLeave=(action "saveOnLeave")
 }}{{/if}}
 {{#if inError}}
   <div class="error">{{errorMessage}}</div>
@@ -43,12 +43,12 @@
 
 {{#if cell.showAddLastColumn}}
   <div>
-    {{easy-cell-actions cell=cell position=position table=table manipulate='manipulate'}}
+    {{easy-cell-actions cell=cell position=position table=table manipulate=(action 'manipulate')}}
   </div>
 {{/if}}
 
 {{#if cell.showAddFirstColumn}}
   <div>
-    {{easy-cell-actions cell=cell position=position table=table manipulate='manipulate'}}
+    {{easy-cell-actions cell=cell position=position table=table manipulate=(action 'manipulate')}}
   </div>
 {{/if}}

@@ -1,29 +1,45 @@
-import Ember from 'ember';
+import { computed, observer } from '@ember/object'
+import TextField from '@ember/component/text-field'
+import { isNone } from '@ember/utils'
 
-export default Ember.TextField.extend({
+export default TextField.extend({
 	valueState: 'unmodified',  // valid values are 'unmodified', 'modified', 'saved'
 	oneWayValue: null,
-	value: Ember.computed.oneWay('oneWayValue'), // so updating input value
+	value: computed.oneWay('oneWayValue'), // so updating input value
                                                // does not update the originating value
-  originalValue: Ember.computed('oneWayValue', function() {
-    if (Ember.isNone(this.get('oneWayValue'))) {
+  originalValue: computed('oneWayValue', function() {
+    if (isNone(this.get('oneWayValue'))) {
       return this.get('oneWayValue');
     } else {
       return this.get('oneWayValue').toString();
     }
   }),
 
-  onValueChanged: Ember.observer('value', function() {
+  onValueChanged: observer('value', function() {
     if (this.get('originalValue') !== this.get('value')) {
       this.set('valueState', 'modified');
     }
   }),
 
+  didInsertElement() {
+    this._super(...arguments)
+
+    var domElement = this.$().get(0),
+      value = this.get('value') || '';
+
+    // We need absolute positionning before checking the width/height of the cell
+    // Otherwise, the input counts in the cell size
+    this.$().focus();
+
+    domElement.selectionStart = 0;
+    domElement.selectionEnd = value.toString().length;
+  },
+
 	keyDown: function (event) {
     event.stopPropagation();//TODO: pas besoin à mon avis
     if (event.which === 27) {
       this.set('valueState', 'unmodified');
-      this.sendAction('stopEdition');
+      this.get('stopEdition')();
     }
 
     if (event.which === 13 || event.which === 9) {
@@ -40,32 +56,20 @@ export default Ember.TextField.extend({
         // could not reproduce it in the test 'cell validation is not called at
         // all if not modified' because this behavior is at the jquery events
         // level and the test acts at the ember events level...
-        this.sendAction('stopEdition');
-        this.sendAction('navigate', postSaveAction);
+        this.get('stopEdition')();
+        this.get('navigate')(postSaveAction);
       } else {
-        this.sendAction('save', this.get('value'), postSaveAction);
-        this.set('valueState', 'saved');
+        this.get('save')(this.get('value'), postSaveAction);
+        this.get('valueState')('saved');
       }
     }
   },
 
   focusOut: function () {
     if (this.get('valueState') === 'modified') {
-      this.sendAction('saveOnLeave', this.get('value'));
+      this.get('saveOnLeave')(this.get('value'));
     } else {
-      this.sendAction('stopEdition');
+      this.get('stopEdition')();
     }
-  },
-
-  placeAndFocusOnShow: Ember.on('didInsertElement', function () {
-    var domElement = this.$().get(0),
-      value = this.get('value') || '';
-
-    // We need absolute positionning before checking the width/height of the cell
-    // Otherwise, the input counts in the cell size
-    this.$().focus();
-
-    domElement.selectionStart = 0;
-    domElement.selectionEnd = value.toString().length;
-  }),
+  }
 });

@@ -1,8 +1,8 @@
-import Ember from 'ember';
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import hbs from 'htmlbars-inline-precompile';
 import startApp from '../../helpers/start-app';
 import { moduleForComponent, test } from 'ember-qunit';
+import { run } from '@ember/runloop'
 
 var App;
 
@@ -26,11 +26,11 @@ moduleForComponent('easy-datatable', 'Integration | Component | Insertion', {
           isEditable: false
         };
         return row;
-      }    
+      }
     }));
   },
   teardown: function() {
-    Ember.run(App, 'destroy');
+    run(App, 'destroy');
   }
 });
 

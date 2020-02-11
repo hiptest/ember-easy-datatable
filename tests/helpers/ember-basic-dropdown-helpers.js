@@ -1,10 +1,11 @@
-import Ember from 'ember';
-import run from 'ember-runloop';
+import {run} from '@ember/runloop';
+import $ from 'jquery'
+import { registerAsyncHelper } from '@ember/test';
 
 // integration helpers
 function focus(el) {
   if (!el) { return; }
-  let $el = jQuery(el);
+  let $el = $(el);
   if ($el.is(':input, [contenteditable=true]')) {
     let type = $el.prop('type');
     if (type !== 'checkbox' && type !== 'radio' && type !== 'hidden') {
@@ -97,11 +98,11 @@ export function fireKeydown(selector, k) {
 
 // acceptance helpers
 export default function() {
-  Ember.Test.registerAsyncHelper('clickDropdown', function(app, cssPath, options = {}) {
+  registerAsyncHelper('clickDropdown', function(app, cssPath, options = {}) {
     clickTrigger(cssPath, options);
   });
 
-  Ember.Test.registerAsyncHelper('tapDropdown', function(app, cssPath, options = {}) {
+  registerAsyncHelper('tapDropdown', function(app, cssPath, options = {}) {
     tapTrigger(cssPath, options);
   });
 }

@@ -4,8 +4,15 @@
 <div class="easy-datatable-subcontainer">
   <table class={{tableClasses}}>
     <thead>
-      {{easy-row row=table.headers table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigate='navigate' manipulate="manipulate" highlightedRow=highlightedRow
-      highlightedColumn=highlightedColumn}}
+      {{easy-row
+        row=table.headers
+        table=table
+        showEditorForSelectedCell=showEditorForSelectedCell
+        selectedCellPosition=selectedCellPosition
+        navigate=(action 'navigate')
+        manipulate=(action "manipulate")
+        highlightedRow=highlightedRow
+       highlightedColumn=highlightedColumn}}
       {{#if showAddFirstRow}}
         <tr>
           <th colspan={{table.headers.cells.length}}>
@@ -18,7 +25,16 @@
     </thead>
     <tbody>
     {{#each table.body as |row|}}
-      {{easy-row row=row table=table showEditorForSelectedCell=showEditorForSelectedCell selectedCellPosition=selectedCellPosition navigate='navigate' manipulate="manipulate" highlightedRow=highlightedRow highlightedColumn=highlightedColumn showDuplicateRow=showDuplicateRow}}
+      {{easy-row
+        row=row
+        table=table
+        showEditorForSelectedCell=showEditorForSelectedCell
+        selectedCellPosition=selectedCellPosition
+        navigate=(action 'navigate')
+        manipulate=(action "manipulate")
+        highlightedRow=highlightedRow
+        highlightedColumn=highlightedColumn
+        showDuplicateRow=showDuplicateRow}}
     {{/each}}
     </tbody>
 

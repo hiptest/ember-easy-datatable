@@ -1,8 +1,9 @@
-import Ember from 'ember';
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import hbs from 'htmlbars-inline-precompile';
 import startApp from '../../helpers/start-app';
 import { test, moduleForComponent } from 'ember-qunit';
+import { isNone } from '@ember/utils'
+import { run } from '@ember/runloop'
 
 var App;
 
@@ -22,21 +23,21 @@ moduleForComponent('easy-datatable', 'Integration | Component | content edition 
         value = value.toString();
         if (position.row === -1) {
           // Should be "Value <numeric value>"
-          return !Ember.isNone(value.match(/^Value [0-9]+$/));
+          return isNone(value.match(/^Value [0-9]+$/));
         }
 
         if (cell.isHeader) {
           // Should be #<numeric value>
-          return !Ember.isNone(value.match(/^#[0-9]+$/));
+          return isNone(value.match(/^#[0-9]+$/));
         }
 
         // Only numeric values are allowed in the cells
-        return !Ember.isNone(value.match(/^[0-9]+$/));
+        return isNone(value.match(/^[0-9]+$/));
       }
     }));
   },
   teardown: function() {
-    Ember.run(App, 'destroy');
+    run(App, 'destroy');
   }
 });
 
