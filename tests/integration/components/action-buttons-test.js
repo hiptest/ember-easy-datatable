@@ -1,16 +1,13 @@
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
-import startApp from '../../helpers/start-app';
 import { run } from '@ember/runloop'
 import { Promise } from 'rsvp'
-
-var App;
+import customHelpers from '../../helpers/_custom-helpers'
 
 moduleForComponent('easy-datatable', 'Integration | Component | Action buttons', {
   integration: true,
   setup: function() {
-    App = startApp();
     this.set('table', DatatableFactory.makeDatatable({
       headers: [
         {isEditable: false, value: '', showAddFirstColumn: true},
@@ -39,176 +36,173 @@ moduleForComponent('easy-datatable', 'Integration | Component | Action buttons',
         return row;
       }
     }));
-  },
-  teardown: function() {
-    run(App, 'destroy');
   }
 });
 
-test('Click on remove to remove a row', function(assert) {
+test('Click on remove to remove a row', async function(assert) {
   assert.expect(1);
 
-  this.render(hbs`{{easy-datatable table=table}}`);
-  return clickOnRemoveRow(2).then(() => {
-    return assertDatatableContent(assert, [
-      ['Row 0', '0', '10', '20'],
-      ['Row 2', '2', '12', '22'],
-      ['Row 3', '3', '13', '23']
-    ], 'The row is removed');
-  });
+  await this.render(hbs`{{easy-datatable table=table}}`);
+  await customHelpers.clickOnRemoveRow(2)
+
+  assert.deepEqual(customHelpers.getDatatableContent(),
+  [['Row 0', '0', '10', '20'],
+  ['Row 2', '2', '12', '22'],
+  ['Row 3', '3', '13', '23']], 'The row is removed')
 });
 
-test('Click to move up a row', function(assert) {
-  assert.expect(1);
+test('Click to move up a row', async function(assert) {
+  assert.expect(1)
 
-  this.render(hbs`{{easy-datatable table=table}}`);
-  clickOnMoveUpRow(2);
+  await this.render(hbs`{{easy-datatable table=table}}`)
+  customHelpers.clickOnMoveUpRow(2)
 
-  assertDatatableContent(assert, [
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 1', '1', '11', '21'],
     ['Row 0', '0', '10', '20'],
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23']
-  ], 'The row has moved up');
+  ], 'The row has moved up')
 });
 
-test('Click to move down a row', function(assert) {
+test('Click to move down a row', async function(assert) {
   assert.expect(1);
 
-  this.render(hbs`{{easy-datatable table=table}}`);
-  clickOnMoveDownRow(2);
-  assertDatatableContent(assert, [
+  await this.render(hbs`{{easy-datatable table=table}}`)
+
+  customHelpers.clickOnMoveDownRow(2)
+
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '10', '20'],
     ['Row 2', '2', '12', '22'],
     ['Row 1', '1', '11', '21'],
     ['Row 3', '3', '13', '23']
-  ], 'The row has moved down');
-});
+  ], 'The row has moved down')
+})
 
-test('Click to remove a column', function(assert) {
-  assert.expect(1);
+test('Click to remove a column', async function(assert) {
+  assert.expect(1)
 
-  this.render(hbs`{{easy-datatable table=table}}`);
-  clickOnRemoveColumn(2);
-  assertDatatableContent(assert, [
+  await this.render(hbs`{{easy-datatable table=table}}`)
+  customHelpers.clickOnRemoveColumn(2)
+
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '10', '20'],
     ['Row 1', '11', '21'],
     ['Row 2', '12', '22'],
     ['Row 3', '13', '23']
-  ], 'The column is deleted');
-});
+  ], 'The row has moved down')
+})
 
-/*
-test('Click to edit a cell', function(assert) {
+test('Click to move right a column', async function(assert) {
   assert.expect(1);
 
-  this.render(hbs`{{easy-datatable table=table}}`);
-  clickOnPencil(1,2);
-  assertEditorShown(assert);
-});
-*/
+  await this.render(hbs`{{easy-datatable table=table}}`)
+  customHelpers.clickOnMoveRightColumn(2)
 
-test('Click to move right a column', function(assert) {
-  assert.expect(1);
-
-  this.render(hbs`{{easy-datatable table=table}}`);
-  clickOnMoveRightColumn(2);
-  assertDatatableContent(assert, [
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '10', '0', '20'],
     ['Row 1', '11', '1', '21'],
     ['Row 2', '12', '2', '22'],
     ['Row 3', '13', '3', '23']
-  ], 'The column is deleted');
-});
+  ], 'The column has moved right')
+})
 
-test('Click to move left a column', function(assert) {
-  assert.expect(1);
+test('Click to move left a column', async function(assert) {
+  assert.expect(1)
 
-  this.render(hbs`{{easy-datatable table=table}}`);
-  clickOnMoveLeftColumn(4);
-  assertDatatableContent(assert, [
+  await this.render(hbs`{{easy-datatable table=table}}`)
+  customHelpers.clickOnMoveLeftColumn(4)
+
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '20', '10'],
     ['Row 1', '1', '21', '11'],
     ['Row 2', '2', '22', '12'],
     ['Row 3', '3', '23', '13']
-  ], 'The column is deleted');
-});
+  ], 'The column has moved left')
+})
 
-test('Click to add a new last column', function(assert) {
-  var table = this.get('table');
+test('Click to add a new last column', async function(assert) {
+  const table = this.get('table');
   assert.expect(3);
 
-  this.render(hbs`{{easy-datatable table=table}}`);
-  clickOnPlus(0,5);
-  assertDatatableContent(assert, [
+  await this.render(hbs`{{easy-datatable table=table}}`)
+  customHelpers.clickOnPlus(0,5)
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '10', '20', ''],
     ['Row 1', '1', '11', '21', ''],
     ['Row 2', '2', '12', '22', ''],
     ['Row 3', '3', '13', '23', '']
   ], 'A new column is added at the end of the datatable');
-  assertSelectedDatatableCell(assert, 0, 5,
-      'The header cell of the newly added row is selected');
-  andThen(function () {
-    table.get('headers.cells').forEach(function (cell, index) {
-      cell.set('canInsertColumnAfter', index < 3);
-    });
+
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 0, column: 5}, 'The correct cell is selected')
+
+  table.get('headers.cells').forEach(function (cell, index) {
+    cell.set('canInsertColumnAfter', index < 3);
   });
-  clickOnPlus(0,6);
-  assertDatatableContent(assert, [
+
+  customHelpers.clickOnPlus(0,6)
+
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '', '10', '20', ''],
     ['Row 1', '1', '', '11', '21', ''],
     ['Row 2', '2', '', '12', '22', ''],
     ['Row 3', '3', '', '13', '23', ''],
   ], 'It will search for the last place where a column is insertable if needed');
-});
+})
 
-test('Click to add first column', function (assert) {
-  assert.expect(2);
 
-  this.render(hbs`{{easy-datatable table=table}}`);
-  clickOnPlus(0,0);
-  assertDatatableContent(assert, [
+test('Click to add first column', async function (assert) {
+  assert.expect(2)
+
+  await this.render(hbs`{{easy-datatable table=table}}`)
+  customHelpers.clickOnPlus(0,0)
+
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['', 'Row 0', '0', '10', '20'],
     ['', 'Row 1', '1', '11', '21'],
     ['', 'Row 2', '2', '12', '22'],
     ['', 'Row 3', '3', '13', '23']
-  ], 'A new column is added at the beginning of the datatable');
-  assertSelectedDatatableCell(assert, 0, 0,
-    'The header cell of the newly added column is selected');
-});
+  ], 'A new column is added at the beginning of the datatable')
 
-test('Validate to true a cell asynchronously and remove the row before validation ends', function (assert) {
-  assert.expect(2);
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 0, column: 0}, 'The header cell of the newly added column is selected');
+})
+
+test('Validate to true a cell asynchronously and remove the row before validation ends', async function (assert) {
+  assert.expect(2)
 
   this.get('table').reopen({
     validateCell: function(cell, position, value) {
       return new Promise(function (resolve) {
         run.later(function () {
-          resolve(value);
-        }, 0);
-      });
+          resolve(value)
+        }, 0)
+      })
     }
-  });
+  })
 
-  this.render(hbs`{{easy-datatable table=table}}`);
-  assertDatatableContent(assert, [
+  await this.render(hbs`{{easy-datatable table=table}}`)
+
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23']
-  ]);
-  clickOnDatatableCell(1, 3);
-  typeInDatatable('12345');
+  ])
 
-  clickOnRemoveRow(1); // will focusOut, trigger the validation, but cell deleted
-  assertDatatableContent(assert, [
+  await customHelpers.clickOnDatatableCell(1, 3)
+  await customHelpers.typeInDatatable('12345')
+
+  await customHelpers.clickOnRemoveRow(1) // will focusOut, trigger the validation, but cell deleted
+
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23']
   ], 'The row has been deleted and the validation has not produced any "calling set on destroyed object" error');
 });
 
-test('Validate to false a cell asynchronously and remove the row before validation ends', function (assert) {
+test('Validate to false a cell asynchronously and remove the row before validation ends', async function (assert) {
   assert.expect(2);
 
   this.get('table').reopen({
@@ -221,67 +215,73 @@ test('Validate to false a cell asynchronously and remove the row before validati
     }
   });
 
-  this.render(hbs`{{easy-datatable table=table}}`);
-  assertDatatableContent(assert, [
+  await this.render(hbs`{{easy-datatable table=table}}`)
+
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23']
-  ]);
-  clickOnDatatableCell(1, 3);
-  typeInDatatable('12345');
-  clickOnRemoveRow(1); // will focusOut, trigger the validation, but cell deleted
-  assertDatatableContent(assert, [
+  ])
+
+  await customHelpers.clickOnDatatableCell(1, 3)
+  await customHelpers.typeInDatatable('12345')
+
+  await customHelpers.clickOnRemoveRow(1)
+
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23']
   ], 'The row has been deleted and the validation has not produced any "calling set on destroyed object" error');
-});
+})
 
-test('Add last row', function (assert) {
-  var table = this.get('table');
-  assert.expect(3);
+test('Add last row', async function (assert) {
+  let table = this.get('table')
+  assert.expect(3)
 
-  this.render(hbs`{{easy-datatable table=table showAddLastRow=true addNewRowLabel='Add new row'}}`);
-  click('.t-add-new-row');
-  assertDatatableContent(assert, [
+  await this.render(hbs`{{easy-datatable table=table showAddLastRow=true addNewRowLabel='Add new row'}}`)
+  await this.$('.t-add-new-row').click()
+
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23'],
     ['', '', '', '']
-  ], 'A new row is added at the end of the datatable');
-  assertSelectedDatatableCell(assert, 5, 0,
-    'The first cell of the newly added row is selected');
-  andThen(function () {
-    table.get('body').forEach(function (row, index) {
-      row.set('cells.firstObject.canInsertRowAfter', index <= 1);
-    });
-  });
-  click('.t-add-new-row');
-  assertDatatableContent(assert, [
+  ], 'A new row is added at the end of the datatable')
+
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 5, column: 0}, 'The first cell of the newly added row is selected')
+
+  table.get('body').forEach(function (row, index) {
+    row.set('cells.firstObject.canInsertRowAfter', index <= 1);
+  })
+
+  await this.$('.t-add-new-row').click()
+
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['', '', '', ''],
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23'],
     ['', '', '', '']
-  ], 'It will search for the last place where a row is insertable if needed');
+  ], 'It will search for the last place where a row is insertable if needed')
 });
 
-test('Add first row', function (assert) {
-  assert.expect(2);
+test('Add first row', async function (assert) {
+  assert.expect(2)
 
-  this.render(hbs`{{easy-datatable table=table showAddFirstRow=true addNewRowLabel='Add new row'}}`);
+  await this.render(hbs`{{easy-datatable table=table showAddFirstRow=true addNewRowLabel='Add new row'}}`)
+  await this.$('a:contains("Add new row")').click()
 
-  click('a:contains("Add new row")');
-  assertDatatableContent(assert, [
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['', '', '', ''],
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23']
-  ], 'A new row is added at the beginning of the datatable');
-  assertSelectedDatatableCell(assert, 2, 0,
-    'The first cell of the newly added row is selected');
-});
+  ], 'A new row is added at the beginning of the datatable')
+
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 2, column: 0}, 'The first cell of the newly added row is selected')
+})

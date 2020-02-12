@@ -65,22 +65,22 @@ const customHelpers = {
   },
 
   clickOnMoveDownRow(row) {
-    let context = fmt('tr:nth-child(%@)', row) + ' td:last-child,' + fmt('tr:nth-child(%@)', row) + ' th:last-child';
-    hoverTrigger(context, {i: 0});
+    let context = fmt('tr:nth-child(%@)', row) + ' td:last-child,' + fmt('tr:nth-child(%@)', row) + ' th:last-child'
+    hoverTrigger(context, {i: 0})
 
-    let action = find('.t-row-action-move-down');
+    let action = $('.t-row-action-move-down')
 
-    return click(action);
+    return action.click()
   },
 
   clickOnMoveLeftColumn(columnIndex) {
-    let context = fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1);
+    let context = fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1)
 
-    hoverTrigger(context, {span: 0});
+    hoverTrigger(context, {span: 0})
 
-    let action = find('.t-column-action-move-left');
+    let action = $('.t-column-action-move-left')
 
-    return click(action);
+    return action.click()
   },
 
 
@@ -89,24 +89,24 @@ const customHelpers = {
 
     hoverTrigger(context, {span: 0});
 
-    let action = find('.t-column-action-move-right');
+    let action = $('.t-column-action-move-right');
 
-    return click(action);
+    return action.click()
   },
 
   clickOnMoveUpRow(row) {
-    let context = fmt('tr:nth-child(%@)', row) + ' td:last-child,' + fmt('tr:nth-child(%@)', row) + ' th:last-child';
-    hoverTrigger(context, {i: 0});
+    let context = fmt('tr:nth-child(%@)', row) + ' td:last-child,' + fmt('tr:nth-child(%@)', row) + ' th:last-child'
+    hoverTrigger(context, {i: 0})
 
-    let action = find('.t-row-action-move-up');
+    let action = $('.t-row-action-move-up')
 
-    return click(action);
+    return action.click()
   },
 
   clickOnPlus(row, column) {
-    var element = find(fmt('tr:nth(%@)', row)).find('td, th').eq(column);
+    var element = $(fmt('tr:nth(%@)', row)).find('td, th').eq(column);
     element.focus();
-    click(element.find('.icon-plus'));
+    element.find('.icon-plus').click()
   },
 
   clickOnPencil(row, column) {
@@ -119,22 +119,22 @@ const customHelpers = {
   },
 
   clickOnRemoveColumn(columnIndex) {
-    let context = fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1);
+    let context = fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1)
 
-    hoverTrigger(context, {span: 0});
+    hoverTrigger(context, {span: 0})
 
-    let action = find('.t-column-action-remove');
+    let action = $('.t-column-action-remove')
 
-    return click(action);
+    return action.click()
   },
 
   clickOnRemoveRow(row) {
     let context = fmt('tr:nth-child(%@)', row) + ' td:last-child,' + fmt('tr:nth-child(%@)', row) + ' th:last-child';
     hoverTrigger(context, {i: 0});
 
-    let removeAction = find('.t-row-action-remove');
+    let removeAction = $('.t-row-action-remove');
 
-    return click(removeAction);
+    return removeAction.click();
   },
 
   pressEnterInDatatable() {
@@ -234,7 +234,7 @@ const customHelpers = {
   },
 
   getSelectedPosition() {
-    var selected = find('th.selected, td.selected').eq(0),
+    var selected = $('th.selected, td.selected').eq(0),
       rowElement = selected.parent(),
       column = rowElement.find('td, th').index(selected),
       row = rowElement.closest('table').find('tr').index(rowElement);
@@ -259,7 +259,7 @@ const customHelpers = {
 
   getDatatableContent() {
 		var datatableContent = A();
-		find('tbody tr').each(function () {
+		$('tbody tr').each(function () {
       var row = A();
       $(this).find('td').each(function () {
         row.push($(this).text().trim());
