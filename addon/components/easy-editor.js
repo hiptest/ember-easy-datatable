@@ -60,7 +60,7 @@ export default TextField.extend({
         this.get('navigate')(postSaveAction);
       } else {
         this.get('save')(this.get('value'), postSaveAction);
-        this.get('valueState')('saved');
+        this.set('valueState', 'saved')
       }
     }
   },
