@@ -105,7 +105,12 @@ export default Component.extend({
     };
   }),
 
-  startEditionWhenAsked: observer('showEditorForSelectedCell', function () {
+  didInsertElement() {
+    this._super(...arguments)
+    this._focusOnCell()
+  },
+
+  startEditionWhenAsked: observer('showEditorForSelectedCell', function() {
     schedule('afterRender', this, function () {
       if (this.get('cell.isSelected') && !this.get('editorShown') && this.get('showEditorForSelectedCell')) {
         this.startEdition();
@@ -114,14 +119,9 @@ export default Component.extend({
     });
   }),
 
-  changeFocusOnSelectionChanged: observer('cell.isSelected', function () {
+  focusWhenSelected: observer('cell.isSelected', function () {
     this._handleFocusState()
   }),
-
-  didRender() {
-    this._super(...arguments)
-    this._focusOnCell()
-  },
 
   click() {
     this.startEdition();
@@ -249,28 +249,32 @@ export default Component.extend({
   },
 
   _focusOnCell() {
-    const position = this.get('position'),
-      selected = this.get('selectedCellPosition');
+    schedule('afterRender', this, function () {
+      const position = this.get('position'),
+        selected = this.get('selectedCellPosition');
 
-    if (this.get('editorShown') || isNone(selected)) {
-      return;
-    }
+      if (this.get('editorShown') || isNone(selected)) {
+        return;
+      }
 
-    if (position.row === selected.row && position.column === selected.column) {
-      this.$().focus();
-    }
+      if (position.row === selected.row && position.column === selected.column) {
+        this.$().focus();
+      }
+    })
   },
 
   _handleFocusState() {
-    if (isNone(this.$())) {
-      return;
-    }
+    schedule('afterRender', this, function () {
+      if (isNone(this.$())) {
+        return
+      }
 
-    if (this.get('cell.isSelected') && !this.get('editorShown')) {
-      this.$().focus();
-    } else {
-      this.$().blur();
-    }
+      if (this.get('cell.isSelected') && !this.get('editorShown')) {
+        this.$().focus()
+      } else {
+        this.$().blur()
+      }
+    })
   },
 
 });

@@ -50,14 +50,6 @@ const customHelpers = function() {
     fillIn($(document.activeElement), "");
   });
 
-  registerAsyncHelper('clickOnDatatableCell', function(app, row, column) {
-
-    var element = find(fmt('tr:nth(%@)', row)).find('td, th').eq(column);
-    element.focus();
-    click(element);
-  });
-
-
   registerAsyncHelper('clickOnMoveDownRow', function(app, row) {
     let context = fmt('tr:nth-child(%@)', row) + ' td:last-child,' + fmt('tr:nth-child(%@)', row) + ' th:last-child';
     hoverTrigger(context, {i: 0});
