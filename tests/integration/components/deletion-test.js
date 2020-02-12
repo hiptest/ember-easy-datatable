@@ -59,7 +59,7 @@ test('Removing a row', function(assert) {
   assert.deepEqual(customHelpers.getSelectedPosition(), {row: 0, column: 0}, 'If the body is empty after deletion, selection moves to the header');
 });
 
-/*test('Row can me marked as non-removable', function (assert) {
+test('Row can me marked as non-removable', function (assert) {
   var self = this;
   assert.expect(2);
 
@@ -78,7 +78,7 @@ test('Removing a row', function(assert) {
                                                         ['Row 2', '2', '12', '22'],
                                                         ['Row 3', '3', '13', '23']]
                                                         ,'Nothing happens as the row is marked as non-removable');
-});*/
+});
 
 test('Removing a column', function (assert) {
   assert.expect(4);

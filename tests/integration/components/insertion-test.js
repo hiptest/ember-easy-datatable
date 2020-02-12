@@ -1,15 +1,13 @@
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import hbs from 'htmlbars-inline-precompile';
-import startApp from '../../helpers/start-app';
 import { moduleForComponent, test } from 'ember-qunit';
-import { run } from '@ember/runloop'
+import customHelpers from '../../helpers/_custom-helpers'
 
-var App;
 
 moduleForComponent('easy-datatable', 'Integration | Component | Insertion', {
   integration: true,
   setup: function() {
-    App = startApp();
+
     this.set('table', DatatableFactory.makeDatatable({
       headers: ['', 'Name', 'Value 1', 'Value 2', 'Value 3'],
       body: [
@@ -29,46 +27,41 @@ moduleForComponent('easy-datatable', 'Integration | Component | Insertion', {
       }
     }));
   },
-  teardown: function() {
-    run(App, 'destroy');
-  }
+
 });
 
 test('Inserting a new row', function(assert) {
   assert.expect(5);
 
   this.render(hbs`{{easy-datatable table=table}}`);
-  assertDatatableContent(assert, [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ]);
-  clickOnDatatableCell(1, 1);
-  pressEscInDatatable();
-  pressCtrlInserKeyInDatatable();
-  assertDatatableContent(assert, [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ], 'Nothing happens if it is not done in a row header');
-  pressLeftKeyInDatatable();
-  pressCtrlInserKeyInDatatable();
-  assertDatatableContent(assert, [
-    ['Row 0', '0', '10', '20'],
-    ['', '', '', ''],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ], 'Otherwise, a new empty row is added after the selected row');
-  assertSelectedDatatableCell(assert, 2, 0,
-    'The header of the new row is selected');
-  clickOnDatatableCell(5, 0);
-  pressEscInDatatable();
-  pressCtrlInserKeyInDatatable();
-  assertSelectedDatatableCell(assert, 6, 0,
-    'Inserting the last row with a keyboard shortcut brings to the correct cell');
+
+  assert.deepEqual(customHelpers.getDatatableContent(),[['Row 0', '0', '10', '20'],
+                                                      ['Row 1', '1', '11', '21'],
+                                                      ['Row 2', '2', '12', '22'],
+                                                      ['Row 3', '3', '13', '23']]);
+  customHelpers.clickOnDatatableCell(1, 1);
+  customHelpers.pressEscInDatatable();
+  customHelpers.pressCtrlInserKeyInDatatable();
+  assert.deepEqual(customHelpers.getDatatableContent(),[['Row 0', '0', '10', '20'],
+                                                      ['Row 1', '1', '11', '21'],
+                                                      ['Row 2', '2', '12', '22'],
+                                                      ['Row 3', '3', '13', '23']]
+                                            ,'Nothing happens if it is not done in a row header');
+  customHelpers.pressLeftKeyInDatatable();
+  customHelpers.pressCtrlInserKeyInDatatable();
+  assert.deepEqual(customHelpers.getDatatableContent(),[['Row 0', '0', '10', '20'],
+                                                      ['', '', '', ''],
+                                                      ['Row 1', '1', '11', '21'],
+                                                      ['Row 2', '2', '12', '22'],
+                                                      ['Row 3', '3', '13', '23']]
+                                            ,'Otherwise, a new empty row is added after the selected row');
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 2, column: 0}
+    ,'The header of the new row is selected');
+  customHelpers.clickOnDatatableCell(5, 0);
+  customHelpers.pressEscInDatatable();
+  customHelpers.pressCtrlInserKeyInDatatable();
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 6, column: 0}
+    ,'Inserting the last row with a keyboard shortcut brings to the correct cell');
 });
 
 test('Inserting a new row can be prevented by setting "canInsertRows" at the table level', function (assert) {
@@ -76,19 +69,18 @@ test('Inserting a new row can be prevented by setting "canInsertRows" at the tab
   assert.expect(2);
 
   this.render(hbs`{{easy-datatable table=table}}`);
-  andThen(function () {
-    self.get('table').set('canInsertRows', false);
-  });
-  assertDatatableContent(assert, [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ]);
-  clickOnDatatableCell(1, 0);
-  pressEscInDatatable();
-  pressCtrlInserKeyInDatatable();
-  assertDatatableContent(assert, [
+  self.get('table').set('canInsertRows', false);
+
+
+  assert.deepEqual(customHelpers.getDatatableContent(),[
+  ['Row 0', '0', '10', '20'],
+  ['Row 1', '1', '11', '21'],
+  ['Row 2', '2', '12', '22'],
+  ['Row 3', '3', '13', '23']]);
+  customHelpers.clickOnDatatableCell(1, 0);
+  customHelpers.pressEscInDatatable();
+  customHelpers.pressCtrlInserKeyInDatatable();
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
@@ -96,32 +88,32 @@ test('Inserting a new row can be prevented by setting "canInsertRows" at the tab
   ], 'There is no row added');
 });
 
+
+
 test('It is also possible to avoid new rows at given indices', function (assert) {
   var self = this;
   assert.expect(3);
 
   this.render(hbs`{{easy-datatable table=table}}`);
-  andThen(function () {
-    self.get('table.body')[2].set('cells.firstObject.canInsertRowAfter', false);
-  });
-  assertDatatableContent(assert, [
+  self.get('table.body')[2].set('cells.firstObject.canInsertRowAfter', false);
+
+  assert.deepEqual(customHelpers.getDatatableContent(),[
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ]);
-  clickOnDatatableCell(3, 0);
-  pressEscInDatatable();
-  pressCtrlInserKeyInDatatable();
-  assertDatatableContent(assert, [
+    ['Row 3', '3', '13', '23']]);
+  customHelpers.clickOnDatatableCell(3, 0);
+  customHelpers.pressEscInDatatable();
+  customHelpers.pressCtrlInserKeyInDatatable();
+  assert.deepEqual(customHelpers.getDatatableContent(),[
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23']
   ], 'There is no row added');
-  pressUpKeyInDatatable();
-  pressCtrlInserKeyInDatatable();
-  assertDatatableContent(assert, [
+  customHelpers.pressUpKeyInDatatable();
+  customHelpers.pressCtrlInserKeyInDatatable();
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['', '', '', ''],
@@ -135,38 +127,38 @@ test('Inserting a new column', function (assert) {
   assert.expect(6);
 
   this.render(hbs`{{easy-datatable table=table}}`);
-  assertDatatableContent(assert, [
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23']
   ]);
-  clickOnDatatableCell(1, 1);
-  pressEscInDatatable();
-  pressCtrlInserKeyInDatatable();
-  assertDatatableContent(assert, [
+  customHelpers.clickOnDatatableCell(1, 1);
+  customHelpers.pressEscInDatatable();
+  customHelpers.pressCtrlInserKeyInDatatable();
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23']
   ], 'Nothing happens if it is not done in a column header');
-  pressUpKeyInDatatable();
-  pressCtrlInserKeyInDatatable();
-  assertDatatableContent(assert, [
+  customHelpers.pressUpKeyInDatatable();
+  customHelpers.pressCtrlInserKeyInDatatable();
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '', '0', '10', '20'],
     ['Row 1', '', '1', '11', '21'],
     ['Row 2', '', '2', '12', '22'],
     ['Row 3', '', '3', '13', '23']
   ], 'Otherwise, a new empty column is added after the selected column');
-  assertDatatableHeader(assert, [ "", 'Name', '', 'Value 1', 'Value 2', 'Value 3'],
-    'An empty header is also added');
-  assertSelectedDatatableCell(assert, 0, 2,
-    'The correct header cell is selected after insertion');
-  clickOnDatatableCell(0, 5);
-  pressEscInDatatable();
-  pressCtrlInserKeyInDatatable();
-  assertSelectedDatatableCell(assert, 0, 6,
-    'After inserting the last column, the correct cell is selected)');
+  assert.deepEqual(customHelpers.getDatatableHeaders(), [ "", 'Name', '', 'Value 1', 'Value 2', 'Value 3']
+  ,'An empty header is also added');
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 0, column: 2}
+    ,'The correct header cell is selected after insertion');
+  customHelpers.clickOnDatatableCell(0, 5);
+  customHelpers.pressEscInDatatable();
+  customHelpers.pressCtrlInserKeyInDatatable();
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 0, column: 6}
+    ,'After inserting the last column, the correct cell is selected)');
 });
 
 test('Inserting a new column can be prevented by setting "canInsertColumns" to false at table level', function (assert) {
@@ -174,26 +166,26 @@ test('Inserting a new column can be prevented by setting "canInsertColumns" to f
   assert.expect(3);
 
   this.render(hbs`{{easy-datatable table=table}}`);
-  andThen(function () {
-    self.get('table').set('canInsertColumns', false);
-  });
-  assertDatatableContent(assert, [
+
+  self.get('table').set('canInsertColumns', false);
+
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23']
   ]);
-  clickOnDatatableCell(0, 1);
-  pressEscInDatatable();
-  pressCtrlInserKeyInDatatable();
-  assertDatatableContent(assert, [
+  customHelpers.clickOnDatatableCell(0, 1);
+  customHelpers.pressEscInDatatable();
+  customHelpers.pressCtrlInserKeyInDatatable();
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23']
   ], 'No column as been added');
-  assertDatatableHeader(assert, [ '', 'Name', 'Value 1', 'Value 2', 'Value 3'],
-    'Headers have not changed');
+  assert.deepEqual(customHelpers.getDatatableHeaders(), [ '', 'Name', 'Value 1', 'Value 2', 'Value 3']
+    ,'headers have not changed');
 });
 
 test('It can also be prevented for specific columns', function (assert) {
@@ -201,29 +193,29 @@ test('It can also be prevented for specific columns', function (assert) {
   assert.expect(4);
 
   this.render(hbs`{{easy-datatable table=table}}`);
-  andThen(function () {
-    self.get('table').get('headers.cells')[2].set('canInsertColumnAfter', false);
-  });
-  assertDatatableContent(assert, [
+
+  self.get('table').get('headers.cells')[2].set('canInsertColumnAfter', false);
+
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23']
   ]);
-  clickOnDatatableCell(0, 2);
-  pressEscInDatatable();
-  pressCtrlInserKeyInDatatable();
-  assertDatatableContent(assert, [
+  customHelpers.clickOnDatatableCell(0, 2);
+  customHelpers.pressEscInDatatable();
+  customHelpers.pressCtrlInserKeyInDatatable();
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '10', '20'],
     ['Row 1', '1', '11', '21'],
     ['Row 2', '2', '12', '22'],
     ['Row 3', '3', '13', '23']
   ], 'No column as been added');
-  assertDatatableHeader(assert, [ '', 'Name', 'Value 1', 'Value 2', 'Value 3'],
-    'headers have not changed');
-  pressRightKeyInDatatable();
-  pressCtrlInserKeyInDatatable();
-  assertDatatableContent(assert, [
+  assert.deepEqual(customHelpers.getDatatableHeaders(), [ '', 'Name', 'Value 1', 'Value 2', 'Value 3']
+    ,'headers have not changed');
+  customHelpers.pressRightKeyInDatatable();
+  customHelpers.pressCtrlInserKeyInDatatable();
+  assert.deepEqual(customHelpers.getDatatableContent(), [
     ['Row 0', '0', '10', '', '20'],
     ['Row 1', '1', '11', '', '21'],
     ['Row 2', '2', '12', '', '22'],
