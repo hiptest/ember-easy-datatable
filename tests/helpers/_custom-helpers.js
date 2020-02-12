@@ -6,43 +6,43 @@ import { run } from '@ember/runloop'
 
 const customHelpers = {
 
-  assertCurrentCellHasError(app, assert, message) {
+  assertCurrentCellHasError(assert, message) {
     assert.ok(this.getSelectedCell().hasClass('error'), message || 'Current cell is in error');
   },
 
-  assertCurrentCellHasNotError(app, assert, message) {
+  assertCurrentCellHasNotError(assert, message) {
     assert.ok(!this.getSelectedCell().hasClass('error'), message || 'Current cell is not in error');
   },
 
-	assertDatatableContent(app, assert, content, message) {
+	assertDatatableContent(assert, content, message) {
 		assert.deepEqual(this.getDatatableContent(), content, message || 'The datatable content is correct');
   },
 
-  assertDatatableHeader(app, assert, content, message) {
+  assertDatatableHeader(assert, content, message) {
     assert.deepEqual(this.getDatatableHeaders(), content, message || 'Headers are correct');
   },
 
-  assertEditorNotShown(app, assert, message) {
+  assertEditorNotShown(assert, message) {
 		assert.ok(this.getInputField().length === 0, message || 'Editor is not displayed');
   },
 
-	assertEditorShown(app, assert, message) {
+	assertEditorShown(assert, message) {
 		assert.ok(this.getInputField().length === 1, message || 'Editor is displayed');
   },
 
-  assertEditorContent(app, assert, content, message) {
+  assertEditorContent(assert, content, message) {
     assert.equal(this.getInputField().get(0).value, content, message || 'Editor has the correct content');
   },
 
-  assertNoSelectedDatatableCell(app, assert, message) {
+  assertNoSelectedDatatableCell(assert, message) {
     assert.equal(this.getSelectedCell().length, 0, message || 'No cell is currently selected');
   },
 
-  assertSelectedDatatableCell(app, assert, row, column, message) {
+  assertSelectedDatatableCell(assert, row, column, message) {
     assert.deepEqual(this.getSelectedPosition(), {row: row, column: column}, message || 'The correct cell is selected');
   },
 
-  assertHightlightedCellsText(app, assert, content, message) {
+  assertHightlightedCellsText(assert, content, message) {
     assert.deepEqual(this.getHighlightedCellsText(), content, message || 'the correct cells are highlighted');
   },
 
@@ -64,7 +64,7 @@ const customHelpers = {
     fillIn($(document.activeElement), "");
   },
 
-  clickOnMoveDownRow(app, row) {
+  clickOnMoveDownRow(row) {
     let context = fmt('tr:nth-child(%@)', row) + ' td:last-child,' + fmt('tr:nth-child(%@)', row) + ' th:last-child';
     hoverTrigger(context, {i: 0});
 
@@ -73,7 +73,7 @@ const customHelpers = {
     return click(action);
   },
 
-  clickOnMoveLeftColumn(app, columnIndex) {
+  clickOnMoveLeftColumn(columnIndex) {
     let context = fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1);
 
     hoverTrigger(context, {span: 0});
@@ -84,7 +84,7 @@ const customHelpers = {
   },
 
 
-  clickOnMoveRightColumn(app, columnIndex) {
+  clickOnMoveRightColumn(columnIndex) {
     let context = fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1);
 
     hoverTrigger(context, {span: 0});
@@ -94,7 +94,7 @@ const customHelpers = {
     return click(action);
   },
 
-  clickOnMoveUpRow(app, row) {
+  clickOnMoveUpRow(row) {
     let context = fmt('tr:nth-child(%@)', row) + ' td:last-child,' + fmt('tr:nth-child(%@)', row) + ' th:last-child';
     hoverTrigger(context, {i: 0});
 
@@ -103,13 +103,13 @@ const customHelpers = {
     return click(action);
   },
 
-  clickOnPlus(app, row, column) {
+  clickOnPlus(row, column) {
     var element = find(fmt('tr:nth(%@)', row)).find('td, th').eq(column);
     element.focus();
     click(element.find('.icon-plus'));
   },
 
-  clickOnPencil(app, row, column) {
+  clickOnPencil(row, column) {
     let context = fmt('thead tr:nth-child(%@) td:nth-child(%@)', row, column + 1) + ', ' + fmt('thead tr:nth-child(%@) th:nth-child(%@)', row, column + 1);
 
     hoverTrigger(context, {span: 0});
@@ -118,7 +118,7 @@ const customHelpers = {
     return click(action);
   },
 
-  clickOnRemoveColumn(app, columnIndex) {
+  clickOnRemoveColumn(columnIndex) {
     let context = fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1);
 
     hoverTrigger(context, {span: 0});
@@ -128,7 +128,7 @@ const customHelpers = {
     return click(action);
   },
 
-  clickOnRemoveRow(app, row) {
+  clickOnRemoveRow(row) {
     let context = fmt('tr:nth-child(%@)', row) + ' td:last-child,' + fmt('tr:nth-child(%@)', row) + ' th:last-child';
     hoverTrigger(context, {i: 0});
 
