@@ -4,6 +4,7 @@ import { test, moduleForComponent } from 'ember-qunit';
 import { isNone } from '@ember/utils'
 import $ from 'jquery'
 import { run } from '@ember/runloop'
+import customHelpers from '../../helpers/_custom-helpers'
 
 moduleForComponent('easy-datatable', 'Integration | Component | content edition direct validation', {
   integration: true,
@@ -40,12 +41,13 @@ test('Row header', async function (assert) {
 
   await this.render(hbs`{{easy-datatable table=table}}`);
 
-  await clickOnDatatableCell(3, 0)
+  await customHelpers.clickOnDatatableCell(3, 0)
 
-  const highlightedCells = getAssertHightlightedCellsText()
+  const highlightedCells = customHelpers.getHightlightedCellsText()
   assert.deepEqual(highlightedCells, ['#2', 'Row 2', '2', '12', '22'], 'the correct cells are highlighted')
 
   assert.equal(this.$('input').length, 1, 'The cell editor is shown')
+
   // typeInDatatable('I forgot it should be #something');
   // pressEnterInDatatable();
   // assertEditorShown(assert,
@@ -82,42 +84,3 @@ test('Column header', function (assert) {
   assertCurrentCellHasNotError(assert);
   assertHightlightedCellsText(assert, ['Value 951', '10', '11', '12', '13']);
 });
-
-function clickOnDatatableCell(row, column) {
-  const element = $(`tr:nth(${row})`).find('td, th').eq(column);
-
-  return run(function() {
-    element.click()
-  })
-}
-
-function getAssertHightlightedCellsText() {
-  return $.find('td.highlighted, th.highlighted').map(elt => {
-    return elt.textContent.trim()
-  })
-}
-
-
-function typeInDatatable(value) {
-  if (value !== '') {
-    pressKey(value.charCodeAt(0));
-    typeInDatatable(value.slice(1));
-  }
-}
-
-function pressKey() {
-}
-function pressEnterInDatatable() {
-}
-function assertCurrentCellHasError() {
-
-}
-function pressEscInDatatable() {
-
-}
-function assertEditorNotShown() {
-
-}
-function assertCurrentCellHasNotError() {
-
-}
