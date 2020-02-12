@@ -258,10 +258,10 @@ const customHelpers = {
   },
 
   getDatatableContent() {
-		var datatableContent = A();
-		$('tbody tr').each(function () {
-      var row = A();
-      $(this).find('td').each(function () {
+    const datatableContent = A();
+    $.find('tbody tr').map(tr => {
+      const row = A();
+      $(tr).find('td').each(function() {
         row.push($(this).text().trim());
       });
       datatableContent.push(row);
@@ -270,7 +270,7 @@ const customHelpers = {
   },
 
   getDatatableHeaders () {
-    return find('thead th').map(function () {
+    return $('thead th').map(function () {
       return $(this).text().trim();
     }).get();
   },
