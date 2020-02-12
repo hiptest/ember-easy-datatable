@@ -248,7 +248,7 @@ const customHelpers = {
 
 
   getHighlightedCellsText () {
-    return find('td.highlighted, th.highlighted').map(function () {
+    return $('td.highlighted, th.highlighted').map(function () {
       return $(this).text().trim();
     }).get();
   },
