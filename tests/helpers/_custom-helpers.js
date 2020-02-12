@@ -138,62 +138,62 @@ const customHelpers = {
   },
 
   pressEnterInDatatable() {
-    pressKey(13);
+    this.pressKey(13);
   },
 
   pressEscInDatatable() {
-    pressKey(27);
+    this.pressKey(27);
  },
 
   pressUpKeyInDatatable() {
-    pressKey(38);
+    this.pressKey(38);
   },
 
   pressDownKeyInDatatable() {
-    pressKey(40);
+    this.pressKey(40);
   },
 
   pressRightKeyInDatatable() {
-    pressKey(39);
+    this.pressKey(39);
   },
 
   pressLeftKeyInDatatable() {
-    pressKey(37);
+    this.pressKey(37);
   },
 
   pressCtrlUpKeyInDatatable() {
-    pressKey(38, true);
+    this.pressKey(38, true);
   },
 
   pressCtrlDownKeyInDatatable() {
-    pressKey(40, true);
+    this.pressKey(40, true);
   },
 
   pressCtrlRightKeyInDatatable() {
-    pressKey(39, true);
+    this.pressKey(39, true);
   },
 
   pressCtrlLeftKeyInDatatable() {
-    pressKey(37, true);
+    this.pressKey(37, true);
   },
 
   pressCtrlDelKeyInDatatable() {
-    pressKey(46, true);
+    this.pressKey(46, true);
   },
 
   pressCtrlInserKeyInDatatable() {
-    pressKey(45, true);
+    this.pressKey(45, true);
   },
 
   pressTabKeyInDatatable() {
-    pressKey(9);
+    this.pressKey(9);
   },
 
   pressShiftTabKeyInDatatable() {
-   pressKey(9, false, true);
+   this.pressKey(9, false, true);
   },
 
-  pressKey(app, keyCode, ctrlKey, shiftKey) {
+  pressKey(keyCode, ctrlKey, shiftKey) {
     // Does not ask for an element, send event to the currently focused element.
     var $el = $(document.activeElement),
       eventData = {
@@ -226,10 +226,10 @@ const customHelpers = {
     });
   },
 
-  typeInDatatable(app, value) {
+  typeInDatatable(value) {
     if (value !== '') {
-      pressKey(value.charCodeAt(0));
-      typeInDatatable(value.slice(1));
+      this.pressKey(value.charCodeAt(0));
+      this.typeInDatatable(value.slice(1));
     }
   },
 
@@ -243,7 +243,7 @@ const customHelpers = {
   },
 
   getSelectedCell() {
-    return find('th.selected, td.selected').eq(0);
+    return $('th.selected, td.selected').eq(0);
   },
 
 
