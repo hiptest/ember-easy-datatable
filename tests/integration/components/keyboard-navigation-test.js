@@ -3,6 +3,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { test, moduleForComponent } from 'ember-qunit';
 import customHelpers from '../../helpers/_custom-helpers'
 
+
 moduleForComponent('easy-datatable', 'Integration | Component | keyboard navigation', {
   integration: true,
   setup() {
@@ -23,7 +24,7 @@ test('Keyboard navigation', async function(assert) {
 
   assert.equal(customHelpers.getSelectedCell().length, 0, 'No cell is currently selected')
 
-  customHelpers.clickOnDatatableCell(1, 1);
+  await customHelpers.clickOnDatatableCell(1, 1);
   assert.deepEqual(customHelpers.getSelectedPosition(), {row: 1, column: 1}, 'The correct cell is selected')
 
   await customHelpers.pressRightKeyInDatatable()
