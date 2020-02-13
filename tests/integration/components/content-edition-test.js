@@ -338,7 +338,7 @@ test('Navigation based on enter', async function (assert) {
     'The datatable content is correct'
   );
 
-  customHelpers.clickOnDatatableCell(2, 2);
+  await customHelpers.clickOnDatatableCell(2, 2);
   customHelpers.typeInDatatable('x');
   customHelpers.pressEnterInDatatable();
 
