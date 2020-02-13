@@ -1,6 +1,5 @@
 import { hoverTrigger } from "./ember-basic-dropdown-helpers";
 import $ from 'jquery'
-import { fmt } from '@ember/string'
 import { A } from '@ember/array'
 import { run } from '@ember/runloop'
 import { click } from '@ember/test-helpers'
@@ -64,7 +63,7 @@ const customHelpers = {
   },
 
   clickOnMoveDownRow(row) {
-    let context = fmt('tr:nth-child(%@)', row) + ' td:last-child,' + fmt('tr:nth-child(%@)', row) + ' th:last-child'
+    let context = `tr:nth-child(${row}) td:last-child, tr:nth-child(${row}) th:last-child`
     hoverTrigger(context, {i: 0})
 
     let action = $('.t-row-action-move-down')
@@ -73,8 +72,7 @@ const customHelpers = {
   },
 
   clickOnMoveLeftColumn(columnIndex) {
-    let context = fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1)
-
+    let context = `thead tr:first-child td:nth-child(${columnIndex + 1}), thead tr:first-child th:nth-child(${columnIndex + 1})`
     hoverTrigger(context, {span: 0})
 
     let action = $('.t-column-action-move-left')
@@ -84,7 +82,7 @@ const customHelpers = {
 
 
   clickOnMoveRightColumn(columnIndex) {
-    let context = fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1);
+    let context = `thead tr:first-child td:nth-child(${columnIndex + 1}), thead tr:first-child th:nth-child(${columnIndex + 1})`
 
     hoverTrigger(context, {span: 0});
 
@@ -94,7 +92,7 @@ const customHelpers = {
   },
 
   clickOnMoveUpRow(row) {
-    let context = fmt('tr:nth-child(%@)', row) + ' td:last-child,' + fmt('tr:nth-child(%@)', row) + ' th:last-child'
+    let context = `tr:nth-child(${row}) td:last-child, tr:nth-child(${row}) th:last-child`
     hoverTrigger(context, {i: 0})
 
     let action = $('.t-row-action-move-up')
@@ -103,13 +101,13 @@ const customHelpers = {
   },
 
   clickOnPlus(row, column) {
-    var element = $(fmt('tr:nth(%@)', row)).find('td, th').eq(column);
+    var element = $(`tr:nth(${row})`).find('td, th').eq(column);
     element.focus();
     element.find('.icon-plus').click()
   },
 
   clickOnPencil(row, column) {
-    let context = fmt('thead tr:nth-child(%@) td:nth-child(%@)', row, column + 1) + ', ' + fmt('thead tr:nth-child(%@) th:nth-child(%@)', row, column + 1);
+    let context = `thead tr:nth-child(${row}) td:nth-child(${column + 1}), thead tr:nth-child(${row}) th:nth-child(${column + 1})`
 
     hoverTrigger(context, {span: 0});
 
@@ -118,7 +116,7 @@ const customHelpers = {
   },
 
   clickOnRemoveColumn(columnIndex) {
-    let context = fmt('thead tr:first-child td:nth-child(%@)', columnIndex + 1) + ', ' + fmt('thead tr:first-child th:nth-child(%@)', columnIndex + 1)
+    let context = `thead tr:first-child td:nth-child(${columnIndex + 1}), thead tr:first-child th:nth-child(${columnIndex + 1})`
 
     hoverTrigger(context, {span: 0})
 
@@ -128,7 +126,7 @@ const customHelpers = {
   },
 
   clickOnRemoveRow(row) {
-    let context = fmt('tr:nth-child(%@)', row) + ' td:last-child,' + fmt('tr:nth-child(%@)', row) + ' th:last-child';
+    let context = `tr:nth-child(${row}) td:last-child, tr:nth-child(${row}) th:last-child`
     hoverTrigger(context, {i: 0});
 
     let removeAction = $('.t-row-action-remove');
@@ -215,10 +213,11 @@ const customHelpers = {
 
       // Update input value if needed
       if (focused.is('input[type=text]') && character.match(/[a-zA-Z0-9 .#\-_]/)) {
-        focused.val(fmt('%@%@%@',
-          focused.val().slice(0, focused.get(0).selectionStart),
-          String.fromCharCode(keyCode),
-          focused.val().slice(focused.get(0).selectionEnd)));
+        const selStart = focused.val().slice(0, focused.get(0).selectionStart)
+        const keyChar = String.fromCharCode(keyCode)
+        const selEnd = focused.val().slice(focused.get(0).selectionEnd)
+
+        focused.val(`${selStart}${keyChar}${selEnd}`);
       }
 
       focused.trigger(keyUpEvent);
