@@ -1,15 +1,14 @@
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
-import startApp from '../../helpers/start-app';
 import { run } from '@ember/runloop'
+import { Promise } from 'rsvp'
+import customHelpers from '../../helpers/_custom-helpers'
 
-var App;
 
 moduleForComponent('easy-datatable', 'Integration | Component | Edit after insertion', {
   integration: true,
   setup: function() {
-    App = startApp();
     this.set('table', DatatableFactory.makeDatatable({
       headers: [{value:'H1', showAddFirstColumn: true, isEditable: false},
       'H2',
@@ -68,48 +67,46 @@ moduleForComponent('easy-datatable', 'Integration | Component | Edit after inser
       }
     }));
   },
-  teardown: function() {
-    run(App, 'destroy');
-  }
+
 });
 
 
-test('If option "editAfterInsertion" is set to true, the editor is shown after inserting a new row', function (assert) {
+test('If option "editAfterInsertion" is set to true, the editor is shown after inserting a new row', async function (assert) {
   assert.expect(6);
-  this.render(hbs`{{easy-datatable table=table editAfterInsertion=true showAddFirstRow=true showAddLastRow=true addNewRowLabel='Add new row'}}`);
+  await this.render(hbs`{{easy-datatable table=table editAfterInsertion=true showAddFirstRow=true showAddLastRow=true addNewRowLabel='Add new row'}}`);
 
-  clickOnDatatableCell(2, 0);
-  pressCtrlInserKeyInDatatable();
-  assertSelectedDatatableCell(assert, 3, 3,
+  await customHelpers.clickOnDatatableCell(2, 0);
+  await customHelpers.pressCtrlInserKeyInDatatable();
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 3, column: 3},
+   'The first editable cell is selected (not the header) ...');
+  assert.ok(customHelpers.getInputField().length === 1,'... and the editor is shown');
+  await customHelpers.click('.t-add-new-row');
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 7, column: 3},
     'The first editable cell is selected (not the header) ...');
-  assertEditorShown(assert, '... and the editor is shown');
-  click('.t-add-new-row');
-  assertSelectedDatatableCell(assert, 7, 3,
-    'It also works when inserting last row ...');
-  assertEditorShown(assert);
-  click('.t-add-new-row');
+  assert.ok(customHelpers.getInputField().length === 1);
+  await customHelpers.click('.t-add-new-row');
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 8, column: 3},
+  '... or the first row');
 
-  assertSelectedDatatableCell(assert, 8, 3,
-    '... or the first row');
-  assertEditorShown(assert);
+  assert.ok(customHelpers.getInputField().length === 1);
 });
 
 test('If option "editAfterInsertion" is set to true, the editor is shown after inserting a new column', function (assert) {
   assert.expect(6);
 
   this.render(hbs`{{easy-datatable table=table editAfterInsertion=true}}`);
-  clickOnDatatableCell(0, 2);
-  pressEscInDatatable();
-  pressCtrlInserKeyInDatatable();
-  assertSelectedDatatableCell(assert, 4, 3,
-    'The same principle applies when inserting columns');
-  assertEditorShown(assert, '... and the editor is also shown');
-  click('a.add-first-column');
-  assertSelectedDatatableCell(assert, 4, 0,
-    'It also works when inserting the first column ...');
-  assertEditorShown(assert);
-  click('a.add-last-column');
-  assertSelectedDatatableCell(assert, 4, 6,
-    '... or the last one');
-  assertEditorShown(assert);
+  customHelpers.clickOnDatatableCell(0, 2);
+  customHelpers.pressEscInDatatable();
+  customHelpers.pressCtrlInserKeyInDatatable();
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 3},
+  'The same principle applies when inserting columns');
+  assert.ok(customHelpers.getInputField().length === 1,'... and the editor is shown');
+  customHelpers.click('a.add-first-column');
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 0},
+  'It also works when inserting the first column ...');
+  assert.ok(customHelpers.getInputField().length === 1);
+  customHelpers.click('a.add-last-column');
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 6},
+  '... or the last one');
+  assert.ok(customHelpers.getInputField().length === 1);
 });
