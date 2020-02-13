@@ -105,19 +105,32 @@ export default Component.extend({
     };
   }),
 
+  init() {
+    this._super(...arguments)
+    this._showEditor()
+  },
+
   didInsertElement() {
     this._super(...arguments)
     this._focusOnCell()
   },
 
   startEditionWhenAsked: observer('showEditorForSelectedCell', function() {
+    this._showEditor()
+  }),
+
+  _showEditor() {
     schedule('afterRender', this, function () {
-      if (this.get('cell.isSelected') && !this.get('editorShown') && this.get('showEditorForSelectedCell')) {
+      if (!this.get('showEditorForSelectedCell')) {
+        return;
+      }
+
+      if (this.get('cell.isSelected') && !this.get('editorShown')) {
         this.startEdition();
         this.set('showEditorForSelectedCell', false);
       }
-    });
-  }),
+    })
+  },
 
   focusWhenSelected: observer('cell.isSelected', function () {
     this._handleFocusState()
