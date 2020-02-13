@@ -3,6 +3,7 @@ import $ from 'jquery'
 import { fmt } from '@ember/string'
 import { A } from '@ember/array'
 import { run } from '@ember/runloop'
+import { click } from '@ember/test-helpers'
 
 const customHelpers = {
 
@@ -46,12 +47,10 @@ const customHelpers = {
     assert.deepEqual(this.getHighlightedCellsText(), content, message || 'the correct cells are highlighted');
   },
 
-  clickOnDatatableCell(row, column) {
+  async clickOnDatatableCell(row, column) {
     const element = $(`tr:nth(${row})`).find('td, th').eq(column);
 
-    return run(function() {
-      element.click()
-    })
+    await click(element[0])
   },
 
   getHightlightedCellsText() {
