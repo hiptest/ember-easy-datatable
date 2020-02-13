@@ -91,22 +91,27 @@ test('If option "editAfterInsertion" is set to true, the editor is shown after i
   assert.ok(this.$('input').length === 1);
 });
 
-// test('If option "editAfterInsertion" is set to true, the editor is shown after inserting a new column', async function (assert) {
-//   assert.expect(6);
-//
-//   await this.render(hbs`{{easy-datatable table=table editAfterInsertion=true}}`);
-//   await customHelpers.clickOnDatatableCell(0, 2);
-//   await customHelpers.pressEscInDatatable();
-//   await customHelpers.pressCtrlInserKeyInDatatable();
-//   assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 3},
-//   'The same principle applies when inserting columns');
-//   assert.ok(customHelpers.getInputField().length === 1,'... and the editor is shown');
-//   await this.$('.add-first-column').click()
-//   assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 0},
-//   'It also works when inserting the first column ...');
-//   assert.ok(customHelpers.getInputField().length === 1);
-//   await this.$('.add-first-column').click()
-//   assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 6},
-//   '... or the last one');
-//   assert.ok(customHelpers.getInputField().length === 1);
-// });
+test('If option "editAfterInsertion" is set to true, the editor is shown after inserting a new column', async function (assert) {
+  assert.expect(6);
+
+  await this.render(hbs`{{easy-datatable table=table editAfterInsertion=true}}`);
+
+  await customHelpers.clickOnDatatableCell(0, 2);
+  await customHelpers.pressEscInDatatable();
+  await customHelpers.pressCtrlInserKeyInDatatable();
+
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 3},
+  'The same principle applies when inserting columns');
+  assert.ok(this.$('input').length === 1,'... and the editor is shown');
+
+  await this.$('.add-first-column').click()
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 0},
+  'It also works when inserting the first column ...');
+
+  assert.ok(this.$('input').length === 1);
+  await this.$('.add-last-column').click()
+  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 6},
+  '... or the last one');
+
+  assert.ok(this.$('input').length === 1);
+});
