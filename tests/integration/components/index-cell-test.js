@@ -44,21 +44,21 @@ test('When isIndex is set to true, the cell displays the row + 1', function(asse
   ]);
 });
 
-test('Is keeps showing the correct value after insertion, removing or reordering', function (assert) {
+test('Is keeps showing the correct value after insertion, removing or reordering', async function (assert) {
   assert.expect(1);
 
-  this.render(hbs`{{easy-datatable table=table}}`);
+  await this.render(hbs`{{easy-datatable table=table}}`);
   assert.deepEqual(customHelpers.getDatatableContent(), [
     ['1', 'Row 1'],
     ['2', 'Row 2'],
     ['3', 'Row 3'],
     ['4', 'Row 4']
   ]);
-  //Problem with pressCtrlInserKeyInDatatable, must be corrected so the assertions can pass
+  //Problem with clickOnDatatableCell(), must be corrected so the assertions can pass
 
-  /*
-  customHelpers.clickOnDatatableCell(1, 0);
-  customHelpers.pressCtrlInserKeyInDatatable();
+
+  await customHelpers.clickOnDatatableCell(1, 0);
+  await customHelpers.pressCtrlInserKeyInDatatable();
 
   assert.deepEqual(customHelpers.getDatatableContent(), [
     ['1', 'Row 1'],
@@ -68,18 +68,18 @@ test('Is keeps showing the correct value after insertion, removing or reordering
     ['5', 'Row 4']
   ]);
 
-  customHelpers.pressCtrlDelKeyInDatatable();
+  await customHelpers.pressCtrlDelKeyInDatatable();
   assert.deepEqual(customHelpers.getDatatableContent(), [
     ['1', 'Row 1'],
     ['2', 'Row 2'],
     ['3', 'Row 3'],
     ['4', 'Row 4']
   ]);
-  customHelpers.pressCtrlDownKeyInDatatable();
+  await customHelpers.pressCtrlDownKeyInDatatable();
   assert.deepEqual(customHelpers.getDatatableContent(), [
     ['1', 'Row 1'],
     ['2', 'Row 3'],
     ['3', 'Row 2'],
     ['4', 'Row 4']
-  ]);*/
+  ]);
 });
