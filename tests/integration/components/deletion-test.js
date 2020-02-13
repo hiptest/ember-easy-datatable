@@ -22,16 +22,16 @@ moduleForComponent('easy-datatable', 'Integration | Component | deletion', {
 
 });
 
-test('Removing a row', function(assert) {
+test('Removing a row', async function(assert) {
   assert.expect(7);
 
-  this.render(hbs`{{easy-datatable table=table}}`);
+  await this.render(hbs`{{easy-datatable table=table}}`);
   assert.deepEqual(customHelpers.getDatatableContent(),[['Row 0', '0', '10', '20'],
                                             ['Row 1', '1', '11', '21'],
                                             ['Row 2', '2', '12', '22'],
                                             ['Row 3', '3', '13', '23']]
                                              ,'The datatable content is correct');
-  customHelpers.clickOnDatatableCell(1, 1);
+  await customHelpers.clickOnDatatableCell(1, 1);
   customHelpers.pressEscInDatatable();
   customHelpers.pressCtrlDelKeyInDatatable();
   assert.deepEqual(customHelpers.getDatatableContent(),[['Row 0', '0', '10', '20'],
@@ -59,18 +59,18 @@ test('Removing a row', function(assert) {
   assert.deepEqual(customHelpers.getSelectedPosition(), {row: 0, column: 0}, 'If the body is empty after deletion, selection moves to the header');
 });
 
-test('Row can me marked as non-removable', function (assert) {
+test('Row can me marked as non-removable', async function (assert) {
   var self = this;
   assert.expect(2);
 
-  this.render(hbs`{{easy-datatable table=table}}`);
+  await this.render(hbs`{{easy-datatable table=table}}`);
   self.set('table.body.firstObject.cells.firstObject.isRemovable', false);
   assert.deepEqual(customHelpers.getDatatableContent(),[['Row 0', '0', '10', '20'],
                                                       ['Row 1', '1', '11', '21'],
                                                       ['Row 2', '2', '12', '22'],
                                                       ['Row 3', '3', '13', '23']]);
 
-  customHelpers.clickOnDatatableCell(1, 0);
+  await customHelpers.clickOnDatatableCell(1, 0);
   customHelpers.pressEscInDatatable();
   customHelpers.pressCtrlDelKeyInDatatable();
   assert.deepEqual(customHelpers.getDatatableContent(), [['Row 0', '0', '10', '20'],
@@ -80,15 +80,15 @@ test('Row can me marked as non-removable', function (assert) {
                                                         ,'Nothing happens as the row is marked as non-removable');
 });
 
-test('Removing a column', function (assert) {
+test('Removing a column', async function (assert) {
   assert.expect(4);
 
-  this.render(hbs`{{easy-datatable table=table}}`);
+  await this.render(hbs`{{easy-datatable table=table}}`);
   assert.deepEqual(customHelpers.getDatatableContent(), [['Row 0', '0', '10', '20'],
                                                       ['Row 1', '1', '11', '21'],
                                                       ['Row 2', '2', '12', '22'],
                                                       ['Row 3', '3', '13', '23']]);
-  customHelpers.clickOnDatatableCell(1, 1);
+  await customHelpers.clickOnDatatableCell(1, 1);
   customHelpers.pressEscInDatatable();
   customHelpers.pressCtrlDelKeyInDatatable();
   assert.deepEqual(customHelpers.getDatatableContent(), [ ['Row 0', '0', '10', '20'],
@@ -106,11 +106,11 @@ test('Removing a column', function (assert) {
   assert.deepEqual(customHelpers.getDatatableHeaders(), [ "", 'Value 1', 'Value 2', 'Value 3'],'The header is also removed');
 });
 
-test('Columns can be marked as non-removable', function (assert) {
+test('Columns can be marked as non-removable', async function (assert) {
   var self = this;
   assert.expect(3);
 
-  this.render(hbs`{{easy-datatable table=table}}`);
+  await this.render(hbs`{{easy-datatable table=table}}`);
 
   self.get('table').get('headers.cells')[1].set('isRemovable', false);
 
@@ -118,7 +118,7 @@ test('Columns can be marked as non-removable', function (assert) {
                                                     ['Row 1', '1', '11', '21'],
                                                     ['Row 2', '2', '12', '22'],
                                                     ['Row 3', '3', '13', '23']]);
-  customHelpers.clickOnDatatableCell(0, 1);
+  await customHelpers.clickOnDatatableCell(0, 1);
   customHelpers.pressEscInDatatable();
   customHelpers.pressCtrlDelKeyInDatatable();
   assert.deepEqual(customHelpers.getDatatableContent(), [['Row 0', '0', '10', '20'],
