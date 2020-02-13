@@ -260,10 +260,13 @@ const customHelpers = {
     const datatableContent = A();
     $.find('tbody tr').map(tr => {
       const row = A();
-      $(tr).find('td').each(function() {
-        row.push($(this).text().trim());
-      });
-      datatableContent.push(row);
+      run(function() {
+        $(tr).find('td').each(function() {
+          row.push($(this).text().trim());
+        });
+
+        datatableContent.push(row);
+      })
     });
     return datatableContent;
   },
