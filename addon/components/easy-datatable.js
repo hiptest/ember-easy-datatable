@@ -323,6 +323,10 @@ export default Component.extend({
     if (position.row === -1) {
       return this.get('table.headers.cells')[position.column];
     }
+    if (position.row >= this.get('table.body').length) {
+      this.fixPosition({row: this.get('table.body').length - 1, column: position.column});
+      position = this.get('selectedCellPosition')
+    }
     return this.get('table.body')[position.row].get('cells')[position.column];
   }),
 
