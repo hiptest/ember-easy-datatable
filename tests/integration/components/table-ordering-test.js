@@ -1,236 +1,241 @@
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory"
 import hbs from 'htmlbars-inline-precompile'
-import { test, moduleForComponent } from 'ember-qunit'
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import customHelpers from '../../helpers/_custom-helpers'
 
-moduleForComponent('easy-datatable', 'Integration | Component | Table ordering', {
-  integration: true,
-  setup() {
-    this.set('table', DatatableFactory.makeDatatable({
-    headers: ['', 'Name', 'Value 1', 'Value 2', 'Value 3'],
-    body: [
-      [{isHeader: true, value: '#0'}, 'Row 0', 0, 10, 20],
-      [{isHeader: true, value: '#1'}, 'Row 1', 1, 11, 21],
-      [{isHeader: true, value: '#2'}, 'Row 2', 2, 12, 22],
-      [{isHeader: true, value: '#3'}, 'Row 3', 3, 13, 23]
-    ]
-  }));
-  }
-});
+module('Integration | Component | Table ordering', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('Column order can be changed using ctrl + left/right arrow', async function(assert) {
-  assert.expect(8);
+  hooks.beforeEach(function() {
 
-  await this.render(hbs`{{easy-datatable table=table}}`)
+      this.set('table', DatatableFactory.makeDatatable({
+      headers: ['', 'Name', 'Value 1', 'Value 2', 'Value 3'],
+      body: [
+        [{isHeader: true, value: '#0'}, 'Row 0', 0, 10, 20],
+        [{isHeader: true, value: '#1'}, 'Row 1', 1, 11, 21],
+        [{isHeader: true, value: '#2'}, 'Row 2', 2, 12, 22],
+        [{isHeader: true, value: '#3'}, 'Row 3', 3, 13, 23]
+      ]
+    }));
 
-  assert.deepEqual(customHelpers.getDatatableHeaders(),
-    ["", "Name", "Value 1", "Value 2", "Value 3"], 'Headers are correct')
+  });
 
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ])
+  test('Column order can be changed using ctrl + left/right arrow', async function(assert) {
+    assert.expect(8);
 
-  await customHelpers.clickOnDatatableCell(1, 1)
-  await customHelpers.pressEscInDatatable()
-  await customHelpers.pressCtrlRightKeyInDatatable()
+    await this.render(hbs`{{easy-datatable table=table}}`)
 
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ], 'If a cell is selected (not a <th> in the header), nothing happens when doing ctrl + right');
+    assert.deepEqual(customHelpers.getDatatableHeaders(),
+      ["", "Name", "Value 1", "Value 2", "Value 3"], 'Headers are correct')
 
-  await customHelpers.pressUpKeyInDatatable()
-  await customHelpers.pressCtrlRightKeyInDatatable()
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 0', '0', '10', '20'],
+      ['Row 1', '1', '11', '21'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ])
 
+    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.pressEscInDatatable()
+    await customHelpers.pressCtrlRightKeyInDatatable()
 
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['0', 'Row 0', '10', '20'],
-    ['1', 'Row 1', '11', '21'],
-    ['2', 'Row 2', '12', '22'],
-    ['3', 'Row 3', '13', '23']
-  ], 'Otherwise, the selected is moved to the right')
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 0', '0', '10', '20'],
+      ['Row 1', '1', '11', '21'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ], 'If a cell is selected (not a <th> in the header), nothing happens when doing ctrl + right');
+
+    await customHelpers.pressUpKeyInDatatable()
+    await customHelpers.pressCtrlRightKeyInDatatable()
 
 
-  assert.deepEqual(customHelpers.getDatatableHeaders(), ["", "Value 1", "Name", "Value 2", "Value 3"],
-    'And so is the header');
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['0', 'Row 0', '10', '20'],
+      ['1', 'Row 1', '11', '21'],
+      ['2', 'Row 2', '12', '22'],
+      ['3', 'Row 3', '13', '23']
+    ], 'Otherwise, the selected is moved to the right')
 
-  assert.deepEqual(customHelpers.getHighlightedCellsText(),
-    ['Name', 'Row 0', 'Row 1', 'Row 2', 'Row 3'], 'The moved column is stilln highlighted')
+
+    assert.deepEqual(customHelpers.getDatatableHeaders(), ["", "Value 1", "Name", "Value 2", "Value 3"],
+      'And so is the header');
+
+    assert.deepEqual(customHelpers.getHighlightedCellsText(),
+      ['Name', 'Row 0', 'Row 1', 'Row 2', 'Row 3'], 'The moved column is stilln highlighted')
 
 
-  await customHelpers.pressCtrlLeftKeyInDatatable()
+    await customHelpers.pressCtrlLeftKeyInDatatable()
 
-  assert.deepEqual(customHelpers.getDatatableHeaders(), ["", "Name", "Value 1", "Value 2", "Value 3"],
-    'Ctrl+left moves the row back')
+    assert.deepEqual(customHelpers.getDatatableHeaders(), ["", "Name", "Value 1", "Value 2", "Value 3"],
+      'Ctrl+left moves the row back')
 
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ], 'And the header too, of course')
-})
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 0', '0', '10', '20'],
+      ['Row 1', '1', '11', '21'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ], 'And the header too, of course')
+  })
 
-test('Column headers can be marked as non-movable', async function (assert) {
-  assert.expect(10)
+  test('Column headers can be marked as non-movable', async function (assert) {
+    assert.expect(10)
 
-  this.render(hbs`{{easy-datatable table=table}}`)
-  this.get('table').get('headers.cells')[2].set('isMovable', false)
+    await render(hbs`{{easy-datatable table=table}}`)
+    this.get('table').get('headers.cells')[2].set('isMovable', false)
 
-  assert.deepEqual(customHelpers.getDatatableHeaders(), ["", "Name", "Value 1", "Value 2", "Value 3"])
+    assert.deepEqual(customHelpers.getDatatableHeaders(), ["", "Name", "Value 1", "Value 2", "Value 3"])
 
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ])
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 0', '0', '10', '20'],
+      ['Row 1', '1', '11', '21'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ])
 
-  await customHelpers.clickOnDatatableCell(0, 2)
-  await customHelpers.pressEscInDatatable()
-  await customHelpers.pressCtrlRightKeyInDatatable()
+    await customHelpers.clickOnDatatableCell(0, 2)
+    await customHelpers.pressEscInDatatable()
+    await customHelpers.pressCtrlRightKeyInDatatable()
 
-  assert.deepEqual(customHelpers.getDatatableHeaders(), ["", "Name", "Value 1", "Value 2", "Value 3"])
+    assert.deepEqual(customHelpers.getDatatableHeaders(), ["", "Name", "Value 1", "Value 2", "Value 3"])
 
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ], 'The header is maker as non-movable, so it can not be moved right ...')
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 0', '0', '10', '20'],
+      ['Row 1', '1', '11', '21'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ], 'The header is maker as non-movable, so it can not be moved right ...')
 
-  await customHelpers.pressCtrlLeftKeyInDatatable()
-  assert.deepEqual(customHelpers.getDatatableHeaders(), ["", "Name", "Value 1", "Value 2", "Value 3"])
+    await customHelpers.pressCtrlLeftKeyInDatatable()
+    assert.deepEqual(customHelpers.getDatatableHeaders(), ["", "Name", "Value 1", "Value 2", "Value 3"])
 
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ], '... nor left')
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 0', '0', '10', '20'],
+      ['Row 1', '1', '11', '21'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ], '... nor left')
 
-  customHelpers.pressLeftKeyInDatatable()
-  customHelpers.pressCtrlRightKeyInDatatable()
+    customHelpers.pressLeftKeyInDatatable()
+    customHelpers.pressCtrlRightKeyInDatatable()
 
-  assert.deepEqual(customHelpers.getDatatableHeaders(), ["", "Name", "Value 1", "Value 2", "Value 3"])
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ], 'Of course, trying  to switch the column on the left will not have any effect ...')
+    assert.deepEqual(customHelpers.getDatatableHeaders(), ["", "Name", "Value 1", "Value 2", "Value 3"])
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 0', '0', '10', '20'],
+      ['Row 1', '1', '11', '21'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ], 'Of course, trying  to switch the column on the left will not have any effect ...')
 
-  await customHelpers.pressRightKeyInDatatable()
-  await customHelpers.pressRightKeyInDatatable()
-  await customHelpers.pressCtrlLeftKeyInDatatable()
+    await customHelpers.pressRightKeyInDatatable()
+    await customHelpers.pressRightKeyInDatatable()
+    await customHelpers.pressCtrlLeftKeyInDatatable()
 
-  assert.deepEqual(customHelpers.getDatatableHeaders(), ["", "Name", "Value 1", "Value 2", "Value 3"]);
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ], '... same thing with the column on the right')
-})
+    assert.deepEqual(customHelpers.getDatatableHeaders(), ["", "Name", "Value 1", "Value 2", "Value 3"]);
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 0', '0', '10', '20'],
+      ['Row 1', '1', '11', '21'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ], '... same thing with the column on the right')
+  })
 
-test('Rows order can be changed using ctrl + up/down arrow', async function (assert) {
-  assert.expect(4)
+  test('Rows order can be changed using ctrl + up/down arrow', async function (assert) {
+    assert.expect(4)
 
-  await this.render(hbs`{{easy-datatable table=table}}`)
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ])
+    await this.render(hbs`{{easy-datatable table=table}}`)
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 0', '0', '10', '20'],
+      ['Row 1', '1', '11', '21'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ])
 
-  await customHelpers.clickOnDatatableCell(1, 1)
-  await customHelpers.pressEscInDatatable()
-  await customHelpers.pressCtrlUpKeyInDatatable()
+    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.pressEscInDatatable()
+    await customHelpers.pressCtrlUpKeyInDatatable()
 
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ], 'As for column ordering, the crlt+arrow combination only works on row headers')
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 0', '0', '10', '20'],
+      ['Row 1', '1', '11', '21'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ], 'As for column ordering, the crlt+arrow combination only works on row headers')
 
-  await customHelpers.pressLeftKeyInDatatable()
-  await customHelpers.pressCtrlDownKeyInDatatable()
+    await customHelpers.pressLeftKeyInDatatable()
+    await customHelpers.pressCtrlDownKeyInDatatable()
 
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 1', '1', '11', '21'],
-    ['Row 0', '0', '10', '20'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ], 'Ctrl+down moves the row down ...')
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 1', '1', '11', '21'],
+      ['Row 0', '0', '10', '20'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ], 'Ctrl+down moves the row down ...')
 
-  await customHelpers.pressCtrlUpKeyInDatatable()
+    await customHelpers.pressCtrlUpKeyInDatatable()
 
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ], '... and ctrl+up moves the row back up')
-})
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 0', '0', '10', '20'],
+      ['Row 1', '1', '11', '21'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ], '... and ctrl+up moves the row back up')
+  })
 
-test('Rows can be marker as non-movable', async function (assert) {
-  assert.expect(5)
+  test('Rows can be marker as non-movable', async function (assert) {
+    assert.expect(5)
 
-  await this.render(hbs`{{easy-datatable table=table}}`)
-  this.get('table').get('body')[1].set('cells.firstObject.isMovable', false)
+    await this.render(hbs`{{easy-datatable table=table}}`)
+    this.get('table').get('body')[1].set('cells.firstObject.isMovable', false)
 
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ])
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 0', '0', '10', '20'],
+      ['Row 1', '1', '11', '21'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ])
 
-  await customHelpers.clickOnDatatableCell(2, 0)
-  await customHelpers.pressEscInDatatable()
-  await customHelpers.pressCtrlUpKeyInDatatable()
+    await customHelpers.clickOnDatatableCell(2, 0)
+    await customHelpers.pressEscInDatatable()
+    await customHelpers.pressCtrlUpKeyInDatatable()
 
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ], 'The header is maker as non-movable, so it can not be moved up ...')
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 0', '0', '10', '20'],
+      ['Row 1', '1', '11', '21'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ], 'The header is maker as non-movable, so it can not be moved up ...')
 
-  await customHelpers.pressCtrlDownKeyInDatatable()
+    await customHelpers.pressCtrlDownKeyInDatatable()
 
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ], '... nor down')
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 0', '0', '10', '20'],
+      ['Row 1', '1', '11', '21'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ], '... nor down')
 
-  await customHelpers.pressUpKeyInDatatable()
-  await customHelpers.pressCtrlDownKeyInDatatable()
+    await customHelpers.pressUpKeyInDatatable()
+    await customHelpers.pressCtrlDownKeyInDatatable()
 
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ], 'Of course, trying  to switch the row on top will not have any effect ...')
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 0', '0', '10', '20'],
+      ['Row 1', '1', '11', '21'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ], 'Of course, trying  to switch the row on top will not have any effect ...')
 
-  await customHelpers.pressDownKeyInDatatable()
-  await customHelpers.pressDownKeyInDatatable()
-  await customHelpers.pressCtrlUpKeyInDatatable()
+    await customHelpers.pressDownKeyInDatatable()
+    await customHelpers.pressDownKeyInDatatable()
+    await customHelpers.pressCtrlUpKeyInDatatable()
 
-  assert.deepEqual(customHelpers.getDatatableContent(), [
-    ['Row 0', '0', '10', '20'],
-    ['Row 1', '1', '11', '21'],
-    ['Row 2', '2', '12', '22'],
-    ['Row 3', '3', '13', '23']
-  ], '... same thing with the row below')
+    assert.deepEqual(customHelpers.getDatatableContent(), [
+      ['Row 0', '0', '10', '20'],
+      ['Row 1', '1', '11', '21'],
+      ['Row 2', '2', '12', '22'],
+      ['Row 3', '3', '13', '23']
+    ], '... same thing with the row below')
+  });
 });

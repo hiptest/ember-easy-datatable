@@ -1,398 +1,403 @@
 import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import hbs from 'htmlbars-inline-precompile';
-import { test, moduleForComponent } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+
+import '@ember/test-helpers';
 
 import customHelpers from '../../helpers/_custom-helpers'
 
 
-moduleForComponent('easy-datatable', 'Integration | Component | content edition', {
-  integration: true,
-  setup() {
-    this.set('table', DatatableFactory.makeDatatable({
-      headers: ['', 'Name', 'Value 1', 'Value 2', 'Value 3'],
-      body: [
-        [{isHeader: true, value: '#0'}, 'Row 0', 0, 10, 20],
-        [{isHeader: true, value: '#1'}, 'Row 1', 1, 11, 21],
-        [{isHeader: true, value: '#2'}, 'Row 2', 2, 12, 22],
-        [{isHeader: true, value: '#3'}, 'Row 3', 3, 13, 23]
-      ]
-    }));
-  },
-});
+module('Integration | Component | content edition', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('Click and edit', async function(assert) {
-  assert.expect(5);
+  hooks.beforeEach(function() {
 
-  await this.render(hbs`{{easy-datatable table=table}}`);
-
-  assert.deepEqual(
-    customHelpers.getDatatableContent(),
-    [
-      ['Row 0', '0', '10', '20'],
-      ['Row 1', '1', '11', '21'],
-      ['Row 2', '2', '12', '22'],
-      ['Row 3', '3', '13', '23']
-    ],
-    'The datatable content is correct'
-  );
-
-  await customHelpers.clickOnDatatableCell(1, 1);
-
-  assert.ok(this.$('input').length === 1, 'Editor is displayed');
-  assert.equal(this.$('input').get(0).value, "Row 0", 'Editor has the correct content');
-
-  customHelpers.typeInDatatable('This is my row');
-  customHelpers.pressEnterInDatatable();
-  await customHelpers.clickOnDatatableCell(0, 0);
-
-  assert.ok(this.$('input').length === 1, 'Editor is displayed');
-
-  assert.deepEqual(
-    customHelpers.getDatatableContent(),
-    [
-      ['This is my row', '0', '10', '20'],
-      ['Row 1', '1', '11', '21'],
-      ['Row 2', '2', '12', '22'],
-      ['Row 3', '3', '13', '23']
-    ],
-    'The datatable content is correct'
-  );
-});
-
-test('Cell validation is called only once when pressing Enter key', async function (assert) {
-  var count = 0;
-  assert.expect(3);
-
-  this.get('table').reopen({
-    validateCell: function () {
-      count += 1;
-      return true;
-    }
+      this.set('table', DatatableFactory.makeDatatable({
+        headers: ['', 'Name', 'Value 1', 'Value 2', 'Value 3'],
+        body: [
+          [{isHeader: true, value: '#0'}, 'Row 0', 0, 10, 20],
+          [{isHeader: true, value: '#1'}, 'Row 1', 1, 11, 21],
+          [{isHeader: true, value: '#2'}, 'Row 2', 2, 12, 22],
+          [{isHeader: true, value: '#3'}, 'Row 3', 3, 13, 23]
+        ]
+      }));
   });
 
-  await this.render(hbs`{{easy-datatable table=table}}`);
+  test('Click and edit', async function(assert) {
+    assert.expect(5);
 
-  assert.deepEqual(
-    customHelpers.getDatatableContent(),
-    [
-      ['Row 0', '0', '10', '20'],
-      ['Row 1', '1', '11', '21'],
-      ['Row 2', '2', '12', '22'],
-      ['Row 3', '3', '13', '23']
-    ],
-    'The datatable content is correct'
-  );
+    await this.render(hbs`{{easy-datatable table=table}}`);
 
-  await customHelpers.clickOnDatatableCell(1, 1);
-  customHelpers.typeInDatatable('This is my row');
-  customHelpers.pressEnterInDatatable();
+    assert.deepEqual(
+      customHelpers.getDatatableContent(),
+      [
+        ['Row 0', '0', '10', '20'],
+        ['Row 1', '1', '11', '21'],
+        ['Row 2', '2', '12', '22'],
+        ['Row 3', '3', '13', '23']
+      ],
+      'The datatable content is correct'
+    );
 
-  assert.deepEqual(
-    customHelpers.getDatatableContent(),
-    [
-      ['This is my row', '0', '10', '20'],
-      ['Row 1', '1', '11', '21'],
-      ['Row 2', '2', '12', '22'],
-      ['Row 3', '3', '13', '23']
-    ],
-    'After changing a cell value, the datatable is updated'
-  );
+    await customHelpers.clickOnDatatableCell(1, 1);
 
-  assert.strictEqual(count, 1, 'and validation is called only once');
-});
+    assert.ok(this.$('input').length === 1, 'Editor is displayed');
+    assert.equal(this.$('input').get(0).value, "Row 0", 'Editor has the correct content');
 
-test('Cell validation is not called at all when pressing Escape key', async function (assert) {
-  var count = 0;
-  assert.expect(3);
+    customHelpers.typeInDatatable('This is my row');
+    customHelpers.pressEnterInDatatable();
+    await customHelpers.clickOnDatatableCell(0, 0);
 
-  this.get('table').reopen({
-   countValidateCell: function () {
-      count += 1;
-      return true;
-    }
+    assert.ok(this.$('input').length === 1, 'Editor is displayed');
+
+    assert.deepEqual(
+      customHelpers.getDatatableContent(),
+      [
+        ['This is my row', '0', '10', '20'],
+        ['Row 1', '1', '11', '21'],
+        ['Row 2', '2', '12', '22'],
+        ['Row 3', '3', '13', '23']
+      ],
+      'The datatable content is correct'
+    );
   });
 
-  await this.render(hbs`{{easy-datatable table=table}}`);
+  test('Cell validation is called only once when pressing Enter key', async function (assert) {
+    var count = 0;
+    assert.expect(3);
 
-  assert.deepEqual(
-    customHelpers.getDatatableContent(),
-    [
-      ['Row 0', '0', '10', '20'],
-      ['Row 1', '1', '11', '21'],
-      ['Row 2', '2', '12', '22'],
-      ['Row 3', '3', '13', '23']
-    ],
-    'The datatable content is correct'
-  );
+    this.get('table').reopen({
+      validateCell: function () {
+        count += 1;
+        return true;
+      }
+    });
 
-  await customHelpers.clickOnDatatableCell(1, 1);
-  customHelpers.typeInDatatable('This is my row');
-  customHelpers.pressEscInDatatable();
+    await this.render(hbs`{{easy-datatable table=table}}`);
 
+    assert.deepEqual(
+      customHelpers.getDatatableContent(),
+      [
+        ['Row 0', '0', '10', '20'],
+        ['Row 1', '1', '11', '21'],
+        ['Row 2', '2', '12', '22'],
+        ['Row 3', '3', '13', '23']
+      ],
+      'The datatable content is correct'
+    );
 
-  assert.deepEqual(
-    customHelpers.getDatatableContent(),
-    [
-      ['Row 0', '0', '10', '20'],
-      ['Row 1', '1', '11', '21'],
-      ['Row 2', '2', '12', '22'],
-      ['Row 3', '3', '13', '23']
-    ],
-    'After canceling a cell edition, the datatable is back to its original values'
-  );
+    await customHelpers.clickOnDatatableCell(1, 1);
+    customHelpers.typeInDatatable('This is my row');
+    customHelpers.pressEnterInDatatable();
 
+    assert.deepEqual(
+      customHelpers.getDatatableContent(),
+      [
+        ['This is my row', '0', '10', '20'],
+        ['Row 1', '1', '11', '21'],
+        ['Row 2', '2', '12', '22'],
+        ['Row 3', '3', '13', '23']
+      ],
+      'After changing a cell value, the datatable is updated'
+    );
 
-  assert.strictEqual(count, 0, 'and validation is not called at all');
-});
-
-test('cell validation is not called at all if not modified', async function (assert) {
-  var count = 0;
-  assert.expect(4);
-
-  this.get('table').reopen({
-   countValidateCell: function () {
-      count += 1;
-      return true;
-    }
+    assert.strictEqual(count, 1, 'and validation is called only once');
   });
 
-  await this.render(hbs`{{easy-datatable table=table}}`);
+  test('Cell validation is not called at all when pressing Escape key', async function (assert) {
+    var count = 0;
+    assert.expect(3);
 
-  assert.deepEqual(
-    customHelpers.getDatatableContent(),
-    [
-      ['Row 0', '0', '10', '20'],
-      ['Row 1', '1', '11', '21'],
-      ['Row 2', '2', '12', '22'],
-      ['Row 3', '3', '13', '23']
-    ],
-    'The datatable content is correct'
-  );
+    this.get('table').reopen({
+     countValidateCell: function () {
+        count += 1;
+        return true;
+      }
+    });
 
-  await customHelpers.clickOnDatatableCell(1, 1);
-  customHelpers.pressEnterInDatatable();
+    await this.render(hbs`{{easy-datatable table=table}}`);
 
-  assert.ok(this.$('input').length === 0, 'Editor is not displayed');
+    assert.deepEqual(
+      customHelpers.getDatatableContent(),
+      [
+        ['Row 0', '0', '10', '20'],
+        ['Row 1', '1', '11', '21'],
+        ['Row 2', '2', '12', '22'],
+        ['Row 3', '3', '13', '23']
+      ],
+      'The datatable content is correct'
+    );
 
-  assert.deepEqual(
-    customHelpers.getDatatableContent(),
-    [
-      ['Row 0', '0', '10', '20'],
-      ['Row 1', '1', '11', '21'],
-      ['Row 2', '2', '12', '22'],
-      ['Row 3', '3', '13', '23']
-    ],
-    'without editing, the datatable is the same!'
-  );
+    await customHelpers.clickOnDatatableCell(1, 1);
+    customHelpers.typeInDatatable('This is my row');
+    customHelpers.pressEscInDatatable();
 
-  assert.strictEqual(count, 0, 'and validation is not called at all');
-});
 
-test('Clicking moves the editor', async function (assert) {
-  assert.expect(2);
+    assert.deepEqual(
+      customHelpers.getDatatableContent(),
+      [
+        ['Row 0', '0', '10', '20'],
+        ['Row 1', '1', '11', '21'],
+        ['Row 2', '2', '12', '22'],
+        ['Row 3', '3', '13', '23']
+      ],
+      'After canceling a cell edition, the datatable is back to its original values'
+    );
 
-  await this.render(hbs`{{easy-datatable table=table}}`);
 
-  await customHelpers.clickOnDatatableCell(1, 1);
-  assert.ok(this.$('input').length === 1, 'Editor is displayed');
-
-  await customHelpers.clickOnDatatableCell(3, 3);
-  assert.ok(this.$('input').length === 1, 'Editor is displayed');
-});
-
-test('Navigate, press enter and edit', async function (assert) {
-  assert.expect(4);
-
-  await this.render(hbs`{{easy-datatable table=table}}`);
-
-  assert.deepEqual(
-    customHelpers.getDatatableContent(),
-    [
-      ['Row 0', '0', '10', '20'],
-      ['Row 1', '1', '11', '21'],
-      ['Row 2', '2', '12', '22'],
-      ['Row 3', '3', '13', '23']
-    ],
-    'The datatable content is correct'
-  );
-
-  await customHelpers.clickOnDatatableCell(1, 1);
-
-  customHelpers.pressEscInDatatable();
-  customHelpers.pressRightKeyInDatatable();
-  customHelpers.pressDownKeyInDatatable();
-  customHelpers.pressEnterInDatatable();
-
-  assert.ok(this.$('input').length === 1, 'Editor is displayed');
-
-  customHelpers.typeInDatatable('My new value');
-  customHelpers.pressEnterInDatatable();
-
-  assert.ok(this.$('input').length === 0, 'Editor is not displayed');
-  assert.deepEqual(
-    customHelpers.getDatatableContent(),
-    [
-      ['Row 0', '0', '10', '20'],
-      ['Row 1', 'My new value', '11', '21'],
-      ['Row 2', '2', '12', '22'],
-      ['Row 3', '3', '13', '23']
-    ],
-    'The datatable content is correct'
-  );
-});
-
-test('Navigate, start typing to replace the cell content', async function (assert) {
-  assert.expect(4);
-
-  await this.render(hbs`{{easy-datatable table=table}}`);
-
-  assert.deepEqual(
-    customHelpers.getDatatableContent(),
-    [
-      ['Row 0', '0', '10', '20'],
-      ['Row 1', '1', '11', '21'],
-      ['Row 2', '2', '12', '22'],
-      ['Row 3', '3', '13', '23']
-    ],
-    'The datatable content is correct'
-  );
-
-  await customHelpers.clickOnDatatableCell(1, 1);
-  customHelpers.pressEscInDatatable();
-  customHelpers.typeInDatatable('I type something without having an input');
-
-  assert.ok(this.$('input').length === 1, 'Editor is displayed');
-
-  customHelpers.pressEnterInDatatable();
-
-  assert.ok(this.$('input').length === 0, 'Editor is not displayed');
-
-  assert.deepEqual(
-    customHelpers.getDatatableContent(),
-    [
-      ['I type something without having an input', '0', '10', '20'],
-      ['Row 1', '1', '11', '21'],
-      ['Row 2', '2', '12', '22'],
-      ['Row 3', '3', '13', '23']
-    ],
-    'The datatable content is correct'
-  );
-});
-
-test('Cells with "isEditable" set to false can not be edited', async function (assert) {
-  assert.expect(6);
-
-  this.get('table').set('headers.cells.firstObject.isEditable', false);
-  this.get('table').get('body').forEach(function (row, index) {
-    row.get('cells')[index % 2 === 0 ? 1 : 0].set('isEditable', false);
+    assert.strictEqual(count, 0, 'and validation is not called at all');
   });
 
-  await this.render(hbs`{{easy-datatable table=table}}`);
+  test('cell validation is not called at all if not modified', async function (assert) {
+    var count = 0;
+    assert.expect(4);
 
-  await customHelpers.clickOnDatatableCell(0, 0);
+    this.get('table').reopen({
+     countValidateCell: function () {
+        count += 1;
+        return true;
+      }
+    });
 
-  assert.ok(this.$('input').length === 0, 'When clicking on the protected cell, the editor does not show up');
+    await this.render(hbs`{{easy-datatable table=table}}`);
 
-  await customHelpers.clickOnDatatableCell(0, 1);
+    assert.deepEqual(
+      customHelpers.getDatatableContent(),
+      [
+        ['Row 0', '0', '10', '20'],
+        ['Row 1', '1', '11', '21'],
+        ['Row 2', '2', '12', '22'],
+        ['Row 3', '3', '13', '23']
+      ],
+      'The datatable content is correct'
+    );
 
-  assert.ok(this.$('input').length === 1, 'but it still work on an editable cell');
+    await customHelpers.clickOnDatatableCell(1, 1);
+    customHelpers.pressEnterInDatatable();
 
-  customHelpers.pressEscInDatatable();
-  customHelpers.pressDownKeyInDatatable();
-  customHelpers.pressEnterInDatatable();
+    assert.ok(this.$('input').length === 0, 'Editor is not displayed');
 
-  assert.ok(this.$('input').length === 0, 'When pressing enter in a protected cell, we do not get the editor');
+    assert.deepEqual(
+      customHelpers.getDatatableContent(),
+      [
+        ['Row 0', '0', '10', '20'],
+        ['Row 1', '1', '11', '21'],
+        ['Row 2', '2', '12', '22'],
+        ['Row 3', '3', '13', '23']
+      ],
+      'without editing, the datatable is the same!'
+    );
 
-  customHelpers.pressDownKeyInDatatable();
-  customHelpers.pressEnterInDatatable();
+    assert.strictEqual(count, 0, 'and validation is not called at all');
+  });
 
-  assert.ok(this.$('input').length === 1, 'but it still works in editable cells');
+  test('Clicking moves the editor', async function (assert) {
+    assert.expect(2);
 
-  customHelpers.pressEscInDatatable();
-  customHelpers.pressLeftKeyInDatatable();
-  customHelpers.typeInDatatable('Hey');
+    await this.render(hbs`{{easy-datatable table=table}}`);
 
-  assert.ok(this.$('input').length === 0, 'Same principle when typing in a protected cell');
+    await customHelpers.clickOnDatatableCell(1, 1);
+    assert.ok(this.$('input').length === 1, 'Editor is displayed');
 
-  customHelpers.pressDownKeyInDatatable();
-  customHelpers.typeInDatatable('Ho');
+    await customHelpers.clickOnDatatableCell(3, 3);
+    assert.ok(this.$('input').length === 1, 'Editor is displayed');
+  });
 
-  assert.ok(this.$('input').length === 1, 'but it still works in editable cells');
+  test('Navigate, press enter and edit', async function (assert) {
+    assert.expect(4);
 
-  customHelpers.pressEscInDatatable();
-});
+    await this.render(hbs`{{easy-datatable table=table}}`);
 
-test('Navigation based on enter', async function (assert) {
-  assert.expect(9);
+    assert.deepEqual(
+      customHelpers.getDatatableContent(),
+      [
+        ['Row 0', '0', '10', '20'],
+        ['Row 1', '1', '11', '21'],
+        ['Row 2', '2', '12', '22'],
+        ['Row 3', '3', '13', '23']
+      ],
+      'The datatable content is correct'
+    );
 
-  await this.render(hbs`{{easy-datatable table=table}}`);
+    await customHelpers.clickOnDatatableCell(1, 1);
 
-  assert.deepEqual(
-    customHelpers.getDatatableContent(),
-    [
-      ['Row 0', '0', '10', '20'],
-      ['Row 1', '1', '11', '21'],
-      ['Row 2', '2', '12', '22'],
-      ['Row 3', '3', '13', '23']
-    ],
-    'The datatable content is correct'
-  );
+    customHelpers.pressEscInDatatable();
+    customHelpers.pressRightKeyInDatatable();
+    customHelpers.pressDownKeyInDatatable();
+    customHelpers.pressEnterInDatatable();
 
-  await customHelpers.clickOnDatatableCell(2, 2);
-  customHelpers.typeInDatatable('x');
-  customHelpers.pressEnterInDatatable();
+    assert.ok(this.$('input').length === 1, 'Editor is displayed');
 
-  assert.deepEqual(
-    customHelpers.getDatatableContent(),
-    [
-      ['Row 0', '0', '10', '20'],
-      ['Row 1', 'x', '11', '21'],
-      ['Row 2', '2', '12', '22'],
-      ['Row 3', '3', '13', '23']
-    ],
-    'After entering "x", the datatable content is correct'
-  );
+    customHelpers.typeInDatatable('My new value');
+    customHelpers.pressEnterInDatatable();
 
-  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 3, column: 2}, 'If the cell value is validated using enter, then cell below is selected');
+    assert.ok(this.$('input').length === 0, 'Editor is not displayed');
+    assert.deepEqual(
+      customHelpers.getDatatableContent(),
+      [
+        ['Row 0', '0', '10', '20'],
+        ['Row 1', 'My new value', '11', '21'],
+        ['Row 2', '2', '12', '22'],
+        ['Row 3', '3', '13', '23']
+      ],
+      'The datatable content is correct'
+    );
+  });
 
-  customHelpers.typeInDatatable('y');
-  customHelpers.pressTabKeyInDatatable();
+  test('Navigate, start typing to replace the cell content', async function (assert) {
+    assert.expect(4);
 
-  assert.deepEqual(
-    customHelpers.getDatatableContent(),
-    [
-      ['Row 0', '0', '10', '20'],
-      ['Row 1', 'x', '11', '21'],
-      ['Row 2', 'y', '12', '22'],
-      ['Row 3', '3', '13', '23']
-    ],
-    'The datatable content is correct'
-  );
+    await this.render(hbs`{{easy-datatable table=table}}`);
 
-  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 3, column: 3}, 'If the cell value is validated using tab, then cell on the right is selected');
+    assert.deepEqual(
+      customHelpers.getDatatableContent(),
+      [
+        ['Row 0', '0', '10', '20'],
+        ['Row 1', '1', '11', '21'],
+        ['Row 2', '2', '12', '22'],
+        ['Row 3', '3', '13', '23']
+      ],
+      'The datatable content is correct'
+    );
 
-  customHelpers.typeInDatatable('z');
-  customHelpers.pressShiftTabKeyInDatatable();
+    await customHelpers.clickOnDatatableCell(1, 1);
+    customHelpers.pressEscInDatatable();
+    customHelpers.typeInDatatable('I type something without having an input');
 
-  assert.deepEqual(
-    customHelpers.getDatatableContent(),
-    [
-      ['Row 0', '0', '10', '20'],
-      ['Row 1', 'x', '11', '21'],
-      ['Row 2', 'y', 'z', '22'],
-      ['Row 3', '3', '13', '23']
-    ],
-    'The datatable content is correct'
-  );
+    assert.ok(this.$('input').length === 1, 'Editor is displayed');
 
-  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 3, column: 2}, 'If the cell value is validated using shift+tab, then cell on the left is selected');
+    customHelpers.pressEnterInDatatable();
 
-  customHelpers.pressDownKeyInDatatable();
+    assert.ok(this.$('input').length === 0, 'Editor is not displayed');
 
-  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 2}, 'If the down key is used, then the down cell is selected');
+    assert.deepEqual(
+      customHelpers.getDatatableContent(),
+      [
+        ['I type something without having an input', '0', '10', '20'],
+        ['Row 1', '1', '11', '21'],
+        ['Row 2', '2', '12', '22'],
+        ['Row 3', '3', '13', '23']
+      ],
+      'The datatable content is correct'
+    );
+  });
 
-  customHelpers.typeInDatatable('a');
-  customHelpers.pressEnterInDatatable();
+  test('Cells with "isEditable" set to false can not be edited', async function (assert) {
+    assert.expect(6);
 
-  assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 2}, 'If the cell value is validated using enter but there is no new line, selection do not change');
+    this.get('table').set('headers.cells.firstObject.isEditable', false);
+    this.get('table').get('body').forEach(function (row, index) {
+      row.get('cells')[index % 2 === 0 ? 1 : 0].set('isEditable', false);
+    });
+
+    await this.render(hbs`{{easy-datatable table=table}}`);
+
+    await customHelpers.clickOnDatatableCell(0, 0);
+
+    assert.ok(this.$('input').length === 0, 'When clicking on the protected cell, the editor does not show up');
+
+    await customHelpers.clickOnDatatableCell(0, 1);
+
+    assert.ok(this.$('input').length === 1, 'but it still work on an editable cell');
+
+    customHelpers.pressEscInDatatable();
+    customHelpers.pressDownKeyInDatatable();
+    customHelpers.pressEnterInDatatable();
+
+    assert.ok(this.$('input').length === 0, 'When pressing enter in a protected cell, we do not get the editor');
+
+    customHelpers.pressDownKeyInDatatable();
+    customHelpers.pressEnterInDatatable();
+
+    assert.ok(this.$('input').length === 1, 'but it still works in editable cells');
+
+    customHelpers.pressEscInDatatable();
+    customHelpers.pressLeftKeyInDatatable();
+    customHelpers.typeInDatatable('Hey');
+
+    assert.ok(this.$('input').length === 0, 'Same principle when typing in a protected cell');
+
+    customHelpers.pressDownKeyInDatatable();
+    customHelpers.typeInDatatable('Ho');
+
+    assert.ok(this.$('input').length === 1, 'but it still works in editable cells');
+
+    customHelpers.pressEscInDatatable();
+  });
+
+  test('Navigation based on enter', async function (assert) {
+    assert.expect(9);
+
+    await this.render(hbs`{{easy-datatable table=table}}`);
+
+    assert.deepEqual(
+      customHelpers.getDatatableContent(),
+      [
+        ['Row 0', '0', '10', '20'],
+        ['Row 1', '1', '11', '21'],
+        ['Row 2', '2', '12', '22'],
+        ['Row 3', '3', '13', '23']
+      ],
+      'The datatable content is correct'
+    );
+
+    await customHelpers.clickOnDatatableCell(2, 2);
+    customHelpers.typeInDatatable('x');
+    customHelpers.pressEnterInDatatable();
+
+    assert.deepEqual(
+      customHelpers.getDatatableContent(),
+      [
+        ['Row 0', '0', '10', '20'],
+        ['Row 1', 'x', '11', '21'],
+        ['Row 2', '2', '12', '22'],
+        ['Row 3', '3', '13', '23']
+      ],
+      'After entering "x", the datatable content is correct'
+    );
+
+    assert.deepEqual(customHelpers.getSelectedPosition(), {row: 3, column: 2}, 'If the cell value is validated using enter, then cell below is selected');
+
+    customHelpers.typeInDatatable('y');
+    customHelpers.pressTabKeyInDatatable();
+
+    assert.deepEqual(
+      customHelpers.getDatatableContent(),
+      [
+        ['Row 0', '0', '10', '20'],
+        ['Row 1', 'x', '11', '21'],
+        ['Row 2', 'y', '12', '22'],
+        ['Row 3', '3', '13', '23']
+      ],
+      'The datatable content is correct'
+    );
+
+    assert.deepEqual(customHelpers.getSelectedPosition(), {row: 3, column: 3}, 'If the cell value is validated using tab, then cell on the right is selected');
+
+    customHelpers.typeInDatatable('z');
+    customHelpers.pressShiftTabKeyInDatatable();
+
+    assert.deepEqual(
+      customHelpers.getDatatableContent(),
+      [
+        ['Row 0', '0', '10', '20'],
+        ['Row 1', 'x', '11', '21'],
+        ['Row 2', 'y', 'z', '22'],
+        ['Row 3', '3', '13', '23']
+      ],
+      'The datatable content is correct'
+    );
+
+    assert.deepEqual(customHelpers.getSelectedPosition(), {row: 3, column: 2}, 'If the cell value is validated using shift+tab, then cell on the left is selected');
+
+    customHelpers.pressDownKeyInDatatable();
+
+    assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 2}, 'If the down key is used, then the down cell is selected');
+
+    customHelpers.typeInDatatable('a');
+    customHelpers.pressEnterInDatatable();
+
+    assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 2}, 'If the cell value is validated using enter but there is no new line, selection do not change');
+  });
 });
