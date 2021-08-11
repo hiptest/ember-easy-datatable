@@ -6,6 +6,7 @@ import '@ember/test-helpers';
 import { run } from '@ember/runloop'
 import { Promise } from 'rsvp'
 import customHelpers from '../../helpers/_custom-helpers'
+import {render, click} from '@ember/test-helpers'
 
 module('Integration | Component | Action buttons', function(hooks) {
   setupRenderingTest(hooks);
@@ -44,7 +45,7 @@ module('Integration | Component | Action buttons', function(hooks) {
   test('Click on remove to remove a row', async function(assert) {
     assert.expect(1);
 
-    await this.render(hbs`{{easy-datatable table=table}}`);
+    await render(hbs`{{easy-datatable table=table}}`);
     await customHelpers.clickOnRemoveRow(2)
 
     assert.deepEqual(customHelpers.getDatatableContent(),
@@ -56,7 +57,7 @@ module('Integration | Component | Action buttons', function(hooks) {
   test('Click to move up a row', async function(assert) {
     assert.expect(1)
 
-    await this.render(hbs`{{easy-datatable table=table}}`)
+    await render(hbs`{{easy-datatable table=table}}`)
     customHelpers.clickOnMoveUpRow(2)
 
     assert.deepEqual(customHelpers.getDatatableContent(), [
@@ -70,7 +71,7 @@ module('Integration | Component | Action buttons', function(hooks) {
   test('Click to move down a row', async function(assert) {
     assert.expect(1);
 
-    await this.render(hbs`{{easy-datatable table=table}}`)
+    await render(hbs`{{easy-datatable table=table}}`)
 
     customHelpers.clickOnMoveDownRow(2)
 
@@ -85,7 +86,7 @@ module('Integration | Component | Action buttons', function(hooks) {
   test('Click to remove a column', async function(assert) {
     assert.expect(1)
 
-    await this.render(hbs`{{easy-datatable table=table}}`)
+    await render(hbs`{{easy-datatable table=table}}`)
     customHelpers.clickOnRemoveColumn(2)
 
     assert.deepEqual(customHelpers.getDatatableContent(), [
@@ -99,7 +100,7 @@ module('Integration | Component | Action buttons', function(hooks) {
   test('Click to move right a column', async function(assert) {
     assert.expect(1);
 
-    await this.render(hbs`{{easy-datatable table=table}}`)
+    await render(hbs`{{easy-datatable table=table}}`)
     customHelpers.clickOnMoveRightColumn(2)
 
     assert.deepEqual(customHelpers.getDatatableContent(), [
@@ -113,7 +114,7 @@ module('Integration | Component | Action buttons', function(hooks) {
   test('Click to move left a column', async function(assert) {
     assert.expect(1)
 
-    await this.render(hbs`{{easy-datatable table=table}}`)
+    await render(hbs`{{easy-datatable table=table}}`)
     customHelpers.clickOnMoveLeftColumn(4)
 
     assert.deepEqual(customHelpers.getDatatableContent(), [
@@ -128,8 +129,8 @@ module('Integration | Component | Action buttons', function(hooks) {
     const table = this.get('table');
     assert.expect(3);
 
-    await this.render(hbs`{{easy-datatable table=table}}`)
-    customHelpers.clickOnPlus(0,5)
+    await render(hbs`{{easy-datatable table=table}}`)
+    await customHelpers.clickOnPlus(0,5)
     assert.deepEqual(customHelpers.getDatatableContent(), [
       ['Row 0', '0', '10', '20', ''],
       ['Row 1', '1', '11', '21', ''],
@@ -143,7 +144,7 @@ module('Integration | Component | Action buttons', function(hooks) {
       cell.set('canInsertColumnAfter', index < 3);
     });
 
-    customHelpers.clickOnPlus(0,6)
+    await customHelpers.clickOnPlus(0,6)
 
     assert.deepEqual(customHelpers.getDatatableContent(), [
       ['Row 0', '0', '', '10', '20', ''],
@@ -157,8 +158,8 @@ module('Integration | Component | Action buttons', function(hooks) {
   test('Click to add first column', async function (assert) {
     assert.expect(2)
 
-    await this.render(hbs`{{easy-datatable table=table}}`)
-    customHelpers.clickOnPlus(0,0)
+    await render(hbs`{{easy-datatable table=table}}`)
+    await customHelpers.clickOnPlus(0,0)
 
     assert.deepEqual(customHelpers.getDatatableContent(), [
       ['', 'Row 0', '0', '10', '20'],
@@ -183,7 +184,7 @@ module('Integration | Component | Action buttons', function(hooks) {
       }
     })
 
-    await this.render(hbs`{{easy-datatable table=table}}`)
+    await render(hbs`{{easy-datatable table=table}}`)
 
     assert.deepEqual(customHelpers.getDatatableContent(), [
       ['Row 0', '0', '10', '20'],
@@ -217,7 +218,7 @@ module('Integration | Component | Action buttons', function(hooks) {
       }
     });
 
-    await this.render(hbs`{{easy-datatable table=table}}`)
+    await render(hbs`{{easy-datatable table=table}}`)
 
     assert.deepEqual(customHelpers.getDatatableContent(), [
       ['Row 0', '0', '10', '20'],
@@ -242,8 +243,8 @@ module('Integration | Component | Action buttons', function(hooks) {
     let table = this.get('table')
     assert.expect(3)
 
-    await this.render(hbs`{{easy-datatable table=table showAddLastRow=true addNewRowLabel='Add new row'}}`)
-    await this.$('.t-add-new-row').click()
+    await render(hbs`{{easy-datatable table=table showAddLastRow=true addNewRowLabel='Add new row'}}`)
+    await click('.t-add-new-row')
 
     assert.deepEqual(customHelpers.getDatatableContent(), [
       ['Row 0', '0', '10', '20'],
@@ -274,8 +275,9 @@ module('Integration | Component | Action buttons', function(hooks) {
   test('Add first row', async function (assert) {
     assert.expect(2)
 
-    await this.render(hbs`{{easy-datatable table=table showAddFirstRow=true addNewRowLabel='Add new row'}}`)
-    await this.$('a:contains("Add new row")').click()
+    await render(hbs`{{easy-datatable table=table showAddFirstRow=true addNewRowLabel='Add new row'}}`)
+
+    await click('.add-first-row')
 
     assert.deepEqual(customHelpers.getDatatableContent(), [
       ['', '', '', ''],

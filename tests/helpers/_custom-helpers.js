@@ -2,7 +2,7 @@ import { hoverTrigger } from "./ember-basic-dropdown-helpers";
 import $ from 'jquery'
 import { A } from '@ember/array'
 import { run } from '@ember/runloop'
-import { click } from '@ember/test-helpers'
+import { click, fillIn } from '@ember/test-helpers'
 
 const customHelpers = {
 
@@ -100,10 +100,9 @@ const customHelpers = {
     return action.click()
   },
 
-  clickOnPlus(row, column) {
-    var element = $(`tr:nth(${row})`).find('td, th').eq(column);
-    element.focus();
-    element.find('.icon-plus').click()
+  async clickOnPlus(row, column) {
+    await focus(`tr:nth-of-type(${row + 1}) th:nth-of-type(${column + 1})`)
+    await click(`tr:nth-of-type(${row + 1}) th:nth-of-type(${column + 1}) .icon-plus`)
   },
 
   clickOnPencil(row, column) {
