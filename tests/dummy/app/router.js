@@ -7,9 +7,6 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
-	this.route('datatable', {
-    path: '/'
-  });
 });
 
 export default Router;

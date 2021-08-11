@@ -1,35 +1,50 @@
-# Ember-easy-datatable
-[![Build Status](https://travis-ci.org/hiptest/ember-easy-datatable.svg?branch=master)](https://travis-ci.org/hiptest/ember-easy-datatable)
+my-addon
+==============================================================================
 
-This README outlines the details of collaborating on this Ember addon.
+[Short description of the addon.]
 
-## Installation
+Installation
+------------------------------------------------------------------------------
 
-* `git clone` this repository
+```
+ember install my-addon
+```
+
+
+Usage
+------------------------------------------------------------------------------
+
+[Longer description of how to use the addon in apps.]
+
+
+Contributing
+------------------------------------------------------------------------------
+
+### Installation
+
+* `git clone <repository-url>`
+* `cd my-addon`
 * `npm install`
 
-## Running
+### Linting
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+* `npm run lint:js`
+* `npm run lint:js -- --fix`
 
-## Running Tests
+### Running tests
 
-In the browser: http://localhost:4200/tests
+* `ember test` – Runs the test suite on the current Ember version
+* `ember test --server` – Runs the test suite in "watch mode"
+* `npm test` – Runs `ember try:each` to test your addon against multiple Ember versions
 
-* `npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
+### Running the dummy application
 
-## Building
+* `ember serve`
+* Visit the dummy application at [http://localhost:4200](http://localhost:4200).
 
-* `ember build`
+For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
 
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+License
+------------------------------------------------------------------------------
 
-## TIPS
-
-Because in addon prototype extensions are turned off:
-* https://guides.emberjs.com/v1.11.0/configuring-ember/disabling-prototype-extensions/
-* https://dockyard.com/blog/2015/03/22/tips-for-writing-ember-addons
-
+This project is licensed under the [MIT License](LICENSE.md).
