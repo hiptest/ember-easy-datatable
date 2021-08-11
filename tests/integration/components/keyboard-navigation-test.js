@@ -2,7 +2,7 @@ import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import '@ember/test-helpers';
+import {render} from '@ember/test-helpers';
 import customHelpers from '../../helpers/_custom-helpers'
 
 
@@ -22,7 +22,7 @@ module('Integration | Component | keyboard navigation', function(hooks) {
   });
 
   test('Keyboard navigation', async function(assert) {
-    await this.render(hbs`{{easy-datatable table=table}}`)
+    await render(hbs`{{easy-datatable table=table}}`)
 
     assert.equal(customHelpers.getSelectedCell().length, 0, 'No cell is currently selected')
 
@@ -38,10 +38,11 @@ module('Integration | Component | keyboard navigation', function(hooks) {
     await customHelpers.pressLeftKeyInDatatable();
 
     assert.deepEqual(customHelpers.getSelectedPosition(), {row: 1, column: 1}, 'The correct cell is selected')
-
+debugger
     await customHelpers.pressEscInDatatable()
+    debugger
     await customHelpers.pressRightKeyInDatatable()
-
+debugger
     assert.deepEqual(customHelpers.getSelectedPosition(), {row: 1, column: 2}, 'Pressing ESC removes the input, so we can navigate with the keyboard')
 
     await customHelpers.pressDownKeyInDatatable()
@@ -68,7 +69,7 @@ module('Integration | Component | keyboard navigation', function(hooks) {
   });
 
   test('Highliting on header selection', async function (assert) {
-    await this.render(hbs`{{easy-datatable table=table}}`)
+    await render(hbs`{{easy-datatable table=table}}`)
 
     await customHelpers.clickOnDatatableCell(1, 1)
     await customHelpers.pressEscInDatatable()
@@ -106,7 +107,7 @@ module('Integration | Component | keyboard navigation', function(hooks) {
   });
 
   test('Switching to other rows/columns when needed', async function (assert) {
-    await this.render(hbs`{{easy-datatable table=table}}`);
+    await render(hbs`{{easy-datatable table=table}}`);
 
     await customHelpers.clickOnDatatableCell(2, 0);
     await customHelpers.pressEscInDatatable();

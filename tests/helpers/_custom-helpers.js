@@ -2,7 +2,7 @@ import { hoverTrigger } from "./ember-basic-dropdown-helpers";
 import $ from 'jquery'
 import { A } from '@ember/array'
 import { run } from '@ember/runloop'
-import { click, fillIn } from '@ember/test-helpers'
+import { click, fillIn, triggerKeyEvent } from '@ember/test-helpers'
 
 const customHelpers = {
 
@@ -133,63 +133,68 @@ const customHelpers = {
     return removeAction.click();
   },
 
-  pressEnterInDatatable() {
-    this.pressKey(13);
+  async pressEnterInDatatable() {
+    await this.pressKey(13);
   },
 
-  pressEscInDatatable() {
-    this.pressKey(27);
+  async pressEscInDatatable() {
+    await this.pressKey(27);
  },
 
-  pressUpKeyInDatatable() {
-    this.pressKey(38);
+  async pressUpKeyInDatatable() {
+    await this.pressKey(38);
   },
 
-  pressDownKeyInDatatable() {
-    this.pressKey(40);
+  async pressDownKeyInDatatable() {
+    await this.pressKey(40);
   },
 
-  pressRightKeyInDatatable() {
-    this.pressKey(39);
+  async pressRightKeyInDatatable() {
+    await this.pressKey(39);
   },
 
-  pressLeftKeyInDatatable() {
-    this.pressKey(37);
+  async pressLeftKeyInDatatable() {
+    await this.pressKey(37);
   },
 
-  pressCtrlUpKeyInDatatable() {
-    this.pressKey(38, true);
+  async pressCtrlUpKeyInDatatable() {
+    await this.pressKey(38, true);
   },
 
-  pressCtrlDownKeyInDatatable() {
-    this.pressKey(40, true);
+  async pressCtrlDownKeyInDatatable() {
+    await this.pressKey(40, true);
   },
 
-  pressCtrlRightKeyInDatatable() {
-    this.pressKey(39, true);
+  async pressCtrlRightKeyInDatatable() {
+    await this.pressKey(39, true);
   },
 
-  pressCtrlLeftKeyInDatatable() {
-    this.pressKey(37, true);
+  async pressCtrlLeftKeyInDatatable() {
+    await this.pressKey(37, true);
   },
 
-  pressCtrlDelKeyInDatatable() {
-    this.pressKey(46, true);
+  async pressCtrlDelKeyInDatatable() {
+    await this.pressKey(46, true);
   },
 
-  pressCtrlInserKeyInDatatable() {
-    this.pressKey(45, true);
+  async pressCtrlInserKeyInDatatable() {
+    await this.pressKey(45, true);
   },
 
-  pressTabKeyInDatatable() {
-    this.pressKey(9);
+  async pressTabKeyInDatatable() {
+    await this.pressKey(9);
   },
 
-  pressShiftTabKeyInDatatable() {
-   this.pressKey(9, false, true);
+  async pressShiftTabKeyInDatatable() {
+   await this.pressKey(9, false, true);
   },
 
-  pressKey(keyCode, ctrlKey, shiftKey) {
+  async pressKey(keyCode, ctrlKey, shiftKey) {
+    await triggerKeyEvent(document.activeElement, 'keydown', keyCode, {
+      ctrlKey: ctrlKey || false,
+      shiftKey: shiftKey || false,
+    })
+    /*
     // Does not ask for an element, send event to the currently focused element.
     var $el = $(document.activeElement),
       eventData = {
@@ -221,11 +226,12 @@ const customHelpers = {
 
       focused.trigger(keyUpEvent);
     });
+     */
   },
 
-  typeInDatatable(value) {
+  async typeInDatatable(value) {
     if (value !== '') {
-      this.pressKey(value.charCodeAt(0));
+      await this.pressKey(value.charCodeAt(0));
       this.typeInDatatable(value.slice(1));
     }
   },
