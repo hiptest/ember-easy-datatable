@@ -162,6 +162,11 @@ export default Component.extend({
       this.notifyPropertyChange('cell.isSelected');
     },
 
+    stopEditionAndKeepFocus() {
+      this.send('stopEdition')
+      this.$().focus()
+    },
+
     save(newValue, postSaveAction) {
       var self = this;
 

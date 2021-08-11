@@ -39,7 +39,7 @@ export default TextField.extend({
     event.stopPropagation();//TODO: pas besoin à mon avis
     if (event.which === 27) {
       this.set('valueState', 'unmodified');
-      this.get('stopEdition')();
+      this.get('stopEditionAndKeepFocus')();
     }
 
     if (event.which === 13 || event.which === 9) {

@@ -2,7 +2,7 @@ import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import '@ember/test-helpers';
+import {render, click} from '@ember/test-helpers';
 import customHelpers from '../../helpers/_custom-helpers'
 
 
@@ -72,7 +72,7 @@ module('Integration | Component | Edit after insertion', function(hooks) {
 
   test('If option "editAfterInsertion" is set to true, the editor is shown after inserting a new row', async function (assert) {
     assert.expect(6);
-    await this.render(hbs`{{easy-datatable table=table editAfterInsertion=true showAddFirstRow=true showAddLastRow=true addNewRowLabel='Add new row'}}`);
+    await render(hbs`{{easy-datatable table=table editAfterInsertion=true showAddFirstRow=true showAddLastRow=true addNewRowLabel='Add new row'}}`);
 
     await customHelpers.clickOnDatatableCell(2, 0);
     await customHelpers.pressCtrlInserKeyInDatatable();
@@ -81,11 +81,11 @@ module('Integration | Component | Edit after insertion', function(hooks) {
 
     assert.ok(this.$('input').length === 1,'... and the editor is shown');
 
-    await this.$('.t-add-new-row').click()
+    await click('.t-add-new-row')
     assert.deepEqual(customHelpers.getSelectedPosition(), {row: 7, column: 3},
       'The first editable cell is selected (not the header) ...');
     assert.ok(this.$('input').length === 1);
-    await this.$('.t-add-new-row').click()
+    await click('.t-add-new-row')
     assert.deepEqual(customHelpers.getSelectedPosition(), {row: 8, column: 3},
     '... or the first row');
 
@@ -95,7 +95,7 @@ module('Integration | Component | Edit after insertion', function(hooks) {
   test('If option "editAfterInsertion" is set to true, the editor is shown after inserting a new column', async function (assert) {
     assert.expect(6);
 
-    await this.render(hbs`{{easy-datatable table=table editAfterInsertion=true}}`);
+    await render(hbs`{{easy-datatable table=table editAfterInsertion=true}}`);
 
     await customHelpers.clickOnDatatableCell(0, 2);
     await customHelpers.pressEscInDatatable();
@@ -105,12 +105,12 @@ module('Integration | Component | Edit after insertion', function(hooks) {
     'The same principle applies when inserting columns');
     assert.ok(this.$('input').length === 1,'... and the editor is shown');
 
-    await this.$('.add-first-column').click()
+    await click('.add-first-column')
     assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 0},
     'It also works when inserting the first column ...');
 
     assert.ok(this.$('input').length === 1);
-    await this.$('.add-last-column').click()
+    await click('.add-last-column')
     assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 6},
     '... or the last one');
 

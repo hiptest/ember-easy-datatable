@@ -45,8 +45,8 @@ module('Integration | Component | content edition', function(hooks) {
     assert.ok(this.$('input').length === 1, 'Editor is displayed');
     assert.equal(this.$('input').get(0).value, "Row 0", 'Editor has the correct content');
 
-    customHelpers.typeInDatatable('This is my row');
-    customHelpers.pressEnterInDatatable();
+    await customHelpers.typeInDatatable('This is my row');
+    await customHelpers.pressEnterInDatatable();
     await customHelpers.clickOnDatatableCell(0, 0);
 
     assert.ok(this.$('input').length === 1, 'Editor is displayed');
@@ -88,8 +88,8 @@ module('Integration | Component | content edition', function(hooks) {
     );
 
     await customHelpers.clickOnDatatableCell(1, 1);
-    customHelpers.typeInDatatable('This is my row');
-    customHelpers.pressEnterInDatatable();
+    await customHelpers.typeInDatatable('This is my row');
+    await customHelpers.pressEnterInDatatable();
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -130,8 +130,8 @@ module('Integration | Component | content edition', function(hooks) {
     );
 
     await customHelpers.clickOnDatatableCell(1, 1);
-    customHelpers.typeInDatatable('This is my row');
-    customHelpers.pressEscInDatatable();
+    await customHelpers.typeInDatatable('This is my row');
+    await customHelpers.pressEscInDatatable();
 
 
     assert.deepEqual(
@@ -174,7 +174,7 @@ module('Integration | Component | content edition', function(hooks) {
     );
 
     await customHelpers.clickOnDatatableCell(1, 1);
-    customHelpers.pressEnterInDatatable();
+    await customHelpers.pressEnterInDatatable();
 
     assert.ok(this.$('input').length === 0, 'Editor is not displayed');
 
@@ -222,15 +222,15 @@ module('Integration | Component | content edition', function(hooks) {
 
     await customHelpers.clickOnDatatableCell(1, 1);
 
-    customHelpers.pressEscInDatatable();
-    customHelpers.pressRightKeyInDatatable();
-    customHelpers.pressDownKeyInDatatable();
-    customHelpers.pressEnterInDatatable();
+    await customHelpers.pressEscInDatatable();
+    await customHelpers.pressRightKeyInDatatable();
+    await customHelpers.pressDownKeyInDatatable();
+    await customHelpers.pressEnterInDatatable();
 
     assert.ok(this.$('input').length === 1, 'Editor is displayed');
 
-    customHelpers.typeInDatatable('My new value');
-    customHelpers.pressEnterInDatatable();
+    await customHelpers.typeInDatatable('My new value');
+    await customHelpers.pressEnterInDatatable();
 
     assert.ok(this.$('input').length === 0, 'Editor is not displayed');
     assert.deepEqual(
@@ -262,12 +262,12 @@ module('Integration | Component | content edition', function(hooks) {
     );
 
     await customHelpers.clickOnDatatableCell(1, 1);
-    customHelpers.pressEscInDatatable();
-    customHelpers.typeInDatatable('I type something without having an input');
+    await customHelpers.pressEscInDatatable();
+    await customHelpers.typeInDatatable('I type something without having an input');
 
     assert.ok(this.$('input').length === 1, 'Editor is displayed');
 
-    customHelpers.pressEnterInDatatable();
+    await customHelpers.pressEnterInDatatable();
 
     assert.ok(this.$('input').length === 0, 'Editor is not displayed');
 
@@ -301,29 +301,29 @@ module('Integration | Component | content edition', function(hooks) {
 
     assert.ok(this.$('input').length === 1, 'but it still work on an editable cell');
 
-    customHelpers.pressEscInDatatable();
-    customHelpers.pressDownKeyInDatatable();
-    customHelpers.pressEnterInDatatable();
+    await customHelpers.pressEscInDatatable();
+    await customHelpers.pressDownKeyInDatatable();
+    await customHelpers.pressEnterInDatatable();
 
     assert.ok(this.$('input').length === 0, 'When pressing enter in a protected cell, we do not get the editor');
 
-    customHelpers.pressDownKeyInDatatable();
-    customHelpers.pressEnterInDatatable();
+    await customHelpers.pressDownKeyInDatatable();
+    await customHelpers.pressEnterInDatatable();
 
     assert.ok(this.$('input').length === 1, 'but it still works in editable cells');
 
-    customHelpers.pressEscInDatatable();
-    customHelpers.pressLeftKeyInDatatable();
-    customHelpers.typeInDatatable('Hey');
+    await customHelpers.pressEscInDatatable();
+    await customHelpers.pressLeftKeyInDatatable();
+    await customHelpers.pressEnterInDatatable();
 
     assert.ok(this.$('input').length === 0, 'Same principle when typing in a protected cell');
 
-    customHelpers.pressDownKeyInDatatable();
-    customHelpers.typeInDatatable('Ho');
+    await customHelpers.pressDownKeyInDatatable();
+    await customHelpers.typeInDatatable('Ho');
 
     assert.ok(this.$('input').length === 1, 'but it still works in editable cells');
 
-    customHelpers.pressEscInDatatable();
+    await customHelpers.pressEscInDatatable();
   });
 
   test('Navigation based on enter', async function (assert) {
@@ -343,8 +343,8 @@ module('Integration | Component | content edition', function(hooks) {
     );
 
     await customHelpers.clickOnDatatableCell(2, 2);
-    customHelpers.typeInDatatable('x');
-    customHelpers.pressEnterInDatatable();
+    await customHelpers.typeInDatatable('x');
+    await customHelpers.pressEnterInDatatable();
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -359,8 +359,8 @@ module('Integration | Component | content edition', function(hooks) {
 
     assert.deepEqual(customHelpers.getSelectedPosition(), {row: 3, column: 2}, 'If the cell value is validated using enter, then cell below is selected');
 
-    customHelpers.typeInDatatable('y');
-    customHelpers.pressTabKeyInDatatable();
+    await customHelpers.typeInDatatable('y');
+    await customHelpers.pressTabKeyInDatatable();
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -375,8 +375,8 @@ module('Integration | Component | content edition', function(hooks) {
 
     assert.deepEqual(customHelpers.getSelectedPosition(), {row: 3, column: 3}, 'If the cell value is validated using tab, then cell on the right is selected');
 
-    customHelpers.typeInDatatable('z');
-    customHelpers.pressShiftTabKeyInDatatable();
+    await customHelpers.typeInDatatable('z');
+    await customHelpers.pressShiftTabKeyInDatatable();
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -391,12 +391,12 @@ module('Integration | Component | content edition', function(hooks) {
 
     assert.deepEqual(customHelpers.getSelectedPosition(), {row: 3, column: 2}, 'If the cell value is validated using shift+tab, then cell on the left is selected');
 
-    customHelpers.pressDownKeyInDatatable();
+    await customHelpers.pressDownKeyInDatatable();
 
     assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 2}, 'If the down key is used, then the down cell is selected');
 
-    customHelpers.typeInDatatable('a');
-    customHelpers.pressEnterInDatatable();
+    await customHelpers.typeInDatatable('a');
+    await customHelpers.pressEnterInDatatable();
 
     assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 2}, 'If the cell value is validated using enter but there is no new line, selection do not change');
   });

@@ -32,30 +32,30 @@ module('Integration | Component | deletion', function(hooks) {
                                               ['Row 3', '3', '13', '23']]
                                                ,'The datatable content is correct');
     await customHelpers.clickOnDatatableCell(1, 1);
-    customHelpers.pressEscInDatatable();
-    customHelpers.pressCtrlDelKeyInDatatable();
+    await customHelpers.pressEscInDatatable();
+    await customHelpers.pressCtrlDelKeyInDatatable();
     assert.deepEqual(customHelpers.getDatatableContent(),[['Row 0', '0', '10', '20'],
                                                 ['Row 1', '1', '11', '21'],
                                                 ['Row 2', '2', '12', '22'],
                                                 ['Row 3', '3', '13', '23']]
                                               ,'Nothing happens if it is not done in a row header');
-    customHelpers.pressLeftKeyInDatatable();
-    customHelpers.pressCtrlDelKeyInDatatable();
+    await customHelpers.pressLeftKeyInDatatable();
+    await customHelpers.pressCtrlDelKeyInDatatable();
     assert.deepEqual(customHelpers.getDatatableContent(),[['Row 1', '1', '11', '21'],
                                                         ['Row 2', '2', '12', '22'],
                                                         ['Row 3', '3', '13', '23']]
                                                ,'Otherwise, the current row is removed');
     assert.deepEqual(customHelpers.getSelectedPosition(), {row: 1, column: 0}, 'The row below is selected after deletion');
-    customHelpers.pressDownKeyInDatatable();
-    customHelpers.pressDownKeyInDatatable();
-    customHelpers.pressCtrlDelKeyInDatatable();
+    await customHelpers.pressDownKeyInDatatable();
+    await customHelpers.pressDownKeyInDatatable();
+    await customHelpers.pressCtrlDelKeyInDatatable();
     assert.deepEqual(customHelpers.getDatatableContent(),[['Row 1', '1', '11', '21'],
                                                         ['Row 2', '2', '12', '22']]);
 
     assert.deepEqual(customHelpers.getSelectedPosition(), {row: 2, column: 0}
         ,'If the last row is selected, the selection moves the the row above');
-    customHelpers.pressCtrlDelKeyInDatatable();
-    customHelpers.pressCtrlDelKeyInDatatable();
+    await customHelpers.pressCtrlDelKeyInDatatable();
+    await customHelpers.pressCtrlDelKeyInDatatable();
     assert.deepEqual(customHelpers.getSelectedPosition(), {row: 0, column: 0}, 'If the body is empty after deletion, selection moves to the header');
   });
 
@@ -71,8 +71,8 @@ module('Integration | Component | deletion', function(hooks) {
                                                         ['Row 3', '3', '13', '23']]);
 
     await customHelpers.clickOnDatatableCell(1, 0);
-    customHelpers.pressEscInDatatable();
-    customHelpers.pressCtrlDelKeyInDatatable();
+    await customHelpers.pressEscInDatatable();
+    await customHelpers.pressCtrlDelKeyInDatatable();
     assert.deepEqual(customHelpers.getDatatableContent(), [['Row 0', '0', '10', '20'],
                                                           ['Row 1', '1', '11', '21'],
                                                           ['Row 2', '2', '12', '22'],
@@ -89,15 +89,15 @@ module('Integration | Component | deletion', function(hooks) {
                                                         ['Row 2', '2', '12', '22'],
                                                         ['Row 3', '3', '13', '23']]);
     await customHelpers.clickOnDatatableCell(1, 1);
-    customHelpers.pressEscInDatatable();
-    customHelpers.pressCtrlDelKeyInDatatable();
+    await customHelpers.pressEscInDatatable();
+    await customHelpers.pressCtrlDelKeyInDatatable();
     assert.deepEqual(customHelpers.getDatatableContent(), [ ['Row 0', '0', '10', '20'],
                                                         ['Row 1', '1', '11', '21'],
                                                         ['Row 2', '2', '12', '22'],
                                                         ['Row 3', '3', '13', '23']]
                                                         ,'Nothing happens if it is not done in a column header');
-    customHelpers.pressUpKeyInDatatable();
-    customHelpers.pressCtrlDelKeyInDatatable();
+    await customHelpers.pressUpKeyInDatatable();
+    await customHelpers.pressCtrlDelKeyInDatatable();
     assert.deepEqual(customHelpers.getDatatableContent(), [ ['0', '10', '20'],
                                                         ['1', '11', '21'],
                                                         ['2', '12', '22'],
@@ -119,8 +119,8 @@ module('Integration | Component | deletion', function(hooks) {
                                                       ['Row 2', '2', '12', '22'],
                                                       ['Row 3', '3', '13', '23']]);
     await customHelpers.clickOnDatatableCell(0, 1);
-    customHelpers.pressEscInDatatable();
-    customHelpers.pressCtrlDelKeyInDatatable();
+    await customHelpers.pressEscInDatatable();
+    await customHelpers.pressCtrlDelKeyInDatatable();
     assert.deepEqual(customHelpers.getDatatableContent(), [['Row 0', '0', '10', '20'],
                                                         ['Row 1', '1', '11', '21'],
                                                         ['Row 2', '2', '12', '22'],

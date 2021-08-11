@@ -38,11 +38,10 @@ module('Integration | Component | keyboard navigation', function(hooks) {
     await customHelpers.pressLeftKeyInDatatable();
 
     assert.deepEqual(customHelpers.getSelectedPosition(), {row: 1, column: 1}, 'The correct cell is selected')
-debugger
+
     await customHelpers.pressEscInDatatable()
-    debugger
     await customHelpers.pressRightKeyInDatatable()
-debugger
+
     assert.deepEqual(customHelpers.getSelectedPosition(), {row: 1, column: 2}, 'Pressing ESC removes the input, so we can navigate with the keyboard')
 
     await customHelpers.pressDownKeyInDatatable()

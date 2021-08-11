@@ -50,22 +50,22 @@ module('Integration | Component | content edition direct validation', function(h
 
     assert.equal(this.$('input').length, 1, 'The cell editor is shown')
 
-    customHelpers.typeInDatatable('I forgot it should be #something')
-    customHelpers.pressEnterInDatatable()
+    await customHelpers.typeInDatatable('I forgot it should be #something')
+    await customHelpers.pressEnterInDatatable()
 
     assert.equal(this.$('input').length, 1, 'The editor is still there as validation failed')
     assert.ok(customHelpers.getSelectedCell().hasClass('error'), 'Current cell is in error')
 
-    customHelpers.pressEscInDatatable()
+    await customHelpers.pressEscInDatatable()
 
-    customHelpers.typeInDatatable('#123')
-    customHelpers.pressEnterInDatatable()
+   await  customHelpers.typeInDatatable('#123')
+   await  customHelpers.pressEnterInDatatable()
 
     assert.equal(this.$('input').length, 0, 'The validation worked so the editor is hidden now')
 
     assert.ok(!customHelpers.getSelectedCell().hasClass('error'), 'Current cell is not in error')
 
-    customHelpers.pressUpKeyInDatatable()
+    await customHelpers.pressUpKeyInDatatable()
 
     highlightedCells = customHelpers.getHightlightedCellsText()
     assert.deepEqual(highlightedCells, ['#123', 'Row 2', '2', '12', '22'], 'the correct cells are highlighted')
@@ -82,17 +82,17 @@ module('Integration | Component | content edition direct validation', function(h
 
     assert.equal(this.$('input').length, 1, 'The cell editor is shown')
 
-    customHelpers.typeInDatatable('I forgot it should be #something')
-    customHelpers.pressEnterInDatatable()
+    await customHelpers.typeInDatatable('I forgot it should be #something')
+    await customHelpers.pressEnterInDatatable()
 
     assert.equal(this.$('input').length, 1, 'The editor is still there as validation failed')
     assert.ok(customHelpers.getSelectedCell().hasClass('error'), 'Current cell is in error')
 
-    customHelpers.pressEscInDatatable()
-    customHelpers.typeInDatatable('Value 951')
+    await customHelpers.pressEscInDatatable()
+    await customHelpers.typeInDatatable('Value 951')
 
-    customHelpers.pressEnterInDatatable()
-    customHelpers.pressUpKeyInDatatable()
+    await customHelpers.pressEnterInDatatable()
+    await customHelpers.pressUpKeyInDatatable()
 
     assert.equal(this.$('input').length, 0, 'The validation worked so the editor is hidden now')
     assert.ok(!customHelpers.getSelectedCell().hasClass('error'), 'Current cell is not in error')

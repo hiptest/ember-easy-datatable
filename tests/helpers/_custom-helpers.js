@@ -2,7 +2,7 @@ import { hoverTrigger } from "./ember-basic-dropdown-helpers";
 import $ from 'jquery'
 import { A } from '@ember/array'
 import { run } from '@ember/runloop'
-import { click, fillIn, triggerKeyEvent } from '@ember/test-helpers'
+import { click, fillIn, triggerKeyEvent, typeIn } from '@ember/test-helpers'
 
 const customHelpers = {
 
@@ -231,8 +231,9 @@ const customHelpers = {
 
   async typeInDatatable(value) {
     if (value !== '') {
-      await this.pressKey(value.charCodeAt(0));
-      this.typeInDatatable(value.slice(1));
+      await this.pressKey(value.charCodeAt(0))
+      await fillIn('input', '')
+      await typeIn('input', value)
     }
   },
 
