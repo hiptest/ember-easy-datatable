@@ -1,15 +1,11 @@
 {
-  "scanSettings": {
-    "configMode": "AUTO",
-    "configExternalURL": "",
-    "projectToken": "",
-    "baseBranches": []
-  },
+  "settingsInheritedFrom": "hiptest/whitesource-config@main",
   "checkRunSettings": {
-    "vulnerableCheckRunConclusionLevel": "failure",
-    "displayMode": "diff"
+    "vulnerableCheckRunConclusionLevel": "success",
+    "licenseCheckRunConclusionLevel": "success"
   },
-  "issueSettings": {
-    "minSeverityLevel": "LOW"
+  "remediateSettings": {
+    "enableRenovate": true,
+    "labels": ["dependencies"]
   }
 }
