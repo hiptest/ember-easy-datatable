@@ -66,7 +66,7 @@ const customHelpers = {
       return elt.textContent.trim()
     })
   },
-  
+
   clickOnMoveDownRow(row) {
     let context = `tr:nth-child(${row}) td:last-child, tr:nth-child(${row}) th:last-child`
     hoverTrigger(context, { i: 0 })
