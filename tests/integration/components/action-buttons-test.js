@@ -96,7 +96,7 @@ module('Integration | Component | Action buttons', function (hooks) {
     assert.expect(1)
 
     await render(hbs`{{easy-datatable table=table}}`)
-    customHelpers.clickOnMoveUpRow(2)
+    await customHelpers.clickOnMoveUpRow(2)
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -115,7 +115,7 @@ module('Integration | Component | Action buttons', function (hooks) {
 
     await render(hbs`{{easy-datatable table=table}}`)
 
-    customHelpers.clickOnMoveDownRow(2)
+    await customHelpers.clickOnMoveDownRow(2)
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -133,7 +133,7 @@ module('Integration | Component | Action buttons', function (hooks) {
     assert.expect(1)
 
     await render(hbs`{{easy-datatable table=table}}`)
-    customHelpers.clickOnRemoveColumn(2)
+    await customHelpers.clickOnRemoveColumn(2)
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -151,7 +151,7 @@ module('Integration | Component | Action buttons', function (hooks) {
     assert.expect(1)
 
     await render(hbs`{{easy-datatable table=table}}`)
-    customHelpers.clickOnMoveRightColumn(2)
+    await customHelpers.clickOnMoveRightColumn(2)
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -169,7 +169,7 @@ module('Integration | Component | Action buttons', function (hooks) {
     assert.expect(1)
 
     await render(hbs`{{easy-datatable table=table}}`)
-    customHelpers.clickOnMoveLeftColumn(4)
+    await customHelpers.clickOnMoveLeftColumn(4)
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),

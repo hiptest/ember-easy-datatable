@@ -26,7 +26,7 @@ module('Integration | Component | keyboard navigation', function (hooks) {
   test('Keyboard navigation', async function (assert) {
     await render(hbs`{{easy-datatable table=table}}`)
 
-    assert.equal(customHelpers.getSelectedCell().length, 0, 'No cell is currently selected')
+    assert.equal(customHelpers.getSelectedCell(), null, 'No cell is currently selected')
 
     await customHelpers.clickOnDatatableValueCell(1, 1)
     assert.deepEqual(customHelpers.getSelectedPosition(), { row: 1, column: 1 }, 'The correct cell is selected')
