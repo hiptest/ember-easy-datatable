@@ -15,10 +15,10 @@ module.exports = {
     embertest: true,
   },
   rules: {
-    'ember/no-actions-hash': 'warn', //error
+    'ember/no-actions-hash': 'off', //error
     'ember/no-classic-components': 'off', //error
     'ember/no-classic-classes': 'off', //error
-    'ember/no-component-lifecycle-hooks': 'warn', //error
+    'ember/no-component-lifecycle-hooks': 'off', //error
     'ember/no-get': 'warn', //error
     'ember/no-jquery': 'off', //error
     'ember/no-observers': 'warn', //error
