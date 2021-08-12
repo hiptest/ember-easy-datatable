@@ -89,7 +89,7 @@ module('Integration | Component | Edit after insertion', function (hooks) {
       'The first editable cell is selected (not the header) ...'
     )
 
-    assert.ok(this.$('input').length === 1, '... and the editor is shown')
+    assert.dom('input').exists({ count: 1 }, '... and the editor is shown')
 
     await click('.t-add-new-row')
     assert.deepEqual(
@@ -97,11 +97,12 @@ module('Integration | Component | Edit after insertion', function (hooks) {
       { row: 7, column: 3 },
       'The first editable cell is selected (not the header) ...'
     )
-    assert.ok(this.$('input').length === 1)
+
+    assert.dom('input').exists({ count: 1 })
     await click('.t-add-new-row')
     assert.deepEqual(customHelpers.getSelectedPosition(), { row: 8, column: 3 }, '... or the first row')
 
-    assert.ok(this.$('input').length === 1)
+    assert.dom('input').exists({ count: 1 })
   })
 
   test('If option "editAfterInsertion" is set to true, the editor is shown after inserting a new column', async function (assert) {
@@ -118,7 +119,7 @@ module('Integration | Component | Edit after insertion', function (hooks) {
       { row: 4, column: 3 },
       'The same principle applies when inserting columns'
     )
-    assert.ok(this.$('input').length === 1, '... and the editor is shown')
+    assert.dom('input').exists({ count: 1 }, '... and the editor is shown')
 
     await click('.add-first-column')
     assert.deepEqual(
@@ -127,10 +128,10 @@ module('Integration | Component | Edit after insertion', function (hooks) {
       'It also works when inserting the first column ...'
     )
 
-    assert.ok(this.$('input').length === 1)
+    assert.dom('input').exists({ count: 1 })
     await click('.add-last-column')
     assert.deepEqual(customHelpers.getSelectedPosition(), { row: 4, column: 6 }, '... or the last one')
 
-    assert.ok(this.$('input').length === 1)
+    assert.dom('input').exists({ count: 1 })
   })
 })
