@@ -46,6 +46,7 @@ module('Integration | Component | Action buttons', function(hooks) {
     assert.expect(1);
 
     await render(hbs`{{easy-datatable table=table}}`);
+    
     await customHelpers.clickOnRemoveRow(2)
 
     assert.deepEqual(customHelpers.getDatatableContent(),
@@ -260,7 +261,7 @@ module('Integration | Component | Action buttons', function(hooks) {
       row.set('cells.firstObject.canInsertRowAfter', index <= 1);
     })
 
-    await this.$('.t-add-new-row').click()
+    await click('.t-add-new-row')
 
     assert.deepEqual(customHelpers.getDatatableContent(), [
       ['Row 0', '0', '10', '20'],

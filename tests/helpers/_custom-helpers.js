@@ -124,13 +124,11 @@ const customHelpers = {
     return action.click()
   },
 
-  clickOnRemoveRow(row) {
+  async clickOnRemoveRow(row) {
     let context = `tr:nth-child(${row}) td:last-child, tr:nth-child(${row}) th:last-child`
     hoverTrigger(context, {i: 0});
 
-    let removeAction = $('.t-row-action-remove');
-
-    return removeAction.click();
+    await click('.t-row-action-remove')
   },
 
   async pressEnterInDatatable() {
