@@ -47,17 +47,17 @@ export default Component.extend({
     },
 
     addFirstRow: function () {
-      var index = this.get('table').getIndexForFirstInsertableRow();
+      var index = this.table.getIndexForFirstInsertableRow();
       this.insertRowAt(index, { row: index, column: 0 });
     },
 
     addLastRow: function () {
-      var index = this.get('table').getIndexForLastInsertableRow();
+      var index = this.table.getIndexForLastInsertableRow();
       this.insertRowAt(index, { row: index, column: 0 });
     },
 
     insertRowAfter: function (index) {
-      if (this.get('table').rowCanBeInserted(index)) {
+      if (this.table.rowCanBeInserted(index)) {
         this.insertRowAt(index, this.computeNavigateDownPosition);
       }
     },
@@ -67,8 +67,8 @@ export default Component.extend({
     },
 
     removeRow: function (index) {
-      if (this.get('table').rowCanBeRemoved(index)) {
-        this.get('table').removeRow(index);
+      if (this.table.rowCanBeRemoved(index)) {
+        this.table.removeRow(index);
 
         if (this.get('selectedCellPosition.row') === this.get('table.body.length')) {
           this.send('navigateUp');
@@ -79,59 +79,59 @@ export default Component.extend({
     },
 
     addFirstColumn: function () {
-      var index = this.get('table').getIndexForFirstInsertableColumn();
+      var index = this.table.getIndexForFirstInsertableColumn();
       this.insertColumnAt(index, { row: -1, column: index });
     },
 
     addLastColumn: function () {
-      var index = this.get('table').getIndexForLastInsertableColumn();
+      var index = this.table.getIndexForLastInsertableColumn();
       this.insertColumnAt(index, { row: -1, column: index });
     },
 
     insertColumnAfter: function (index) {
-      if (this.get('table').columnCanBeInserted(index)) {
+      if (this.table.columnCanBeInserted(index)) {
         this.insertColumnAt(index, this.computeNavigateRightPosition);
       }
     },
 
     removeColumn: function (index) {
-      if (this.get('table').columnCanBeRemoved(index)) {
-        this.get('table').removeColumn(index);
+      if (this.table.columnCanBeRemoved(index)) {
+        this.table.removeColumn(index);
         this.notifyPropertyChange('selectedCellPosition');
       }
     },
 
     moveRowUp: function (index) {
-      if (this.get('table').rowCanMoveUp(index)) {
-        this.get('table').moveRow(index, index - 1);
+      if (this.table.rowCanMoveUp(index)) {
+        this.table.moveRow(index, index - 1);
         this.send('navigateUp');
       }
     },
 
     moveRowDown: function (index) {
-      if (this.get('table').rowCanMoveDown(index)) {
-        this.get('table').moveRow(index, index + 1);
+      if (this.table.rowCanMoveDown(index)) {
+        this.table.moveRow(index, index + 1);
         this.send('navigateDown');
       }
     },
 
     duplicateRow: function (index) {
-      if (this.get('table').rowCanBeInserted(index + 1)) {
+      if (this.table.rowCanBeInserted(index + 1)) {
         this.insertRowAt(index + 1, { row: index + 1, column: 0 });
-        this.get('table').populateClonedRowCells(index);
+        this.table.populateClonedRowCells(index);
       }
     },
 
     moveColumnLeft: function (index) {
-      if (this.get('table').columnCanMoveLeft(index)) {
-        this.get('table').moveColumn(index, index - 1);
+      if (this.table.columnCanMoveLeft(index)) {
+        this.table.moveColumn(index, index - 1);
         this.send('navigateLeft');
       }
     },
 
     moveColumnRight: function (index) {
-      if (this.get('table').columnCanMoveRight(index)) {
-        this.get('table').moveColumn(index, index + 1);
+      if (this.table.columnCanMoveRight(index)) {
+        this.table.moveColumn(index, index + 1);
         this.send('navigateRight');
       }
     }
@@ -142,14 +142,14 @@ export default Component.extend({
       return;
     }
 
-    this.get('table').insertRow(index);
+    this.table.insertRow(index);
 
     if (typeof (nextPosition) === 'function') {
       nextPosition = nextPosition.apply(this);
     }
 
     this.set('selectedCellPosition', nextPosition);
-    if (this.get('editAfterInsertion')) {
+    if (this.editAfterInsertion) {
       this.navigateToFirstEditableCellInRow();
       this.set('showEditorForSelectedCell', true);
     }
@@ -197,7 +197,7 @@ export default Component.extend({
   },
 
   highlightedColumn: computed('selectedCellPosition', function () {
-    var position = this.get('selectedCellPosition');
+    var position = this.selectedCellPosition;
     if (isNone(position) || position.row !== -1) {
       return;
     }
@@ -205,8 +205,8 @@ export default Component.extend({
   }),
 
   highlightedRow: computed('selectedCell', 'selectedCellPosition', function () {
-    var position = this.get('selectedCellPosition'),
-      cell = this.get('selectedCell');
+    var position = this.selectedCellPosition,
+      cell = this.selectedCell;
 
     if (isNone(cell) || !cell.get('isHeader') || position.row < 0) {
       return;
@@ -271,12 +271,12 @@ export default Component.extend({
   },
 
   computeNavigateUpPosition: function () {
-    var current = this.get('selectedCellPosition');
+    var current = this.selectedCellPosition;
     return this.fixPosition(this.giveValidRowPosition(current, current.row - 1));
   },
 
   computeNavigateDownPosition: function () {
-    var current = this.get('selectedCellPosition');
+    var current = this.selectedCellPosition;
     return this.fixPosition(this.giveValidRowPosition(current, current.row + 1));
   },
 
@@ -289,12 +289,12 @@ export default Component.extend({
   },
 
   computeNavigateRightPosition: function () {
-    var current = this.get('selectedCellPosition');
+    var current = this.selectedCellPosition;
     return this.fixPosition({ row: current.row, column: current.column + 1 });
   },
 
   computeNavigateLeftPosition: function () {
-    var current = this.get('selectedCellPosition');
+    var current = this.selectedCellPosition;
     return this.fixPosition({ row: current.row, column: current.column - 1 });
   },
 
@@ -303,20 +303,20 @@ export default Component.extend({
       return;
     }
 
-    this.get('table').insertColumn(index);
+    this.table.insertColumn(index);
     if (typeof (nextPosition) === 'function') {
       nextPosition = nextPosition.apply(this);
     }
 
     this.set('selectedCellPosition', nextPosition);
-    if (this.get('editAfterInsertion')) {
+    if (this.editAfterInsertion) {
       this.navigateToFirstEditableCellInColumn();
       this.set('showEditorForSelectedCell', true);
     }
   },
 
   selectedCell: computed('selectedCellPosition', 'table.{body,headers.cells}', function () {
-    var position = this.get('selectedCellPosition');
+    var position = this.selectedCellPosition;
     if (isNone(position) || isNone(position.row) || isNone(position.column)) {
       return;
     }
@@ -331,8 +331,8 @@ export default Component.extend({
   }),
 
   updateSelection: observer('selectedCell', function () {
-    var previous = this.get('previouslySelectedCell'),
-      cell = this.get('selectedCell');
+    var previous = this.previouslySelectedCell,
+      cell = this.selectedCell;
 
     if (!isNone(previous) && !previous.get('isDestroying')) {
       previous.set('isSelected', false);

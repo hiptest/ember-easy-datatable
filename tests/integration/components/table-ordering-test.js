@@ -84,7 +84,7 @@ module('Integration | Component | Table ordering', function (hooks) {
     assert.expect(10)
 
     await render(hbs`{{easy-datatable table=table}}`)
-    this.get('table').get('headers.cells')[2].set('isMovable', false)
+    this.table.get('headers.cells')[2].set('isMovable', false)
 
     assert.deepEqual(customHelpers.getDatatableHeaders(), ["", "Name", "Value 1", "Value 2", "Value 3"])
 
@@ -188,7 +188,7 @@ module('Integration | Component | Table ordering', function (hooks) {
     assert.expect(5)
 
     await render(hbs`{{easy-datatable table=table}}`)
-    this.get('table').get('body')[1].set('cells.firstObject.isMovable', false)
+    this.table.get('body')[1].set('cells.firstObject.isMovable', false)
 
     assert.deepEqual(customHelpers.getDatatableContent(), [
       ['Row 0', '0', '10', '20'],

@@ -8,16 +8,16 @@ export default Component.extend({
   table: null,
 
   rowIndex: computed('row', 'table.body.[]', function () {
-    return this.get('table.body').indexOf(this.get('row'));
+    return this.get('table.body').indexOf(this.row);
   }),
 
   actions : {
     navigate: function (direction) {
-      this.get('navigate')(direction);
+      this.navigate(direction);
     },
 
     manipulate: function (label, index) {
-      this.get('manipulate')(label, index);
+      this.manipulate(label, index);
     }
   }
 });

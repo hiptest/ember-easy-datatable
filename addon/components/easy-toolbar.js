@@ -5,7 +5,7 @@ export default Component.extend({
   tagName: 'ul',
   classNames: ['toolbar'],
   screenSwitchProps: computed('isFullScreen', function () {
-    return this.get('isFullScreen') ? {
+    return this.isFullScreen ? {
       label: "Back to normal mode",
       icon: "icon-size-actual"
     } : {label: "Switch to full screen", icon: "icon-size-fullscreen"};
@@ -13,7 +13,7 @@ export default Component.extend({
 
   actions: {
     toggleFullScreen: function () {
-      this.set('isFullScreen', !this.get('isFullScreen'));
+      this.set('isFullScreen', !this.isFullScreen);
     }
   }
 });

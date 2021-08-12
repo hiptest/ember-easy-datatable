@@ -68,7 +68,7 @@ module('Integration | Component | content edition', function (hooks) {
     var count = 0;
     assert.expect(3);
 
-    this.get('table').reopen({
+    this.table.reopen({
       validateCell: function () {
         count += 1;
         return true;
@@ -110,7 +110,7 @@ module('Integration | Component | content edition', function (hooks) {
     var count = 0;
     assert.expect(3);
 
-    this.get('table').reopen({
+    this.table.reopen({
       countValidateCell: function () {
         count += 1;
         return true;
@@ -154,7 +154,7 @@ module('Integration | Component | content edition', function (hooks) {
     var count = 0;
     assert.expect(4);
 
-    this.get('table').reopen({
+    this.table.reopen({
       countValidateCell: function () {
         count += 1;
         return true;
@@ -287,8 +287,8 @@ module('Integration | Component | content edition', function (hooks) {
   test('Cells with "isEditable" set to false can not be edited', async function (assert) {
     assert.expect(6);
 
-    this.get('table').set('headers.cells.firstObject.isEditable', false);
-    this.get('table').get('body').forEach(function (row, index) {
+    this.table.set('headers.cells.firstObject.isEditable', false);
+    this.table.get('body').forEach(function (row, index) {
       row.get('cells')[index % 2 === 0 ? 1 : 0].set('isEditable', false);
     });
 

@@ -14,6 +14,6 @@ export default EmberObject.extend({
   showAddLastColumn: false,
 
   tag: computed('isHeader', function () {
-		return this.get('isHeader') ? 'th' : 'td';
+		return this.isHeader ? 'th' : 'td';
 	})
 });

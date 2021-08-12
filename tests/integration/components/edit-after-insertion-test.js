@@ -58,7 +58,7 @@ module('Integration | Component | Edit after insertion', function(hooks) {
             value: 'H+'
           }];
 
-          this.get('body').forEach(function (item, index) {
+          this.body.forEach(function (item, index) {
             column.push({
               value: index,
               isEditable: index > 2

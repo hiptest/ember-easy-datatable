@@ -5,6 +5,6 @@ export default EmberObject.extend({
   cells: null,
 
   moveCell: function (from, to) {
-    DatatableFactory.moveObject(this.get('cells'), from, to);
+    DatatableFactory.moveObject(this.cells, from, to);
   }
 });

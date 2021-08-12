@@ -35,7 +35,7 @@ export default Component.extend({
     if (this.get('cell.isSelected')) {
       return;
     }
-    this.set('selectedCellPosition', this.get('position'));
+    this.set('selectedCellPosition', this.position);
   },
 
   keyDown(event) {
@@ -63,7 +63,7 @@ export default Component.extend({
 
     if (!isNone(action)) {
       event.preventDefault();
-      this.get('navigate')(action);
+      this.navigate(action);
       return true;
     }
   },
@@ -90,18 +90,18 @@ export default Component.extend({
 
     action = mapping[event.which];
     if (!isNone(action)) {
-      this.get('manipulate')(action.label, action.index)
+      this.manipulate(action.label, action.index)
     }
   },
 
   columnIndex: computed('cell', 'row.cells.[]', function () {
-    return this.get('row.cells').indexOf(this.get('cell'));
+    return this.get('row.cells').indexOf(this.cell);
   }),
 
   position: computed('rowIndex', 'columnIndex', function () {
     return {
-      row: this.get('rowIndex'),
-      column: this.get('columnIndex')
+      row: this.rowIndex,
+      column: this.columnIndex
     };
   }),
 
@@ -121,11 +121,11 @@ export default Component.extend({
 
   _showEditor() {
     schedule('afterRender', this, function () {
-      if (!this.get('showEditorForSelectedCell')) {
+      if (!this.showEditorForSelectedCell) {
         return;
       }
 
-      if (this.get('cell.isSelected') && !this.get('editorShown')) {
+      if (this.get('cell.isSelected') && !this.editorShown) {
         this.startEdition();
         this.set('showEditorForSelectedCell', false);
       }
@@ -149,11 +149,11 @@ export default Component.extend({
 
   actions: {
     navigate(direction) {
-      this.get('navigate')(direction);
+      this.navigate(direction);
     },
 
     manipulate(label, index) {
-      this.get('manipulate')(label, index);
+      this.manipulate(label, index);
     },
 
     stopEdition() {
@@ -231,9 +231,9 @@ export default Component.extend({
   },
 
   validateValue(value) {
-    var datatable = this.get('table'),
-      cell = this.get('cell'),
-      position = this.get('position'),
+    var datatable = this.table,
+      cell = this.cell,
+      position = this.position,
       isValid;
     isValid = datatable.validateCell(cell, position, value);
     // is it a promise? (async validation)
@@ -248,11 +248,11 @@ export default Component.extend({
   },
 
   inHighlightedRow: computed('highlightedRow', 'position.row', function () {
-    return this.get('position.row') === this.get('highlightedRow');
+    return this.get('position.row') === this.highlightedRow;
   }),
 
   inHighlightedColumn: computed('highlightedColumn', 'position.column', function () {
-    return this.get('position.column') === this.get('highlightedColumn');
+    return this.get('position.column') === this.highlightedColumn;
   }),
 
   calculatePosition(trigger, content) {
@@ -268,10 +268,10 @@ export default Component.extend({
 
   _focusOnCell() {
     schedule('afterRender', this, function () {
-      const position = this.get('position'),
-        selected = this.get('selectedCellPosition');
+      const position = this.position,
+        selected = this.selectedCellPosition;
 
-      if (this.get('editorShown') || isNone(selected)) {
+      if (this.editorShown || isNone(selected)) {
         return;
       }
 
@@ -287,7 +287,7 @@ export default Component.extend({
         return
       }
 
-      if (this.get('cell.isSelected') && !this.get('editorShown')) {
+      if (this.get('cell.isSelected') && !this.editorShown) {
         this.$().focus()
       } else {
         this.$().blur()

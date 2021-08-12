@@ -127,7 +127,7 @@ module('Integration | Component | Action buttons', function(hooks) {
   })
 
   test('Click to add a new last column', async function(assert) {
-    const table = this.get('table');
+    const table = this.table;
     assert.expect(3);
 
     await render(hbs`{{easy-datatable table=table}}`)
@@ -175,7 +175,7 @@ module('Integration | Component | Action buttons', function(hooks) {
   test('Validate to true a cell asynchronously and remove the row before validation ends', async function (assert) {
     assert.expect(2)
 
-    this.get('table').reopen({
+    this.table.reopen({
       validateCell: function(cell, position, value) {
         return new Promise(function (resolve) {
           run.later(function () {
@@ -209,7 +209,7 @@ module('Integration | Component | Action buttons', function(hooks) {
   test('Validate to false a cell asynchronously and remove the row before validation ends', async function (assert) {
     assert.expect(2);
 
-    this.get('table').reopen({
+    this.table.reopen({
       validateCell: function() {
         return new Promise(function (resolve, reject) {
           run.later(function () {
@@ -241,7 +241,7 @@ module('Integration | Component | Action buttons', function(hooks) {
   })
 
   test('Add last row', async function (assert) {
-    let table = this.get('table')
+    let table = this.table
     assert.expect(3)
 
     await render(hbs`{{easy-datatable table=table showAddLastRow=true addNewRowLabel='Add new row'}}`)
