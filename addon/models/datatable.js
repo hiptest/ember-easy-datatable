@@ -1,5 +1,5 @@
-import EmberObject from "@ember/object";
-import DatatableFactory from "../utils/datatable-factory";
+import EmberObject from '@ember/object'
+import DatatableFactory from '../utils/datatable-factory'
 import { Promise } from 'rsvp'
 import { A } from '@ember/array'
 
@@ -19,173 +19,188 @@ export default EmberObject.extend({
     message.
   */
   validateCell: function (cell, position, value) {
-    return Promise.resolve(value);
+    return Promise.resolve(value)
   },
 
   columnCanMove: function (index) {
-    return this.get('headers.cells')[index].get('isMovable');
+    return this.get('headers.cells')[index].get('isMovable')
   },
 
   columnCanMoveLeft: function (index) {
-    return this.columnCanMove(index) && index > 0 && this.columnCanMove(index - 1);
+    return this.columnCanMove(index) && index > 0 && this.columnCanMove(index - 1)
   },
 
   columnCanMoveRight: function (index) {
-    return this.columnCanMove(index) && index < this.get('headers.cells.length') - 1  && this.columnCanMove(index + 1);
+    return this.columnCanMove(index) && index < this.get('headers.cells.length') - 1 && this.columnCanMove(index + 1)
   },
 
   rowCanMove: function (index) {
     return this.body[index].get('cells').every(function (cell) {
-      return cell.get('isMovable');
-    });
+      return cell.get('isMovable')
+    })
   },
 
   rowCanMoveUp: function (index) {
-    return this.rowCanMove(index) && index > 0 && this.rowCanMove(index - 1);
+    return this.rowCanMove(index) && index > 0 && this.rowCanMove(index - 1)
   },
 
   rowCanMoveDown: function (index) {
-    return this.rowCanMove(index) && index < this.get('body.length') - 1  && this.rowCanMove(index + 1);
+    return this.rowCanMove(index) && index < this.get('body.length') - 1 && this.rowCanMove(index + 1)
   },
 
   columnCanBeRemoved: function (index) {
-    return this.get('headers.cells')[index].get('isRemovable');
+    return this.get('headers.cells')[index].get('isRemovable')
   },
 
   rowCanBeRemoved: function (index) {
     return this.body[index].get('cells').every(function (cell) {
-      return cell.get('isRemovable');
-    });
+      return cell.get('isRemovable')
+    })
   },
 
   makeDefaultRow: function () {
-    return DatatableFactory.makeListOf(this.get('headers.cells.length'));
+    return DatatableFactory.makeListOf(this.get('headers.cells.length'))
   },
 
   makeDefaultColumn: function () {
-    var column = DatatableFactory.makeListOf(this.get('body.length') + 1);
-    column[0] = {isHeader: true};
-    return column;
+    var column = DatatableFactory.makeListOf(this.get('body.length') + 1)
+    column[0] = { isHeader: true }
+    return column
   },
 
   rowCanBeInserted: function (index) {
     if (this.canInsertRows) {
-      if (index === 0) { return true; }
+      if (index === 0) {
+        return true
+      }
       return this.body[index - 1].get('cells').every(function (cell) {
-        return cell.get('canInsertRowAfter');
-      });
+        return cell.get('canInsertRowAfter')
+      })
     }
-    return false;
+    return false
   },
 
   getInsertableRowsIndices: function () {
     var self = this,
-      insertableIndices = A();
+      insertableIndices = A()
 
     if (this.canInsertRows) {
-      insertableIndices.push(0);
+      insertableIndices.push(0)
 
       this.body.forEach(function (row, index) {
         if (self.rowCanBeInserted(index + 1)) {
-          insertableIndices.push(index + 1);
+          insertableIndices.push(index + 1)
         }
-      });
+      })
     }
-    return insertableIndices;
+    return insertableIndices
   },
 
   getIndexForFirstInsertableRow: function () {
-    var insertableIndices = this.getInsertableRowsIndices();
-    if (insertableIndices.length > 0) { return Math.min.apply(Math, insertableIndices); }
+    var insertableIndices = this.getInsertableRowsIndices()
+    if (insertableIndices.length > 0) {
+      return Math.min.apply(Math, insertableIndices)
+    }
   },
 
   getIndexForLastInsertableRow: function () {
-    var insertableIndices = this.getInsertableRowsIndices();
-    if (insertableIndices.length > 0) { return Math.max.apply(Math, insertableIndices); }
+    var insertableIndices = this.getInsertableRowsIndices()
+    if (insertableIndices.length > 0) {
+      return Math.max.apply(Math, insertableIndices)
+    }
   },
 
   insertRow: function (index) {
-    this.body.insertAt(index, DatatableFactory.makeRow(this.makeDefaultRow(index)));
-    this.notifyPropertyChange('contentUpdated');
+    this.body.insertAt(index, DatatableFactory.makeRow(this.makeDefaultRow(index)))
+    this.notifyPropertyChange('contentUpdated')
   },
 
   populateClonedRowCells: function (index) {
-    let originalRowCells = this.body.objectAt(index).get('cells');
-    let originalRowValues = originalRowCells.filter(cell => !cell.isHeader).map(cell => cell.get('value'));
-    if(originalRowValues[0]){
-      originalRowValues[0] = `${originalRowValues[0]}_copy`;
+    let originalRowCells = this.body.objectAt(index).get('cells')
+    let originalRowValues = originalRowCells.filter((cell) => !cell.isHeader).map((cell) => cell.get('value'))
+    if (originalRowValues[0]) {
+      originalRowValues[0] = `${originalRowValues[0]}_copy`
     } else {
-      originalRowValues[0] = `${index+1}_copy`;
+      originalRowValues[0] = `${index + 1}_copy`
     }
-    this.body.objectAt(index+1).cells.filter(cell => !cell.isHeader).map((cell, index) => cell.set('value', originalRowValues.objectAt(index)));
-    this.notifyPropertyChange('contentUpdated');
+    this.body
+      .objectAt(index + 1)
+      .cells.filter((cell) => !cell.isHeader)
+      .map((cell, index) => cell.set('value', originalRowValues.objectAt(index)))
+    this.notifyPropertyChange('contentUpdated')
   },
 
   columnCanBeInserted: function (index) {
     if (this.canInsertColumns) {
-      if (index === 0) { return true; }
-      return this.get('headers.cells')[index - 1].get('canInsertColumnAfter');
+      if (index === 0) {
+        return true
+      }
+      return this.get('headers.cells')[index - 1].get('canInsertColumnAfter')
     }
-    return false;
+    return false
   },
 
   getInsertableColumnsIndices: function () {
-    var insertableIndices = A();
+    var insertableIndices = A()
 
     if (this.canInsertColumns) {
-      insertableIndices.push(0);
+      insertableIndices.push(0)
 
       this.get('headers.cells').map(function (cell, index) {
         if (cell.get('canInsertColumnAfter')) {
-          insertableIndices.push(index + 1);
+          insertableIndices.push(index + 1)
         }
-      });
+      })
     }
-    return insertableIndices;
+    return insertableIndices
   },
 
   getIndexForFirstInsertableColumn: function () {
-    var insertableIndices = this.getInsertableColumnsIndices();
-    if (insertableIndices.length > 0) { return Math.min.apply(Math, insertableIndices); }
+    var insertableIndices = this.getInsertableColumnsIndices()
+    if (insertableIndices.length > 0) {
+      return Math.min.apply(Math, insertableIndices)
+    }
   },
 
   getIndexForLastInsertableColumn: function () {
-    var insertableIndices = this.getInsertableColumnsIndices();
-    if (insertableIndices.length > 0) { return Math.max.apply(Math, insertableIndices); }
+    var insertableIndices = this.getInsertableColumnsIndices()
+    if (insertableIndices.length > 0) {
+      return Math.max.apply(Math, insertableIndices)
+    }
   },
 
   insertColumn: function (index) {
-    var column = this.makeDefaultColumn(index);
-    this.get('headers.cells').insertAt(index, DatatableFactory.makeCell(column[0]));
+    var column = this.makeDefaultColumn(index)
+    this.get('headers.cells').insertAt(index, DatatableFactory.makeCell(column[0]))
     this.body.forEach(function (row, rowIndex) {
-      row.get('cells').insertAt(index, DatatableFactory.makeCell(column[rowIndex + 1]));
-    });
-    this.notifyPropertyChange('contentUpdated');
+      row.get('cells').insertAt(index, DatatableFactory.makeCell(column[rowIndex + 1]))
+    })
+    this.notifyPropertyChange('contentUpdated')
   },
 
   removeRow: function (index) {
-    this.body.removeAt(index);
-    this.notifyPropertyChange('contentUpdated');
+    this.body.removeAt(index)
+    this.notifyPropertyChange('contentUpdated')
   },
 
   removeColumn: function (index) {
-    this.get('headers.cells').removeAt(index);
+    this.get('headers.cells').removeAt(index)
     this.body.forEach(function (row) {
-      row.get('cells').removeAt(index);
-    });
-    this.notifyPropertyChange('contentUpdated');
+      row.get('cells').removeAt(index)
+    })
+    this.notifyPropertyChange('contentUpdated')
   },
 
   moveRow: function (from, to) {
-    DatatableFactory.moveObject(this.body, from, to);
-    this.notifyPropertyChange('contentUpdated');
+    DatatableFactory.moveObject(this.body, from, to)
+    this.notifyPropertyChange('contentUpdated')
   },
 
   moveColumn: function (from, to) {
-    this.headers.moveCell(from, to);
+    this.headers.moveCell(from, to)
     this.body.forEach(function (row) {
-      row.moveCell(from, to);
-    });
-    this.notifyPropertyChange('contentUpdated');
-  }
-});
+      row.moveCell(from, to)
+    })
+    this.notifyPropertyChange('contentUpdated')
+  },
+})

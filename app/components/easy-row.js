@@ -1,3 +1,3 @@
-import EasyRow from 'ember-easy-datatable/components/easy-row';
+import EasyRow from 'ember-easy-datatable/components/easy-row'
 
-export default EasyRow;
+export default EasyRow

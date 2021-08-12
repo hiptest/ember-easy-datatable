@@ -1,47 +1,49 @@
-import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
-import hbs from 'htmlbars-inline-precompile';
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import DatatableFactory from 'ember-easy-datatable/utils/datatable-factory'
+import hbs from 'htmlbars-inline-precompile'
+import { module, test } from 'qunit'
+import { setupRenderingTest } from 'ember-qunit'
+import { render } from '@ember/test-helpers'
 import { isPresent } from '@ember/utils'
 import customHelpers from '../../helpers/_custom-helpers'
 
 module('Integration | Component | content edition direct validation', function (hooks) {
-  setupRenderingTest(hooks);
+  setupRenderingTest(hooks)
 
   hooks.beforeEach(function () {
-    this.set('table', DatatableFactory.makeDatatable({
-      headers: ['', 'Name', 'Value 1', 'Value 2', 'Value 3'],
-      body: [
-        [{ isHeader: true, value: '#0' }, 'Row 0', 0, 10, 20],
-        [{ isHeader: true, value: '#1' }, 'Row 1', 1, 11, 21],
-        [{ isHeader: true, value: '#2' }, 'Row 2', 2, 12, 22],
-        [{ isHeader: true, value: '#3' }, 'Row 3', 3, 13, 23]
-      ],
+    this.set(
+      'table',
+      DatatableFactory.makeDatatable({
+        headers: ['', 'Name', 'Value 1', 'Value 2', 'Value 3'],
+        body: [
+          [{ isHeader: true, value: '#0' }, 'Row 0', 0, 10, 20],
+          [{ isHeader: true, value: '#1' }, 'Row 1', 1, 11, 21],
+          [{ isHeader: true, value: '#2' }, 'Row 2', 2, 12, 22],
+          [{ isHeader: true, value: '#3' }, 'Row 3', 3, 13, 23],
+        ],
 
-      validateCell: function (cell, position, value) {
-        value = value.toString();
-        if (position.row === -1) {
-          // Should be "Value <numeric value>"
-          return isPresent(value.match(/^Value [0-9]+$/));
-        }
+        validateCell: function (cell, position, value) {
+          value = value.toString()
+          if (position.row === -1) {
+            // Should be "Value <numeric value>"
+            return isPresent(value.match(/^Value [0-9]+$/))
+          }
 
-        if (cell.isHeader) {
-          // Should be #<numeric value>
-          return isPresent(value.match(/^#[0-9]+$/));
-        }
+          if (cell.isHeader) {
+            // Should be #<numeric value>
+            return isPresent(value.match(/^#[0-9]+$/))
+          }
 
-        // Only numeric values are allowed in the cells
-        return isPresent(value.match(/^[0-9]+$/));
-      }
-    }));
-
-  });
+          // Only numeric values are allowed in the cells
+          return isPresent(value.match(/^[0-9]+$/))
+        },
+      })
+    )
+  })
 
   test('Row header', async function (assert) {
-    assert.expect(7);
+    assert.expect(7)
 
-    await render(hbs`{{easy-datatable table=table}}`);
+    await render(hbs`{{easy-datatable table=table}}`)
 
     await customHelpers.clickOnDatatableCell(3, 0)
 
@@ -72,9 +74,9 @@ module('Integration | Component | content edition direct validation', function (
   })
 
   test('Column header', async function (assert) {
-    assert.expect(7);
+    assert.expect(7)
 
-    await render(hbs`{{easy-datatable table=table}}`);
+    await render(hbs`{{easy-datatable table=table}}`)
     await customHelpers.clickOnDatatableCell(0, 3)
 
     let highlightedCells = customHelpers.getHightlightedCellsText()
@@ -99,5 +101,5 @@ module('Integration | Component | content edition direct validation', function (
 
     highlightedCells = customHelpers.getHightlightedCellsText()
     assert.deepEqual(highlightedCells, ['Value 951', '10', '11', '12', '13'], 'the correct cells are highlighted')
-  });
-});
+  })
+})

@@ -1,3 +1,3 @@
-import EasyDatatable from 'ember-easy-datatable/components/easy-datatable';
+import EasyDatatable from 'ember-easy-datatable/components/easy-datatable'
 
-export default EasyDatatable;
+export default EasyDatatable

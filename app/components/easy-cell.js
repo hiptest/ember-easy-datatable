@@ -1,3 +1,3 @@
-import EasyCell from 'ember-easy-datatable/components/easy-cell';
+import EasyCell from 'ember-easy-datatable/components/easy-cell'
 
-export default EasyCell;
+export default EasyCell

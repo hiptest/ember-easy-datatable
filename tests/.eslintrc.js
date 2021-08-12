@@ -65,6 +65,6 @@ module.exports = {
     pressShiftTabKeyInDatatable: true,
     pressTabKeyInDatatable: true,
     pressUpKeyInDatatable: true,
-    typeInDatatable: true
+    typeInDatatable: true,
   },
 }

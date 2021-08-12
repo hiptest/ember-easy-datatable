@@ -7,7 +7,7 @@ module.exports = {
     'deprecated-render-helper': false, //true,
     'require-valid-alt-text': false, //true,
     'linebreak-style': false, //true,
-    "link-href-attributes": false, // true,
+    'link-href-attributes': false, // true,
     'link-rel-noopener': false, //true,
     'no-action': false,
     'no-attrs-in-components': false, //true,
@@ -31,11 +31,11 @@ module.exports = {
     'no-unbound': false, //true,
     'no-unnecessary-concat': false, //true,
     'no-unused-block-params': false, //true,
-    'quotes': false,
+    quotes: false,
     'self-closing-void-elements': false, //true,
     'simple-unless': false, //true,
     'style-concatenation': false, //true,
     'require-button-type': false, // true,
     'table-groups': false, //true,
   },
-};
+}

@@ -1,10 +1,10 @@
-import EmberObject from "@ember/object";
-import DatatableFactory from "../utils/datatable-factory";
+import EmberObject from '@ember/object'
+import DatatableFactory from '../utils/datatable-factory'
 
 export default EmberObject.extend({
   cells: null,
 
   moveCell: function (from, to) {
-    DatatableFactory.moveObject(this.cells, from, to);
-  }
-});
+    DatatableFactory.moveObject(this.cells, from, to)
+  },
+})

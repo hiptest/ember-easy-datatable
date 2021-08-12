@@ -1,1 +1,1 @@
-export { default } from 'ember-easy-datatable/components/easy-toolbar';
+export { default } from 'ember-easy-datatable/components/easy-toolbar'

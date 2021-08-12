@@ -1,4 +1,4 @@
-import EmberObject from "@ember/object";
+import EmberObject from '@ember/object'
 import { computed } from '@ember/object'
 
 export default EmberObject.extend({
@@ -14,6 +14,6 @@ export default EmberObject.extend({
   showAddLastColumn: false,
 
   tag: computed('isHeader', function () {
-		return this.isHeader ? 'th' : 'td';
-	})
-});
+    return this.isHeader ? 'th' : 'td'
+  }),
+})
