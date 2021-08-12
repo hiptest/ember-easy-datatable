@@ -50,22 +50,20 @@ module('Integration | Component | content edition direct validation', function (
     let highlightedCells = customHelpers.getHightlightedCellsText()
     assert.deepEqual(highlightedCells, ['#2', 'Row 2', '2', '12', '22'], 'the correct cells are highlighted')
 
-    assert.equal(this.$('input').length, 1, 'The cell editor is shown')
+    assert.dom('input').exists({count: 1}, 'The cell editor is shown')
 
     await customHelpers.typeInDatatable('I forgot it should be #something')
     await customHelpers.pressEnterInDatatable()
 
-    assert.equal(this.$('input').length, 1, 'The editor is still there as validation failed')
-    assert.ok(customHelpers.getSelectedCell().hasClass('error'), 'Current cell is in error')
+    assert.dom('input').exists({count: 1}, 'The editor is still there as validation failed')
+    assert.dom(customHelpers.getSelectedCell()).hasClass('error', 'Current cell is in error')
 
     await customHelpers.pressEscInDatatable()
-
     await customHelpers.typeInDatatable('#123')
     await customHelpers.pressEnterInDatatable()
 
-    assert.equal(this.$('input').length, 0, 'The validation worked so the editor is hidden now')
-
-    assert.ok(!customHelpers.getSelectedCell().hasClass('error'), 'Current cell is not in error')
+    assert.dom('input').doesNotExist('The validation worked so the editor is hidden now')
+    assert.dom(customHelpers.getSelectedCell()).doesNotHaveClass('error', 'Current cell is not in error')
 
     await customHelpers.pressUpKeyInDatatable()
 
@@ -82,13 +80,13 @@ module('Integration | Component | content edition direct validation', function (
     let highlightedCells = customHelpers.getHightlightedCellsText()
     assert.deepEqual(highlightedCells, ['Value 2', '10', '11', '12', '13'], 'the correct cells are highlighted')
 
-    assert.equal(this.$('input').length, 1, 'The cell editor is shown')
+    assert.dom('input').exists({count: 1}, 'The cell editor is shown')
 
     await customHelpers.typeInDatatable('I forgot it should be #something')
     await customHelpers.pressEnterInDatatable()
 
-    assert.equal(this.$('input').length, 1, 'The editor is still there as validation failed')
-    assert.ok(customHelpers.getSelectedCell().hasClass('error'), 'Current cell is in error')
+    assert.dom('input').exists({count: 1}, 'The editor is still there as validation failed')
+    assert.dom(customHelpers.getSelectedCell()).hasClass('error', 'Current cell is in error')
 
     await customHelpers.pressEscInDatatable()
     await customHelpers.typeInDatatable('Value 951')
@@ -96,8 +94,8 @@ module('Integration | Component | content edition direct validation', function (
     await customHelpers.pressEnterInDatatable()
     await customHelpers.pressUpKeyInDatatable()
 
-    assert.equal(this.$('input').length, 0, 'The validation worked so the editor is hidden now')
-    assert.ok(!customHelpers.getSelectedCell().hasClass('error'), 'Current cell is not in error')
+    assert.dom('input').doesNotExist('The validation worked so the editor is hidden now')
+    assert.dom(customHelpers.getSelectedCell()).doesNotHaveClass('error', 'Current cell is not in error')
 
     highlightedCells = customHelpers.getHightlightedCellsText()
     assert.deepEqual(highlightedCells, ['Value 951', '10', '11', '12', '13'], 'the correct cells are highlighted')

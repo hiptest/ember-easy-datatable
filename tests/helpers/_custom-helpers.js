@@ -66,11 +66,7 @@ const customHelpers = {
       return elt.textContent.trim()
     })
   },
-
-  clearValueInDatatable() {
-    fillIn($(document.activeElement), '')
-  },
-
+  
   clickOnMoveDownRow(row) {
     let context = `tr:nth-child(${row}) td:last-child, tr:nth-child(${row}) th:last-child`
     hoverTrigger(context, { i: 0 })
@@ -261,7 +257,7 @@ const customHelpers = {
   },
 
   getSelectedCell() {
-    return $('th.selected, td.selected').eq(0)
+    return document.querySelector('th.selected, td.selected')
   },
 
   getHighlightedCellsText() {

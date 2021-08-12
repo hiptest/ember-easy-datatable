@@ -45,11 +45,7 @@ const customHelpers = (function () {
   registerAsyncHelper('assertHightlightedCellsText', function (app, assert, content, message) {
     assert.deepEqual(getHighlightedCellsText(), content, message || 'the correct cells are highlighted')
   })
-
-  registerAsyncHelper('clearValueInDatatable', function () {
-    fillIn($(document.activeElement), '')
-  })
-
+  
   registerAsyncHelper('clickOnMoveDownRow', function (app, row) {
     let context = fmt('tr:nth-child(%@)', row) + ' td:last-child,' + fmt('tr:nth-child(%@)', row) + ' th:last-child'
     hoverTrigger(context, { i: 0 })
