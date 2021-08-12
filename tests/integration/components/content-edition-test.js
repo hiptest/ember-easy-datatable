@@ -44,14 +44,14 @@ module('Integration | Component | content edition', function (hooks) {
 
     await customHelpers.clickOnDatatableValueCell(1, 1)
 
-    assert.dom('input').exists({ count: 1 }, 'Editor is displayed')
-    assert.dom('input').hasValue('Row 0', 'Editor has the correct content')
+    assert.ok(this.$('input').length === 1, 'Editor is displayed')
+    assert.equal(this.$('input').get(0).value, 'Row 0', 'Editor has the correct content')
 
     await customHelpers.typeInDatatable('This is my row')
     await customHelpers.pressEnterInDatatable()
     await customHelpers.clickOnDatatableColumnCell(1)
 
-    assert.dom('input').exists({ count: 1 }, 'Editor is displayed')
+    assert.ok(this.$('input').length === 1, 'Editor is displayed')
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -176,7 +176,7 @@ module('Integration | Component | content edition', function (hooks) {
     await customHelpers.clickOnDatatableValueCell(1, 1)
     await customHelpers.pressEnterInDatatable()
 
-    assert.dom('input').doesNotExist('Editor is not displayed')
+    assert.ok(this.$('input').length === 0, 'Editor is not displayed')
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -198,10 +198,10 @@ module('Integration | Component | content edition', function (hooks) {
     await render(hbs`{{easy-datatable table=table}}`)
 
     await customHelpers.clickOnDatatableValueCell(1, 1)
-    assert.dom('input').exists({ count: 1 }, 'Editor is displayed')
+    assert.ok(this.$('input').length === 1, 'Editor is displayed')
 
     await customHelpers.clickOnDatatableValueCell(3, 3)
-    assert.dom('input').exists({ count: 1 }, 'Editor is displayed')
+    assert.ok(this.$('input').length === 1, 'Editor is displayed')
   })
 
   test('Navigate, press enter and edit', async function (assert) {
@@ -227,12 +227,12 @@ module('Integration | Component | content edition', function (hooks) {
     await customHelpers.pressDownKeyInDatatable()
     await customHelpers.pressEnterInDatatable()
 
-    assert.dom('input').exists({ count: 1 }, 'Editor is displayed')
+    assert.ok(this.$('input').length === 1, 'Editor is displayed')
 
     await customHelpers.typeInDatatable('My new value')
     await customHelpers.pressEnterInDatatable()
 
-    assert.dom('input').doesNotExist('Editor is not displayed')
+    assert.ok(this.$('input').length === 0, 'Editor is not displayed')
     assert.deepEqual(
       customHelpers.getDatatableContent(),
       [
@@ -265,11 +265,11 @@ module('Integration | Component | content edition', function (hooks) {
     await customHelpers.pressEscInDatatable()
     await customHelpers.typeInDatatable('I type something without having an input')
 
-    assert.dom('input').exists({ count: 1 }, 'Editor is displayed')
+    assert.ok(this.$('input').length === 1, 'Editor is displayed')
 
     await customHelpers.pressEnterInDatatable()
 
-    assert.dom('input').doesNotExist('Editor is not displayed')
+    assert.ok(this.$('input').length === 0, 'Editor is not displayed')
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -295,33 +295,33 @@ module('Integration | Component | content edition', function (hooks) {
 
     await customHelpers.clickOnDatatableColumnCell(1)
 
-    assert.dom('input').doesNotExist('When clicking on the protected cell, the editor does not show up')
+    assert.ok(this.$('input').length === 0, 'When clicking on the protected cell, the editor does not show up')
 
     await customHelpers.clickOnDatatableColumnCell(2)
 
-    assert.dom('input').exists({ count: 1 }, 'but it still work on an editable cell')
+    assert.ok(this.$('input').length === 1, 'but it still work on an editable cell')
 
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressDownKeyInDatatable()
     await customHelpers.pressEnterInDatatable()
 
-    assert.dom('input').doesNotExist('When pressing enter in a protected cell, we do not get the editor')
+    assert.ok(this.$('input').length === 0, 'When pressing enter in a protected cell, we do not get the editor')
 
     await customHelpers.pressDownKeyInDatatable()
     await customHelpers.pressEnterInDatatable()
 
-    assert.dom('input').exists({ count: 1 }, 'but it still works in editable cells')
+    assert.ok(this.$('input').length === 1, 'but it still works in editable cells')
 
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressLeftKeyInDatatable()
     await customHelpers.pressEnterInDatatable()
 
-    assert.dom('input').doesNotExist('Same principle when typing in a protected cell')
+    assert.ok(this.$('input').length === 0, 'Same principle when typing in a protected cell')
 
     await customHelpers.pressDownKeyInDatatable()
     await customHelpers.typeInDatatable('Ho')
 
-    assert.dom('input').exists({ count: 1 }, 'but it still works in editable cells')
+    assert.ok(this.$('input').length === 1, 'but it still works in editable cells')
 
     await customHelpers.pressEscInDatatable()
   })

@@ -50,12 +50,12 @@ module('Integration | Component | content edition direct validation', function (
     let highlightedCells = customHelpers.getHightlightedCellsText()
     assert.deepEqual(highlightedCells, ['#2', 'Row 2', '2', '12', '22'], 'the correct cells are highlighted')
 
-    assert.dom('input').exists({ count: 1 }, 'The cell editor is shown')
+    assert.dom('input').exists({count: 1}, 'The cell editor is shown')
 
     await customHelpers.typeInDatatable('I forgot it should be #something')
     await customHelpers.pressEnterInDatatable()
 
-    assert.dom('input').exists({ count: 1 }, 'The editor is still there as validation failed')
+    assert.dom('input').exists({count: 1}, 'The editor is still there as validation failed')
     assert.dom(customHelpers.getSelectedCell()).hasClass('error', 'Current cell is in error')
 
     await customHelpers.pressEscInDatatable()
@@ -80,12 +80,12 @@ module('Integration | Component | content edition direct validation', function (
     let highlightedCells = customHelpers.getHightlightedCellsText()
     assert.deepEqual(highlightedCells, ['Value 2', '10', '11', '12', '13'], 'the correct cells are highlighted')
 
-    assert.dom('input').exists({ count: 1 }, 'The cell editor is shown')
+    assert.dom('input').exists({count: 1}, 'The cell editor is shown')
 
     await customHelpers.typeInDatatable('I forgot it should be #something')
     await customHelpers.pressEnterInDatatable()
 
-    assert.dom('input').exists({ count: 1 }, 'The editor is still there as validation failed')
+    assert.dom('input').exists({count: 1}, 'The editor is still there as validation failed')
     assert.dom(customHelpers.getSelectedCell()).hasClass('error', 'Current cell is in error')
 
     await customHelpers.pressEscInDatatable()
