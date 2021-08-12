@@ -42,14 +42,14 @@ module('Integration | Component | content edition', function (hooks) {
       'The datatable content is correct'
     )
 
-    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.clickOnDatatableValueCell(1, 1)
 
     assert.ok(this.$('input').length === 1, 'Editor is displayed')
     assert.equal(this.$('input').get(0).value, 'Row 0', 'Editor has the correct content')
 
     await customHelpers.typeInDatatable('This is my row')
     await customHelpers.pressEnterInDatatable()
-    await customHelpers.clickOnDatatableCell(0, 0)
+    await customHelpers.clickOnDatatableColumnCell(1)
 
     assert.ok(this.$('input').length === 1, 'Editor is displayed')
 
@@ -89,7 +89,7 @@ module('Integration | Component | content edition', function (hooks) {
       'The datatable content is correct'
     )
 
-    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.clickOnDatatableValueCell(1, 1)
     await customHelpers.typeInDatatable('This is my row')
     await customHelpers.pressEnterInDatatable()
 
@@ -131,7 +131,7 @@ module('Integration | Component | content edition', function (hooks) {
       'The datatable content is correct'
     )
 
-    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.clickOnDatatableValueCell(1, 1)
     await customHelpers.typeInDatatable('This is my row')
     await customHelpers.pressEscInDatatable()
 
@@ -173,7 +173,7 @@ module('Integration | Component | content edition', function (hooks) {
       'The datatable content is correct'
     )
 
-    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.clickOnDatatableValueCell(1, 1)
     await customHelpers.pressEnterInDatatable()
 
     assert.ok(this.$('input').length === 0, 'Editor is not displayed')
@@ -197,10 +197,10 @@ module('Integration | Component | content edition', function (hooks) {
 
     await render(hbs`{{easy-datatable table=table}}`)
 
-    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.clickOnDatatableValueCell(1, 1)
     assert.ok(this.$('input').length === 1, 'Editor is displayed')
 
-    await customHelpers.clickOnDatatableCell(3, 3)
+    await customHelpers.clickOnDatatableValueCell(3, 3)
     assert.ok(this.$('input').length === 1, 'Editor is displayed')
   })
 
@@ -220,7 +220,7 @@ module('Integration | Component | content edition', function (hooks) {
       'The datatable content is correct'
     )
 
-    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.clickOnDatatableValueCell(1, 1)
 
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressRightKeyInDatatable()
@@ -261,7 +261,7 @@ module('Integration | Component | content edition', function (hooks) {
       'The datatable content is correct'
     )
 
-    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.clickOnDatatableValueCell(1, 1)
     await customHelpers.pressEscInDatatable()
     await customHelpers.typeInDatatable('I type something without having an input')
 
@@ -293,11 +293,11 @@ module('Integration | Component | content edition', function (hooks) {
 
     await render(hbs`{{easy-datatable table=table}}`)
 
-    await customHelpers.clickOnDatatableCell(0, 0)
+    await customHelpers.clickOnDatatableColumnCell(1)
 
     assert.ok(this.$('input').length === 0, 'When clicking on the protected cell, the editor does not show up')
 
-    await customHelpers.clickOnDatatableCell(0, 1)
+    await customHelpers.clickOnDatatableColumnCell(2)
 
     assert.ok(this.$('input').length === 1, 'but it still work on an editable cell')
 
@@ -342,7 +342,7 @@ module('Integration | Component | content edition', function (hooks) {
       'The datatable content is correct'
     )
 
-    await customHelpers.clickOnDatatableCell(2, 2)
+    await customHelpers.clickOnDatatableValueCell(2, 2)
     await customHelpers.typeInDatatable('x')
     await customHelpers.pressEnterInDatatable()
 

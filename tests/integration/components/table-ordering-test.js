@@ -41,7 +41,7 @@ module('Integration | Component | Table ordering', function (hooks) {
       ['Row 3', '3', '13', '23'],
     ])
 
-    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.clickOnDatatableValueCell(1, 1)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlRightKeyInDatatable()
 
@@ -117,7 +117,7 @@ module('Integration | Component | Table ordering', function (hooks) {
       ['Row 3', '3', '13', '23'],
     ])
 
-    await customHelpers.clickOnDatatableCell(0, 2)
+    await customHelpers.clickOnDatatableColumnCell(3)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlRightKeyInDatatable()
 
@@ -191,7 +191,7 @@ module('Integration | Component | Table ordering', function (hooks) {
       ['Row 3', '3', '13', '23'],
     ])
 
-    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.clickOnDatatableValueCell(1, 1)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlUpKeyInDatatable()
 
@@ -247,7 +247,7 @@ module('Integration | Component | Table ordering', function (hooks) {
       ['Row 3', '3', '13', '23'],
     ])
 
-    await customHelpers.clickOnDatatableCell(2, 0)
+    await customHelpers.clickOnDatatableRowCell(2, 0)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlUpKeyInDatatable()
 

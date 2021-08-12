@@ -37,7 +37,7 @@ module('Integration | Component | deletion', function (hooks) {
       ],
       'The datatable content is correct'
     )
-    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.clickOnDatatableValueCell(1, 1)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlDelKeyInDatatable()
     assert.deepEqual(
@@ -101,7 +101,7 @@ module('Integration | Component | deletion', function (hooks) {
       ['Row 3', '3', '13', '23'],
     ])
 
-    await customHelpers.clickOnDatatableCell(1, 0)
+    await customHelpers.clickOnDatatableRowCell(1, 0)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlDelKeyInDatatable()
     assert.deepEqual(
@@ -126,7 +126,7 @@ module('Integration | Component | deletion', function (hooks) {
       ['Row 2', '2', '12', '22'],
       ['Row 3', '3', '13', '23'],
     ])
-    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.clickOnDatatableValueCell(1, 1)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlDelKeyInDatatable()
     assert.deepEqual(
@@ -172,7 +172,7 @@ module('Integration | Component | deletion', function (hooks) {
       ['Row 2', '2', '12', '22'],
       ['Row 3', '3', '13', '23'],
     ])
-    await customHelpers.clickOnDatatableCell(0, 1)
+    await customHelpers.clickOnDatatableColumnCell(2)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlDelKeyInDatatable()
     assert.deepEqual(

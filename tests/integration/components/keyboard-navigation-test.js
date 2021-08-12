@@ -28,7 +28,7 @@ module('Integration | Component | keyboard navigation', function (hooks) {
 
     assert.equal(customHelpers.getSelectedCell().length, 0, 'No cell is currently selected')
 
-    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.clickOnDatatableValueCell(1, 1)
     assert.deepEqual(customHelpers.getSelectedPosition(), { row: 1, column: 1 }, 'The correct cell is selected')
 
     await customHelpers.pressRightKeyInDatatable()
@@ -87,7 +87,7 @@ module('Integration | Component | keyboard navigation', function (hooks) {
   test('Highliting on header selection', async function (assert) {
     await render(hbs`{{easy-datatable table=table}}`)
 
-    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.clickOnDatatableValueCell(1, 1)
     await customHelpers.pressEscInDatatable()
 
     assert.deepEqual(
@@ -124,28 +124,28 @@ module('Integration | Component | keyboard navigation', function (hooks) {
       'It still follows keyboard navigation'
     )
 
-    await customHelpers.clickOnDatatableCell(0, 3)
+    await customHelpers.clickOnDatatableColumnCell(4)
     assert.deepEqual(
       customHelpers.getHighlightedCellsText(),
       ['Value 2', '10', '11', '12', '13'],
       'Clicking to another <th> updates highliting'
     )
 
-    await customHelpers.clickOnDatatableCell(3, 0)
+    await customHelpers.clickOnDatatableRowCell(3)
     assert.deepEqual(
       customHelpers.getHighlightedCellsText(),
       ['#2', 'Row 2', '2', '12', '22'],
       'Same thing it a <th> in the body'
     )
 
-    await customHelpers.clickOnDatatableCell(2, 3)
+    await customHelpers.clickOnDatatableValueCell(2, 3)
     assert.deepEqual(customHelpers.getHighlightedCellsText(), [])
   })
 
   test('Switching to other rows/columns when needed', async function (assert) {
     await render(hbs`{{easy-datatable table=table}}`)
 
-    await customHelpers.clickOnDatatableCell(2, 0)
+    await customHelpers.clickOnDatatableRowCell(2)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressLeftKeyInDatatable()
     assert.deepEqual(
@@ -184,7 +184,7 @@ module('Integration | Component | keyboard navigation', function (hooks) {
       'Navigating up at the beginning of a column do not move the selection'
     )
 
-    await customHelpers.clickOnDatatableCell(4, 4)
+    await customHelpers.clickOnDatatableValueCell(4, 4)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressRightKeyInDatatable()
 

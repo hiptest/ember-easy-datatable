@@ -58,7 +58,7 @@ module('Integration | Component | index cell', function (hooks) {
       ['4', 'Row 4'],
     ])
 
-    await customHelpers.clickOnDatatableCell(1, 0)
+    await customHelpers.clickOnDatatableRowCell(1)
     await customHelpers.pressCtrlInserKeyInDatatable()
 
     assert.deepEqual(customHelpers.getDatatableContent(), [

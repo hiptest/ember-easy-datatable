@@ -49,10 +49,16 @@ const customHelpers = {
     assert.deepEqual(this.getHighlightedCellsText(), content, message || 'the correct cells are highlighted')
   },
 
-  async clickOnDatatableCell(row, column) {
-    const element = $(`tr:nth(${row})`).find('td, th').eq(column)
+  async clickOnDatatableValueCell(row, column) {
+    await click(`tbody tr:nth-of-type(${row}) td:nth-of-type(${column})`)
+  },
 
-    await click(element[0])
+  async clickOnDatatableColumnCell(column) {
+    await click(`thead tr:nth-of-type(1) th:nth-of-type(${column})`)
+  },
+
+  async clickOnDatatableRowCell(row) {
+    await click(`tbody tr:nth-of-type(${row}) th:nth-of-type(1)`)
   },
 
   getHightlightedCellsText() {

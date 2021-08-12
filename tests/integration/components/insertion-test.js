@@ -43,7 +43,7 @@ module('Integration | Component | Insertion', function (hooks) {
       ['Row 2', '2', '12', '22'],
       ['Row 3', '3', '13', '23'],
     ])
-    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.clickOnDatatableValueCell(1, 1)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlInserKeyInDatatable()
     assert.deepEqual(
@@ -74,7 +74,7 @@ module('Integration | Component | Insertion', function (hooks) {
       { row: 2, column: 0 },
       'The header of the new row is selected'
     )
-    await customHelpers.clickOnDatatableCell(5, 0)
+    await customHelpers.clickOnDatatableRowCell(5)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlInserKeyInDatatable()
     assert.deepEqual(
@@ -97,7 +97,7 @@ module('Integration | Component | Insertion', function (hooks) {
       ['Row 2', '2', '12', '22'],
       ['Row 3', '3', '13', '23'],
     ])
-    await customHelpers.clickOnDatatableCell(1, 0)
+    await customHelpers.clickOnDatatableRowCell(1)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlInserKeyInDatatable()
     assert.deepEqual(
@@ -125,7 +125,7 @@ module('Integration | Component | Insertion', function (hooks) {
       ['Row 2', '2', '12', '22'],
       ['Row 3', '3', '13', '23'],
     ])
-    await customHelpers.clickOnDatatableCell(3, 0)
+    await customHelpers.clickOnDatatableRowCell(3)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlInserKeyInDatatable()
     assert.deepEqual(
@@ -163,7 +163,7 @@ module('Integration | Component | Insertion', function (hooks) {
       ['Row 2', '2', '12', '22'],
       ['Row 3', '3', '13', '23'],
     ])
-    await customHelpers.clickOnDatatableCell(1, 1)
+    await customHelpers.clickOnDatatableValueCell(1, 1)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlInserKeyInDatatable()
     assert.deepEqual(
@@ -198,7 +198,7 @@ module('Integration | Component | Insertion', function (hooks) {
       { row: 0, column: 2 },
       'The correct header cell is selected after insertion'
     )
-    await customHelpers.clickOnDatatableCell(0, 5)
+    await customHelpers.clickOnDatatableColumnCell(6)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlInserKeyInDatatable()
     assert.deepEqual(
@@ -222,7 +222,7 @@ module('Integration | Component | Insertion', function (hooks) {
       ['Row 2', '2', '12', '22'],
       ['Row 3', '3', '13', '23'],
     ])
-    await customHelpers.clickOnDatatableCell(0, 1)
+    await customHelpers.clickOnDatatableColumnCell(2)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlInserKeyInDatatable()
     assert.deepEqual(
@@ -256,7 +256,7 @@ module('Integration | Component | Insertion', function (hooks) {
       ['Row 2', '2', '12', '22'],
       ['Row 3', '3', '13', '23'],
     ])
-    await customHelpers.clickOnDatatableCell(0, 2)
+    await customHelpers.clickOnDatatableColumnCell(3)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlInserKeyInDatatable()
     assert.deepEqual(

@@ -45,7 +45,7 @@ module('Integration | Component | content edition direct validation', function (
 
     await render(hbs`{{easy-datatable table=table}}`)
 
-    await customHelpers.clickOnDatatableCell(3, 0)
+    await customHelpers.clickOnDatatableRowCell(3)
 
     let highlightedCells = customHelpers.getHightlightedCellsText()
     assert.deepEqual(highlightedCells, ['#2', 'Row 2', '2', '12', '22'], 'the correct cells are highlighted')
@@ -77,7 +77,7 @@ module('Integration | Component | content edition direct validation', function (
     assert.expect(7)
 
     await render(hbs`{{easy-datatable table=table}}`)
-    await customHelpers.clickOnDatatableCell(0, 3)
+    await customHelpers.clickOnDatatableColumnCell(4)
 
     let highlightedCells = customHelpers.getHightlightedCellsText()
     assert.deepEqual(highlightedCells, ['Value 2', '10', '11', '12', '13'], 'the correct cells are highlighted')

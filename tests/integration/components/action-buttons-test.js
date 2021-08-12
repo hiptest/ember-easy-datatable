@@ -266,7 +266,7 @@ module('Integration | Component | Action buttons', function (hooks) {
       ['Row 3', '3', '13', '23'],
     ])
 
-    await customHelpers.clickOnDatatableCell(1, 3)
+    await customHelpers.clickOnDatatableValueCell(1, 3)
     await customHelpers.typeInDatatable('12345')
 
     await customHelpers.clickOnRemoveRow(1) // will focusOut, trigger the validation, but cell deleted
@@ -304,7 +304,7 @@ module('Integration | Component | Action buttons', function (hooks) {
       ['Row 3', '3', '13', '23'],
     ])
 
-    await customHelpers.clickOnDatatableCell(1, 3)
+    await customHelpers.clickOnDatatableValueCell(1, 3)
     await customHelpers.typeInDatatable('12345')
 
     await customHelpers.clickOnRemoveRow(1)

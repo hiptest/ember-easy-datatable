@@ -81,7 +81,7 @@ module('Integration | Component | Edit after insertion', function (hooks) {
       hbs`{{easy-datatable table=table editAfterInsertion=true showAddFirstRow=true showAddLastRow=true addNewRowLabel='Add new row'}}`
     )
 
-    await customHelpers.clickOnDatatableCell(2, 0)
+    await customHelpers.clickOnDatatableRowCell(1)
     await customHelpers.pressCtrlInserKeyInDatatable()
     assert.deepEqual(
       customHelpers.getSelectedPosition(),
@@ -109,7 +109,7 @@ module('Integration | Component | Edit after insertion', function (hooks) {
 
     await render(hbs`{{easy-datatable table=table editAfterInsertion=true}}`)
 
-    await customHelpers.clickOnDatatableCell(0, 2)
+    await customHelpers.clickOnDatatableColumnCell(3)
     await customHelpers.pressEscInDatatable()
     await customHelpers.pressCtrlInserKeyInDatatable()
 
