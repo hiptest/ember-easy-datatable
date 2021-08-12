@@ -20,7 +20,7 @@ module.exports = {
     'ember/no-classic-classes': 'off', //error
     'ember/no-component-lifecycle-hooks': 'warn', //error
     'ember/no-get': 'warn', //error
-    'ember/no-jquery': 'warn', //error
+    'ember/no-jquery': 'off', //error
     'ember/no-observers': 'warn', //error
     'ember/require-tagless-components': 'off', //error
   },
