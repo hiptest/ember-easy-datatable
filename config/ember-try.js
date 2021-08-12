@@ -6,20 +6,20 @@ module.exports = async function() {
   return {
     scenarios: [
       {
-        name: 'ember-lts-3.8',
+        name: 'ember-lts-3.20',
         npm: {
           devDependencies: {
-            'ember-source': '~3.8.0'
-          }
-        }
+            'ember-source': '~3.20.5',
+          },
+        },
       },
       {
-        name: 'ember-lts-3.12',
+        name: 'ember-lts-3.24',
         npm: {
           devDependencies: {
-            'ember-source': '~3.12.0'
-          }
-        }
+            'ember-source': '~3.24.3',
+          },
+        },
       },
       {
         name: 'ember-release',
@@ -64,9 +64,9 @@ module.exports = async function() {
         },
         npm: {
           devDependencies: {
-            '@ember/jquery': '^0.5.1'
-          }
-        }
+            '@ember/jquery': '^1.1.0',
+          },
+        },
       },
       {
         name: 'ember-classic',
