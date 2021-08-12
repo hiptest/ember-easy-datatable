@@ -4,7 +4,6 @@ import { module, test } from 'qunit'
 import { setupRenderingTest } from 'ember-qunit'
 import { render } from '@ember/test-helpers'
 import customHelpers from '../../helpers/_custom-helpers'
-import $ from 'jquery'
 
 module('Integration | Component | easy datatable', function (hooks) {
   setupRenderingTest(hooks)
@@ -43,7 +42,7 @@ module('Integration | Component | easy datatable', function (hooks) {
     await render(hbs`{{easy-datatable tableClasses='datatable table-bordered' table=table}}`)
 
     // by the user can add new ones
-    assert.ok($('.datatable').length !== 0, 'the user can ...')
-    assert.ok($('.table-bordered').length !== 0, '... add new classes for the table tage')
+    assert.dom('.datatable').exists('the user can ...')
+    assert.dom('.table-bordered').exists('... add new classes for the table tage')
   })
 })
