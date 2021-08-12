@@ -36,7 +36,7 @@ const customHelpers = {
     })`
     hoverTrigger(context, { span: 0 })
 
-   await click('.t-column-action-move-left')
+    await click('.t-column-action-move-left')
   },
 
   async clickOnMoveRightColumn(columnIndex) {
