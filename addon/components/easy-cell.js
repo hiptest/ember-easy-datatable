@@ -27,7 +27,7 @@ export default Component.extend({
   attributeBindings: ['tabindex'],
   tabindex: 1,
 
-  displayableIndex: computed('position', function () {
+  displayableIndex: computed('position.row', function () {
     return this.get('position.row') + 1;
   }),
 
@@ -247,11 +247,11 @@ export default Component.extend({
     }
   },
 
-  inHighlightedRow: computed('position', 'highlightedRow', function () {
+  inHighlightedRow: computed('highlightedRow', 'position.row', function () {
     return this.get('position.row') === this.get('highlightedRow');
   }),
 
-  inHighlightedColumn: computed('position', 'highlightedColumn', function () {
+  inHighlightedColumn: computed('highlightedColumn', 'position.column', function () {
     return this.get('position.column') === this.get('highlightedColumn');
   }),
 

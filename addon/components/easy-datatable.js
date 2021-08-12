@@ -204,7 +204,7 @@ export default Component.extend({
     return position.column;
   }),
 
-  highlightedRow: computed('selectedCellPosition', function () {
+  highlightedRow: computed('selectedCell', 'selectedCellPosition', function () {
     var position = this.get('selectedCellPosition'),
       cell = this.get('selectedCell');
 
@@ -315,7 +315,7 @@ export default Component.extend({
     }
   },
 
-  selectedCell: computed('selectedCellPosition', function () {
+  selectedCell: computed('selectedCellPosition', 'table.body', 'table.headers.cells', function () {
     var position = this.get('selectedCellPosition');
     if (isNone(position) || isNone(position.row) || isNone(position.column)) {
       return;
