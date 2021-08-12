@@ -2,32 +2,33 @@ import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 
 import '@ember/test-helpers';
 
 import customHelpers from '../../helpers/_custom-helpers'
 
 
-module('Integration | Component | content edition', function(hooks) {
+module('Integration | Component | content edition', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
 
-      this.set('table', DatatableFactory.makeDatatable({
-        headers: ['', 'Name', 'Value 1', 'Value 2', 'Value 3'],
-        body: [
-          [{isHeader: true, value: '#0'}, 'Row 0', 0, 10, 20],
-          [{isHeader: true, value: '#1'}, 'Row 1', 1, 11, 21],
-          [{isHeader: true, value: '#2'}, 'Row 2', 2, 12, 22],
-          [{isHeader: true, value: '#3'}, 'Row 3', 3, 13, 23]
-        ]
-      }));
+    this.set('table', DatatableFactory.makeDatatable({
+      headers: ['', 'Name', 'Value 1', 'Value 2', 'Value 3'],
+      body: [
+        [{ isHeader: true, value: '#0' }, 'Row 0', 0, 10, 20],
+        [{ isHeader: true, value: '#1' }, 'Row 1', 1, 11, 21],
+        [{ isHeader: true, value: '#2' }, 'Row 2', 2, 12, 22],
+        [{ isHeader: true, value: '#3' }, 'Row 3', 3, 13, 23]
+      ]
+    }));
   });
 
-  test('Click and edit', async function(assert) {
+  test('Click and edit', async function (assert) {
     assert.expect(5);
 
-    await this.render(hbs`{{easy-datatable table=table}}`);
+    await render(hbs`{{easy-datatable table=table}}`);
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -74,7 +75,7 @@ module('Integration | Component | content edition', function(hooks) {
       }
     });
 
-    await this.render(hbs`{{easy-datatable table=table}}`);
+    await render(hbs`{{easy-datatable table=table}}`);
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -110,13 +111,13 @@ module('Integration | Component | content edition', function(hooks) {
     assert.expect(3);
 
     this.get('table').reopen({
-     countValidateCell: function () {
+      countValidateCell: function () {
         count += 1;
         return true;
       }
     });
 
-    await this.render(hbs`{{easy-datatable table=table}}`);
+    await render(hbs`{{easy-datatable table=table}}`);
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -154,13 +155,13 @@ module('Integration | Component | content edition', function(hooks) {
     assert.expect(4);
 
     this.get('table').reopen({
-     countValidateCell: function () {
+      countValidateCell: function () {
         count += 1;
         return true;
       }
     });
 
-    await this.render(hbs`{{easy-datatable table=table}}`);
+    await render(hbs`{{easy-datatable table=table}}`);
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -195,7 +196,7 @@ module('Integration | Component | content edition', function(hooks) {
   test('Clicking moves the editor', async function (assert) {
     assert.expect(2);
 
-    await this.render(hbs`{{easy-datatable table=table}}`);
+    await render(hbs`{{easy-datatable table=table}}`);
 
     await customHelpers.clickOnDatatableCell(1, 1);
     assert.ok(this.$('input').length === 1, 'Editor is displayed');
@@ -207,7 +208,7 @@ module('Integration | Component | content edition', function(hooks) {
   test('Navigate, press enter and edit', async function (assert) {
     assert.expect(4);
 
-    await this.render(hbs`{{easy-datatable table=table}}`);
+    await render(hbs`{{easy-datatable table=table}}`);
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -248,7 +249,7 @@ module('Integration | Component | content edition', function(hooks) {
   test('Navigate, start typing to replace the cell content', async function (assert) {
     assert.expect(4);
 
-    await this.render(hbs`{{easy-datatable table=table}}`);
+    await render(hbs`{{easy-datatable table=table}}`);
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -291,7 +292,7 @@ module('Integration | Component | content edition', function(hooks) {
       row.get('cells')[index % 2 === 0 ? 1 : 0].set('isEditable', false);
     });
 
-    await this.render(hbs`{{easy-datatable table=table}}`);
+    await render(hbs`{{easy-datatable table=table}}`);
 
     await customHelpers.clickOnDatatableCell(0, 0);
 
@@ -329,7 +330,7 @@ module('Integration | Component | content edition', function(hooks) {
   test('Navigation based on enter', async function (assert) {
     assert.expect(9);
 
-    await this.render(hbs`{{easy-datatable table=table}}`);
+    await render(hbs`{{easy-datatable table=table}}`);
 
     assert.deepEqual(
       customHelpers.getDatatableContent(),
@@ -357,7 +358,7 @@ module('Integration | Component | content edition', function(hooks) {
       'After entering "x", the datatable content is correct'
     );
 
-    assert.deepEqual(customHelpers.getSelectedPosition(), {row: 3, column: 2}, 'If the cell value is validated using enter, then cell below is selected');
+    assert.deepEqual(customHelpers.getSelectedPosition(), { row: 3, column: 2 }, 'If the cell value is validated using enter, then cell below is selected');
 
     await customHelpers.typeInDatatable('y');
     await customHelpers.pressTabKeyInDatatable();
@@ -373,7 +374,7 @@ module('Integration | Component | content edition', function(hooks) {
       'The datatable content is correct'
     );
 
-    assert.deepEqual(customHelpers.getSelectedPosition(), {row: 3, column: 3}, 'If the cell value is validated using tab, then cell on the right is selected');
+    assert.deepEqual(customHelpers.getSelectedPosition(), { row: 3, column: 3 }, 'If the cell value is validated using tab, then cell on the right is selected');
 
     await customHelpers.typeInDatatable('z');
     await customHelpers.pressShiftTabKeyInDatatable();
@@ -389,15 +390,15 @@ module('Integration | Component | content edition', function(hooks) {
       'The datatable content is correct'
     );
 
-    assert.deepEqual(customHelpers.getSelectedPosition(), {row: 3, column: 2}, 'If the cell value is validated using shift+tab, then cell on the left is selected');
+    assert.deepEqual(customHelpers.getSelectedPosition(), { row: 3, column: 2 }, 'If the cell value is validated using shift+tab, then cell on the left is selected');
 
     await customHelpers.pressDownKeyInDatatable();
 
-    assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 2}, 'If the down key is used, then the down cell is selected');
+    assert.deepEqual(customHelpers.getSelectedPosition(), { row: 4, column: 2 }, 'If the down key is used, then the down cell is selected');
 
     await customHelpers.typeInDatatable('a');
     await customHelpers.pressEnterInDatatable();
 
-    assert.deepEqual(customHelpers.getSelectedPosition(), {row: 4, column: 2}, 'If the cell value is validated using enter but there is no new line, selection do not change');
+    assert.deepEqual(customHelpers.getSelectedPosition(), { row: 4, column: 2 }, 'If the cell value is validated using enter but there is no new line, selection do not change');
   });
 });

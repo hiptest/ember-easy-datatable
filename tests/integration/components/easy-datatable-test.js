@@ -2,16 +2,16 @@ import DatatableFactory from "ember-easy-datatable/utils/datatable-factory";
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import customHelpers from '../../helpers/_custom-helpers'
 import $ from 'jquery'
 
-module('Integration | Component | easy datatable', function(hooks) {
+module('Integration | Component | easy datatable', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
 
-      this.set('table', DatatableFactory.makeDatatable({
+    this.set('table', DatatableFactory.makeDatatable({
       headers: ['Col 1', 'Col 2'],
       body: [
         ['Row 11', 'Row 12'],
@@ -22,12 +22,12 @@ module('Integration | Component | easy datatable', function(hooks) {
     }));
   });
 
-  test('Basic test', async function(assert) {
+  test('Basic test', async function (assert) {
     assert.expect(1);
 
-    await this.render(hbs`{{easy-datatable table=table}}`);
+    await render(hbs`{{easy-datatable table=table}}`);
 
-    assert.deepEqual(customHelpers.getDatatableContent(),[
+    assert.deepEqual(customHelpers.getDatatableContent(), [
       ['Row 11', 'Row 12'],
       ['Row 21', 'Row 22'],
       ['Row 31', 'Row 32'],
@@ -35,10 +35,10 @@ module('Integration | Component | easy datatable', function(hooks) {
     ])
   })
 
-  test('Can add class to table tag', async function(assert) {
+  test('Can add class to table tag', async function (assert) {
     assert.expect(2);
 
-    await this.render(hbs`{{easy-datatable tableClasses='datatable table-bordered' table=table}}`)
+    await render(hbs`{{easy-datatable tableClasses='datatable table-bordered' table=table}}`)
 
     // by the user can add new ones
     assert.ok($('.datatable').length !== 0, 'the user can ...');

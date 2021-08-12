@@ -1,8 +1,9 @@
 'use strict';
 
+// eslint-disable-next-line node/no-extraneous-require
 const getChannelURL = require('ember-source-channel-url');
 
-module.exports = async function() {
+module.exports = async function () {
   return {
     scenarios: [
       {
