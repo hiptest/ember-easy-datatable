@@ -23,7 +23,7 @@ export default EmberObject.extend({
   },
 
   columnCanMove: function (index) {
-    return this.get('headers.cells')[index].get('isMovable')
+    return this.headers.cells[index].get('isMovable')
   },
 
   columnCanMoveLeft: function (index) {
@@ -31,7 +31,7 @@ export default EmberObject.extend({
   },
 
   columnCanMoveRight: function (index) {
-    return this.columnCanMove(index) && index < this.get('headers.cells.length') - 1 && this.columnCanMove(index + 1)
+    return this.columnCanMove(index) && index < this.headers.cells.length - 1 && this.columnCanMove(index + 1)
   },
 
   rowCanMove: function (index) {
@@ -45,11 +45,11 @@ export default EmberObject.extend({
   },
 
   rowCanMoveDown: function (index) {
-    return this.rowCanMove(index) && index < this.get('body.length') - 1 && this.rowCanMove(index + 1)
+    return this.rowCanMove(index) && index < this.body.length - 1 && this.rowCanMove(index + 1)
   },
 
   columnCanBeRemoved: function (index) {
-    return this.get('headers.cells')[index].get('isRemovable')
+    return this.headers.cells[index].get('isRemovable')
   },
 
   rowCanBeRemoved: function (index) {
@@ -59,11 +59,11 @@ export default EmberObject.extend({
   },
 
   makeDefaultRow: function () {
-    return DatatableFactory.makeListOf(this.get('headers.cells.length'))
+    return DatatableFactory.makeListOf(this.headers.cells.length)
   },
 
   makeDefaultColumn: function () {
-    var column = DatatableFactory.makeListOf(this.get('body.length') + 1)
+    var column = DatatableFactory.makeListOf(this.body.length + 1)
     column[0] = { isHeader: true }
     return column
   },
@@ -135,7 +135,7 @@ export default EmberObject.extend({
       if (index === 0) {
         return true
       }
-      return this.get('headers.cells')[index - 1].get('canInsertColumnAfter')
+      return this.headers.cells[index - 1].get('canInsertColumnAfter')
     }
     return false
   },
@@ -146,7 +146,7 @@ export default EmberObject.extend({
     if (this.canInsertColumns) {
       insertableIndices.push(0)
 
-      this.get('headers.cells').map(function (cell, index) {
+      this.headers.cells.map(function (cell, index) {
         if (cell.get('canInsertColumnAfter')) {
           insertableIndices.push(index + 1)
         }
@@ -171,7 +171,7 @@ export default EmberObject.extend({
 
   insertColumn: function (index) {
     var column = this.makeDefaultColumn(index)
-    this.get('headers.cells').insertAt(index, DatatableFactory.makeCell(column[0]))
+    this.headers.cells.insertAt(index, DatatableFactory.makeCell(column[0]))
     this.body.forEach(function (row, rowIndex) {
       row.get('cells').insertAt(index, DatatableFactory.makeCell(column[rowIndex + 1]))
     })
@@ -184,7 +184,7 @@ export default EmberObject.extend({
   },
 
   removeColumn: function (index) {
-    this.get('headers.cells').removeAt(index)
+    this.headers.cells.removeAt(index)
     this.body.forEach(function (row) {
       row.get('cells').removeAt(index)
     })

@@ -20,7 +20,7 @@ module('Integration | Component | index cell', function (hooks) {
           [{ isHeader: true, isEditable: false }, { isIndex: true }, 'Row 4'],
         ],
         makeDefaultRow: function () {
-          var row = DatatableFactory.makeListOf(this.get('headers.cells.length'))
+          var row = DatatableFactory.makeListOf(this.headers.cells.length)
           row[0] = {
             isHeader: true,
             isEditable: false,

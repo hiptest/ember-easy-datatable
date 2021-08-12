@@ -70,7 +70,7 @@ export default Component.extend({
       if (this.table.rowCanBeRemoved(index)) {
         this.table.removeRow(index)
 
-        if (this.get('selectedCellPosition.row') === this.get('table.body.length')) {
+        if (this.selectedCellPosition.row === this.table.body.length) {
           this.send('navigateUp')
         } else {
           this.notifyPropertyChange('selectedCellPosition')
@@ -158,18 +158,18 @@ export default Component.extend({
   firstEditableCellIndexInColumn: function (columnIndex) {
     var index
 
-    if (this.get('table.headers.cells')[columnIndex].get('isEditable')) {
+    if (this.table.headers.cells[columnIndex].get('isEditable')) {
       return -1
     }
-    for (index = 0; index < this.get('table.body.length'); index++) {
-      if (this.get('table.body')[index].get('cells')[columnIndex].get('isEditable')) {
+    for (index = 0; index < this.table.body.length; index++) {
+      if (this.table.body[index].get('cells')[columnIndex].get('isEditable')) {
         return index
       }
     }
   },
 
   navigateToFirstEditableCellInColumn: function () {
-    var columnIndex = this.get('selectedCellPosition.column'),
+    var columnIndex = this.selectedCellPosition.column,
       rowIndex = this.firstEditableCellIndexInColumn(columnIndex)
 
     if (!isNone(rowIndex)) {
@@ -179,7 +179,7 @@ export default Component.extend({
 
   firstEditableCellIndexInRow: function (rowIndex) {
     var index,
-      row = this.get('table.body')[rowIndex].get('cells')
+      row = this.table.body[rowIndex].get('cells')
 
     for (index = 0; index < row.length; index++) {
       if (row[index].get('isEditable')) {
@@ -189,7 +189,7 @@ export default Component.extend({
   },
 
   navigateToFirstEditableCellInRow: function () {
-    var rowIndex = this.get('selectedCellPosition.row'),
+    var rowIndex = this.selectedCellPosition.row,
       columnIndex = this.firstEditableCellIndexInRow(rowIndex)
 
     if (!isNone(columnIndex)) {
@@ -231,17 +231,17 @@ export default Component.extend({
   },
 
   isRowValid: function (position) {
-    var rowCount = this.get('table.body.length')
+    var rowCount = this.table.body.length
     return position.row >= -1 && position.row < rowCount
   },
 
   isColumnValid: function (position) {
-    var columnCount = this.get('table.headers.cells.length')
+    var columnCount = this.table.headers.cells.length
     return position.column >= 0 && position.column < columnCount
   },
 
   fixRowPosition: function (position) {
-    var rowCount = this.get('table.body.length')
+    var rowCount = this.table.body.length
 
     if (position.row < -1) {
       position.row = rowCount - 1
@@ -256,7 +256,7 @@ export default Component.extend({
   },
 
   fixColumnPosition: function (position) {
-    var columnCount = this.get('table.body.firstObject.cells.length')
+    var columnCount = this.table.body.firstObject.cells.length
 
     if (position.column < 0) {
       position.column = columnCount - 1
@@ -316,26 +316,26 @@ export default Component.extend({
     }
   },
 
-  selectedCell: computed('selectedCellPosition', 'table.{body,headers.cells}', function () {
+  selectedCell: computed('selectedCellPosition', 'table.{body.length,headers.cells}', function () {
     var position = this.selectedCellPosition
     if (isNone(position) || isNone(position.row) || isNone(position.column)) {
       return
     }
     if (position.row === -1) {
-      return this.get('table.headers.cells')[position.column]
+      return this.table.headers.cells[position.column]
     }
-    if (position.row >= this.get('table.body').length) {
-      this.fixPosition({ row: this.get('table.body').length - 1, column: position.column })
+    if (position.row >= this.table.body.length) {
+      this.fixPosition({ row: this.table.body.length - 1, column: position.column })
       return
     }
-    return this.get('table.body')[position.row].get('cells')[position.column]
+    return this.table.body[position.row].get('cells')[position.column]
   }),
 
   updateSelection: observer('selectedCell', function () {
     var previous = this.previouslySelectedCell,
       cell = this.selectedCell
 
-    if (!isNone(previous) && !previous.get('isDestroying')) {
+    if (!isNone(previous) && !previous.isDestroying) {
       previous.set('isSelected', false)
     }
 

@@ -46,7 +46,7 @@ module('Integration | Component | Edit after insertion', function (hooks) {
         ],
 
         makeDefaultRow: function () {
-          return this.get('headers.cells').map(function (item, index) {
+          return this.headers.cells.map(function (item, index) {
             return {
               value: index,
               isEditable: index > 2,

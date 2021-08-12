@@ -8,7 +8,7 @@ export default Component.extend({
   table: null,
 
   rowIndex: computed('row', 'table.body.[]', function () {
-    return this.get('table.body').indexOf(this.row)
+    return this.table.body.indexOf(this.row)
   }),
 
   actions: {

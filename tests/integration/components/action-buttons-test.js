@@ -59,7 +59,7 @@ module('Integration | Component | Action buttons', function (hooks) {
         ],
 
         makeDefaultRow: function () {
-          var row = DatatableFactory.makeListOf(this.get('headers.cells.length'))
+          var row = DatatableFactory.makeListOf(this.headers.cells.length)
           row[0] = {
             isHeader: true,
             isEditable: false,
