@@ -14,7 +14,7 @@ export default Component.extend({
   showEditButton: and('cell.isEditable', 'cell.showActions'),
 
   showColumnButtons: computed('row', 'cell.showActions', function () {
-    return this.row === -1 && this.get('cell.showActions')
+    return this.row === -1 && this.cell.showActions
   }),
 
   showRemoveColumnButton: and('showColumnButtons', 'cell.isRemovable'),
@@ -40,19 +40,15 @@ export default Component.extend({
   ),
 
   showAddLastColumn: computed('cell.showAddLastColumn', 'column', 'row', 'table.headers.cells.length', function () {
-    return (
-      this.row === -1 &&
-      this.column === this.get('table.headers.cells.length') - 1 &&
-      this.get('cell.showAddLastColumn')
-    )
+    return this.row === -1 && this.column === this.table.headers.cells.length - 1 && this.cell.showAddLastColumn
   }),
 
   showAddFirstColumn: computed('cell.showAddFirstColumn', 'row', 'column', function () {
-    return this.row === -1 && this.column === 0 && this.get('cell.showAddFirstColumn')
+    return this.row === -1 && this.column === 0 && this.cell.showAddFirstColumn
   }),
 
   showRowButtons: computed('row', 'cell.showActions', function () {
-    return this.row !== -1 && this.get('cell.showActions')
+    return this.row !== -1 && this.cell.showActions
   }),
 
   showDuplicateRowButton: and('showRowButtons', 'showDuplicateRow'),

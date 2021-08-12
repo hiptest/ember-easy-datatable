@@ -28,11 +28,11 @@ export default Component.extend({
   tabindex: 1,
 
   displayableIndex: computed('position.row', function () {
-    return this.get('position.row') + 1
+    return this.position.row + 1
   }),
 
   focusIn() {
-    if (this.get('cell.isSelected')) {
+    if (this.cell.isSelected) {
       return
     }
     this.set('selectedCellPosition', this.position)
@@ -40,7 +40,7 @@ export default Component.extend({
 
   keyDown(event) {
     if (event.ctrlKey) {
-      if (this.get('cell.isHeader')) {
+      if (this.cell.isHeader) {
         this.keyManipulation(event)
       }
     } else if (!this.keyNavigation(event)) {
@@ -70,8 +70,8 @@ export default Component.extend({
 
   keyManipulation(event) {
     var mapping, action
-    if (this.get('position.row') === -1) {
-      var column_index = this.get('position.column')
+    if (this.position.row === -1) {
+      var column_index = this.position.column
       mapping = {
         45: { label: 'insertColumnAfter', index: column_index + 1 },
         46: { label: 'removeColumn', index: column_index },
@@ -79,7 +79,7 @@ export default Component.extend({
         39: { label: 'moveColumnRight', index: column_index },
       }
     } else {
-      var row_index = this.get('position.row')
+      var row_index = this.position.row
       mapping = {
         45: { label: 'insertRowAfter', index: row_index + 1 },
         46: { label: 'removeRow', index: row_index },
@@ -95,7 +95,7 @@ export default Component.extend({
   },
 
   columnIndex: computed('cell', 'row.cells.[]', function () {
-    return this.get('row.cells').indexOf(this.cell)
+    return this.row.cells.indexOf(this.cell)
   }),
 
   position: computed('rowIndex', 'columnIndex', function () {
@@ -125,7 +125,7 @@ export default Component.extend({
         return
       }
 
-      if (this.get('cell.isSelected') && !this.editorShown) {
+      if (this.cell.isSelected && !this.editorShown) {
         this.startEdition()
         this.set('showEditorForSelectedCell', false)
       }
@@ -141,7 +141,7 @@ export default Component.extend({
   },
 
   startEdition() {
-    if (this.get('cell.isEditable')) {
+    if (this.cell.isEditable) {
       this.set('editorShown', true)
     }
   },
@@ -172,7 +172,7 @@ export default Component.extend({
       self.get('targetObject') // to force self.sendAction to know targetObject - bug ember ?
       this.validateValue(newValue).then(
         function (validatedNewValue) {
-          if (self.get('isDestroyed')) {
+          if (self.isDestroyed) {
             return
           }
           self.set('cell.value', validatedNewValue)
@@ -183,7 +183,7 @@ export default Component.extend({
           }
         },
         function (error) {
-          if (self.get('isDestroyed')) {
+          if (self.isDestroyed) {
             return
           }
           self.set('errorMessage', error)
@@ -196,7 +196,7 @@ export default Component.extend({
 
       this.validateValue(newValue).then(
         function (validatedNewValue) {
-          if (self.get('isDestroyed')) {
+          if (self.isDestroyed) {
             return
           }
           self.set('cell.value', validatedNewValue)
@@ -204,7 +204,7 @@ export default Component.extend({
           self.get('table').notifyPropertyChange('contentUpdated')
         },
         function () {
-          if (self.get('isDestroyed')) {
+          if (self.isDestroyed) {
             return
           }
           self.send('stopEdition')
@@ -253,11 +253,11 @@ export default Component.extend({
   },
 
   inHighlightedRow: computed('highlightedRow', 'position.row', function () {
-    return this.get('position.row') === this.highlightedRow
+    return this.position.row === this.highlightedRow
   }),
 
   inHighlightedColumn: computed('highlightedColumn', 'position.column', function () {
-    return this.get('position.column') === this.highlightedColumn
+    return this.position.column === this.highlightedColumn
   }),
 
   calculatePosition(trigger, content) {
@@ -292,7 +292,7 @@ export default Component.extend({
         return
       }
 
-      if (this.get('cell.isSelected') && !this.editorShown) {
+      if (this.cell.isSelected && !this.editorShown) {
         this.$().focus()
       } else {
         this.$().blur()
