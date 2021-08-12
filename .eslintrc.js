@@ -16,13 +16,13 @@ module.exports = {
   },
   rules: {
     'ember/no-actions-hash': 'warn', //error
-    'ember/no-classic-components': 'warn', //error
-    'ember/no-classic-classes': 'warn', //error
+    'ember/no-classic-components': 'off', //error
+    'ember/no-classic-classes': 'off', //error
     'ember/no-component-lifecycle-hooks': 'warn', //error
     'ember/no-get': 'warn', //error
     'ember/no-jquery': 'warn', //error
     'ember/no-observers': 'warn', //error
-    'ember/require-tagless-components': 'warn', //error
+    'ember/require-tagless-components': 'off', //error
   },
   overrides: [
     // node files
