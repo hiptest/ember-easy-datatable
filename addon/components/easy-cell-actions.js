@@ -27,7 +27,7 @@ export default Component.extend({
     return this.get('table').columnCanMoveRight(this.get('column')) && this.get('showColumnButtons');
   }),
 
-  showAddLastColumn: computed('cell.showAddLastColumn', 'row', 'column', function() {
+  showAddLastColumn: computed('cell.showAddLastColumn', 'column', 'row', 'table.headers.cells.length', function() {
     return this.get('row') === -1 && this.get('column') === this.get('table.headers.cells.length') - 1 && this.get('cell.showAddLastColumn');
   }),
 
