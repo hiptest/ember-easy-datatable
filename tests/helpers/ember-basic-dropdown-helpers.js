@@ -7,7 +7,7 @@ function focus(el) {
   if (!el) {
     return
   }
-  let $el = jQuery(el)
+  let $el = $(el)
   if ($el.is(':input, [contenteditable=true]')) {
     let type = $el.prop('type')
     if (type !== 'checkbox' && type !== 'radio' && type !== 'hidden') {

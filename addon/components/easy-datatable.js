@@ -9,7 +9,7 @@ export default Component.extend({
   classNameBindings: ['isFullScreen:full-screen'],
 
   selectedCellPosition: null,
-  previouslySelectedCell : null,
+  previouslySelectedCell: null,
 
   editAfterInsertion: false,
   showEditorForSelectedCell: false,
@@ -48,12 +48,12 @@ export default Component.extend({
 
     addFirstRow: function () {
       var index = this.get('table').getIndexForFirstInsertableRow();
-      this.insertRowAt(index, {row: index, column: 0});
+      this.insertRowAt(index, { row: index, column: 0 });
     },
 
     addLastRow: function () {
       var index = this.get('table').getIndexForLastInsertableRow();
-      this.insertRowAt(index, {row: index, column: 0});
+      this.insertRowAt(index, { row: index, column: 0 });
     },
 
     insertRowAfter: function (index) {
@@ -80,12 +80,12 @@ export default Component.extend({
 
     addFirstColumn: function () {
       var index = this.get('table').getIndexForFirstInsertableColumn();
-      this.insertColumnAt(index, {row: -1, column: index});
+      this.insertColumnAt(index, { row: -1, column: index });
     },
 
     addLastColumn: function () {
       var index = this.get('table').getIndexForLastInsertableColumn();
-      this.insertColumnAt(index, {row: -1, column: index});
+      this.insertColumnAt(index, { row: -1, column: index });
     },
 
     insertColumnAfter: function (index) {
@@ -115,9 +115,9 @@ export default Component.extend({
       }
     },
 
-    duplicateRow : function (index) {
-      if (this.get('table').rowCanBeInserted(index+1)) {
-        this.insertRowAt(index+1, {row: index+1, column: 0});
+    duplicateRow: function (index) {
+      if (this.get('table').rowCanBeInserted(index + 1)) {
+        this.insertRowAt(index + 1, { row: index + 1, column: 0 });
         this.get('table').populateClonedRowCells(index);
       }
     },
@@ -144,7 +144,7 @@ export default Component.extend({
 
     this.get('table').insertRow(index);
 
-    if (typeof(nextPosition) === 'function') {
+    if (typeof (nextPosition) === 'function') {
       nextPosition = nextPosition.apply(this);
     }
 
@@ -170,10 +170,10 @@ export default Component.extend({
 
   navigateToFirstEditableCellInColumn: function () {
     var columnIndex = this.get('selectedCellPosition.column'),
-       rowIndex = this.firstEditableCellIndexInColumn(columnIndex);
+      rowIndex = this.firstEditableCellIndexInColumn(columnIndex);
 
     if (!isNone(rowIndex)) {
-      this.set('selectedCellPosition', {row: rowIndex, column: columnIndex});
+      this.set('selectedCellPosition', { row: rowIndex, column: columnIndex });
     }
   },
 
@@ -192,7 +192,7 @@ export default Component.extend({
       columnIndex = this.firstEditableCellIndexInRow(rowIndex);
 
     if (!isNone(columnIndex)) {
-      this.set('selectedCellPosition', {row: rowIndex, column: columnIndex});
+      this.set('selectedCellPosition', { row: rowIndex, column: columnIndex });
     }
   },
 
@@ -281,21 +281,21 @@ export default Component.extend({
   },
 
   giveValidRowPosition: function (current, new_row) {
-    var new_position = {row: new_row, column: current.column};
+    var new_position = { row: new_row, column: current.column };
     if (!this.isRowValid(new_position)) {
-      new_position = {row: current.row, column: current.column};
+      new_position = { row: current.row, column: current.column };
     }
     return new_position;
   },
 
   computeNavigateRightPosition: function () {
     var current = this.get('selectedCellPosition');
-    return this.fixPosition({row: current.row, column: current.column + 1});
+    return this.fixPosition({ row: current.row, column: current.column + 1 });
   },
 
   computeNavigateLeftPosition: function () {
     var current = this.get('selectedCellPosition');
-    return this.fixPosition({row: current.row, column: current.column - 1});
+    return this.fixPosition({ row: current.row, column: current.column - 1 });
   },
 
   insertColumnAt: function (index, nextPosition) {
@@ -304,7 +304,7 @@ export default Component.extend({
     }
 
     this.get('table').insertColumn(index);
-    if (typeof(nextPosition) === 'function') {
+    if (typeof (nextPosition) === 'function') {
       nextPosition = nextPosition.apply(this);
     }
 
@@ -315,7 +315,7 @@ export default Component.extend({
     }
   },
 
-  selectedCell: computed('selectedCellPosition', 'table.body', 'table.headers.cells', function () {
+  selectedCell: computed('selectedCellPosition', 'table.{body,headers.cells}', function () {
     var position = this.get('selectedCellPosition');
     if (isNone(position) || isNone(position.row) || isNone(position.column)) {
       return;
@@ -324,17 +324,17 @@ export default Component.extend({
       return this.get('table.headers.cells')[position.column];
     }
     if (position.row >= this.get('table.body').length) {
-      this.fixPosition({row: this.get('table.body').length - 1, column: position.column});
+      this.fixPosition({ row: this.get('table.body').length - 1, column: position.column });
       return;
     }
     return this.get('table.body')[position.row].get('cells')[position.column];
   }),
 
-	updateSelection: observer('selectedCell', function () {
+  updateSelection: observer('selectedCell', function () {
     var previous = this.get('previouslySelectedCell'),
       cell = this.get('selectedCell');
 
-    if (!isNone(previous)  && !previous.get('isDestroying')) {
+    if (!isNone(previous) && !previous.get('isDestroying')) {
       previous.set('isSelected', false);
     }
 

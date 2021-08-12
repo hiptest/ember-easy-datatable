@@ -4,9 +4,9 @@ import { and, alias } from '@ember/object/computed'
 import $ from 'jquery'
 
 export default Component.extend({
-	position: null,
-	cell: null,
-	table: null,
+  position: null,
+  cell: null,
+  table: null,
 
   row: alias('position.row'),
   column: alias('position.column'),
@@ -27,11 +27,11 @@ export default Component.extend({
     return this.get('table').columnCanMoveRight(this.get('column')) && this.get('showColumnButtons');
   }),
 
-  showAddLastColumn: computed('cell.showAddLastColumn', 'column', 'row', 'table.headers.cells.length', function() {
+  showAddLastColumn: computed('cell.showAddLastColumn', 'column', 'row', 'table.headers.cells.length', function () {
     return this.get('row') === -1 && this.get('column') === this.get('table.headers.cells.length') - 1 && this.get('cell.showAddLastColumn');
   }),
 
-  showAddFirstColumn: computed('cell.showAddFirstColumn', 'row', 'column', function() {
+  showAddFirstColumn: computed('cell.showAddFirstColumn', 'row', 'column', function () {
     return this.get('row') === -1 && this.get('column') === 0 && this.get('cell.showAddFirstColumn');
   }),
 
@@ -39,7 +39,7 @@ export default Component.extend({
     return this.get('row') !== -1 && this.get('cell.showActions');
   }),
 
-	showDuplicateRowButton: and('showRowButtons', 'showDuplicateRow'),
+  showDuplicateRowButton: and('showRowButtons', 'showDuplicateRow'),
 
   showRemoveRowButton: and('showRowButtons', 'cell.isRemovable'),
 
