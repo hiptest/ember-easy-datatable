@@ -40,6 +40,8 @@ module.exports = {
     'ember/no-attrs-in-components': 'error', //error
     'ember/no-attrs-snapshot': 'error', //error
     'ember/no-capital-letters-in-routes': 'error', //error
+    'ember/no-classic-components': 'warn', //error
+    'ember/no-classic-classes': 'warn', //error
     'ember/no-deeply-nested-dependent-keys-with-each': 'off', //off
     'ember/no-duplicate-dependent-keys': 'error', //error
     'ember/no-ember-super-in-es-classes': 'off', //off
