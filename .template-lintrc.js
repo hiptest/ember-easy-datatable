@@ -1,5 +1,41 @@
-'use strict';
+'use strict'
 
 module.exports = {
-  extends: 'octane'
+  extends: ['recommended', 'octane'],
+  rules: {
+    'block-indentation': false, //true,
+    'deprecated-render-helper': false, //true,
+    'require-valid-alt-text': false, //true,
+    'linebreak-style': false, //true,
+    "link-href-attributes": false, // true,
+    'link-rel-noopener': false, //true,
+    'no-action': false,
+    'no-attrs-in-components': false, //true,
+    'no-bare-strings': false, //true,
+    'no-curly-component-invocation': false,
+    'no-debugger': false, //true,
+    'no-duplicate-attributes': false, //true,
+    'no-html-comments': false, //true,
+    'no-implicit-this': false,
+    'no-inline-styles': false, //true,
+    'no-input-block': false, //true,
+    'no-input-tagname': false, //true,
+    'no-invalid-interactive': false, //true,
+    'no-log': false, //true,
+    'no-nested-interactive': false, //true,
+    'no-outlet-outside-routes': false, //true,
+    'no-partial': false, //true,
+    'no-quoteless-attributes': false, //true,
+    'no-shadowed-elements': false, //true,
+    'no-triple-curlies': false, //true,
+    'no-unbound': false, //true,
+    'no-unnecessary-concat': false, //true,
+    'no-unused-block-params': false, //true,
+    'quotes': false,
+    'self-closing-void-elements': false, //true,
+    'simple-unless': false, //true,
+    'style-concatenation': false, //true,
+    'require-button-type': false, // true,
+    'table-groups': false, //true,
+  },
 };
