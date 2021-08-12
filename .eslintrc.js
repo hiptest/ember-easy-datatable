@@ -19,7 +19,6 @@ module.exports = {
     'ember/no-classic-components': 'off', //error
     'ember/no-classic-classes': 'off', //error
     'ember/no-component-lifecycle-hooks': 'off', //error
-    'ember/no-get': 'warn', //error
     'ember/no-jquery': 'off', //error
     'ember/no-observers': 'warn', //error
     'ember/require-tagless-components': 'off', //error
