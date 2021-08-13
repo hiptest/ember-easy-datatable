@@ -1,7 +1,4 @@
 import { hoverTrigger } from './ember-basic-dropdown-helpers'
-import $ from 'jquery'
-import { A } from '@ember/array'
-import { run } from '@ember/runloop'
 import { click, fillIn, triggerKeyEvent, typeIn } from '@ember/test-helpers'
 
 const customHelpers = {
@@ -150,10 +147,17 @@ const customHelpers = {
   },
 
   getSelectedPosition() {
-    var selected = $('th.selected, td.selected').eq(0),
-      rowElement = selected.parent(),
-      column = rowElement.find('td, th').index(selected),
-      row = rowElement.closest('table').find('tr').index(rowElement)
+    const selected = document.querySelector('th.selected, td.selected')
+
+    if (!selected) {
+      return { row: -1, column: -1 }
+    }
+
+    const rowElement = selected.parentNode
+    const column = Array.from(rowElement.querySelectorAll('td, th')).indexOf(
+      rowElement.querySelector('td.selected, th.selected')
+    )
+    const row = Array.from(document.querySelectorAll('table tr')).indexOf(rowElement)
 
     return { row: row, column: column }
   },
@@ -163,40 +167,17 @@ const customHelpers = {
   },
 
   getHighlightedCellsText() {
-    return $('td.highlighted, th.highlighted')
-      .map(function () {
-        return $(this).text().trim()
-      })
-      .get()
-  },
-
-  getInputField() {
-    return find('input')
+    return Array.from(document.querySelectorAll('td.highlighted, th.highlighted')).map((el) => el.innerText.trim())
   },
 
   getDatatableContent() {
-    const datatableContent = A()
-    $.find('tbody tr').map((tr) => {
-      const row = A()
-      run(function () {
-        $(tr)
-          .find('td')
-          .each(function () {
-            row.push($(this).text().trim())
-          })
-
-        datatableContent.push(row)
-      })
-    })
-    return datatableContent
+    return Array.from(document.querySelectorAll('tbody tr')).map((tr) =>
+      Array.from(tr.querySelectorAll('td')).map((td) => td.innerText.trim())
+    )
   },
 
   getDatatableHeaders() {
-    return $('thead th')
-      .map(function () {
-        return $(this).text().trim()
-      })
-      .get()
+    return Array.from(document.querySelectorAll('thead th')).map((el) => el.innerText.trim())
   },
 }
 
